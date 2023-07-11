@@ -4,8 +4,8 @@ import { CompaniesModule } from 'src/companies/companies.module';
 import { Company } from 'src/companies/company.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
 import dbConfig from './configs/db';
-import { ConfigModule } from '@nestjs/config' ;
 
 @Module({
   imports: [
