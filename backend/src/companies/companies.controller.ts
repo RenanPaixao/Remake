@@ -6,9 +6,7 @@ import {
   Param,
   Post,
   Put,
-  Res,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { CompaniesService } from './companies.service';
 import {
   GetOneCompanyDto,
@@ -22,67 +20,47 @@ export class CompaniesController {
   constructor(private companiesService: CompaniesService) {}
 
   @Get(':id')
-  async getOne(@Param() params: GetOneCompanyDto, @Res() response: Response) {
+  async getOne(@Param() params: GetOneCompanyDto) {
     try {
       return this.companiesService.getOne(params.id);
     } catch (error) {
       console.log('Error on getOne => ', error);
-      response.status(400).json({
-        message: 'Erro ao tentar encontrar uma empresa!',
-        error,
-      });
     }
   }
 
   @Get()
-  async findAll(@Res() response: Response) {
+  async findAll() {
     try {
       return this.companiesService.findAll();
     } catch (error) {
       console.log('Error on findAll => ', error);
-      return response
-        .status(400)
-        .json({ message: 'Erro ao tentar listar!', error });
     }
   }
 
   @Post()
-  async create(@Body() params: CreateCompanyDto, @Res() response: Response) {
+  async create(@Body() params: CreateCompanyDto) {
     try {
       return this.companiesService.create(params);
     } catch (error) {
       console.log('Error on create company => ', error);
-      return response
-        .status(400)
-        .json({ message: 'Erro ao tentar criar uma companhia!', error });
     }
   }
 
   @Delete(':id')
-  async delete(@Param() params: DeleteCompanyDto, @Res() response: Response) {
+  async delete(@Param() params: DeleteCompanyDto) {
     try {
       return this.companiesService.delete(params.id);
     } catch (error) {
       console.log('Error on create company => ', error);
-      return response
-        .status(400)
-        .json({ message: 'Erro ao tentar deletar uma companhia!', error });
     }
   }
 
   @Put(':id')
-  async update(
-    @Body() params: UpdateCompanyDto,
-    @Param('id') id: number,
-    @Res() response: Response,
-  ) {
+  async update(@Body() params: UpdateCompanyDto, @Param('id') id: number) {
     try {
       return this.companiesService.update({ ...params, id });
     } catch (error) {
       console.log('Error on update company => ', error);
-      return response
-        .status(400)
-        .json({ message: 'Erro ao tentar atualizar uma companhia!', error });
     }
   }
 }

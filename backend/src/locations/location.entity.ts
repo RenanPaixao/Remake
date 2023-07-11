@@ -1,26 +1,26 @@
-import { Location } from 'src/locations/location.entity';
+import { Company } from 'src/companies/company.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'companies' })
-export class Company {
+@Entity({ name: 'locations' })
+export class Location {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  name: string;
+  latitude: string;
 
   @Column()
-  phone: string;
+  longitude: string;
 
-  @OneToMany(() => Location, (location) => location.company, { eager: true })
-  locations: Location[];
+  @ManyToOne(() => Company, (company) => company.locations)
+  company: Company;
 
   @CreateDateColumn()
   createdAt: Date;

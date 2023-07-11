@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { Company } from './company.entity';
-import { CreateCompanyDto, UpdateCompanyDto } from './dto';
+import { CreateCompanyDto } from './dto';
 
 @Injectable()
 export class CompaniesService {
@@ -18,7 +18,7 @@ export class CompaniesService {
   }
 
   async findAll(): Promise<Company[]> {
-    return this.companiesRepository.find();
+    return this.companiesRepository.find({ loadEagerRelations: true });
   }
 
   async create(params: CreateCompanyDto) {
