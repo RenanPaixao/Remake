@@ -7,5 +7,6 @@ const apiKey = process.env.EXPO_PUBLIC_API_KEY
 
 export const supabase = createClient(apiURL as string, apiKey as string, {
   localStorage: AsyncStorage as any,
-  detectSessionInUrl: false // Prevents Supabase from evaluating window.location.href, breaking mobile
+  detectSessionInUrl: false, // Prevents Supabase from evaluating window.location.href, breaking mobile,
+  autoRefreshToken: true
 })
