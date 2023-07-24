@@ -1,10 +1,11 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-import SecondScreen from '../screens/SecondScreen'
 import MainTabs from './MainTabs'
+import Companies from '../screens/Companies/Companies'
+import { MainStackParamList } from '../types/navigation'
 
-const MainStack = createNativeStackNavigator()
+const MainStack = createNativeStackNavigator<MainStackParamList>()
 const Main = () => {
   return (
     <MainStack.Navigator
@@ -13,7 +14,7 @@ const Main = () => {
       }}
     >
       <MainStack.Screen name="MainTabs" component={MainTabs} />
-      <MainStack.Screen name="SecondScreen" component={SecondScreen} />
+      <MainStack.Screen name="Companies" component={Companies} />
     </MainStack.Navigator>
   )
 }

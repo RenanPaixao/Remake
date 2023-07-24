@@ -14,14 +14,12 @@ import {
   Text,
   TextInput,
   Button,
-  useTheme,
   themeColor
 } from 'react-native-rapi-ui'
 
-export default function Register ({
+export default function Register({
   navigation
 }: NativeStackScreenProps<AuthStackParamList, 'Register'>) {
-  const { isDarkmode, setTheme } = useTheme()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
@@ -54,7 +52,7 @@ export default function Register ({
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: isDarkmode ? '#17171E' : themeColor.white100
+              backgroundColor: themeColor.white100
             }}
           >
             <Image
@@ -71,7 +69,7 @@ export default function Register ({
               flex: 3,
               paddingHorizontal: 20,
               paddingBottom: 20,
-              backgroundColor: isDarkmode ? themeColor.dark : themeColor.white
+              backgroundColor: themeColor.white
             }}
           >
             <Text
@@ -90,7 +88,7 @@ export default function Register ({
               placeholder="Enter your email"
               value={email}
               autoCapitalize="none"
-              autoCompleteType="off"
+              autoComplete="off"
               autoCorrect={false}
               keyboardType="email-address"
               onChangeText={(text) => setEmail(text)}
@@ -102,7 +100,7 @@ export default function Register ({
               placeholder="Enter your password"
               value={password}
               autoCapitalize="none"
-              autoCompleteType="off"
+              autoComplete="off"
               autoCorrect={false}
               secureTextEntry={true}
               onChangeText={(text) => setPassword(text)}
@@ -140,30 +138,6 @@ export default function Register ({
                   }}
                 >
                   Login here
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 30,
-                justifyContent: 'center'
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  isDarkmode ? setTheme('light') : setTheme('dark')
-                }}
-              >
-                <Text
-                  size="md"
-                  fontWeight="bold"
-                  style={{
-                    marginLeft: 5
-                  }}
-                >
-                  {isDarkmode ? '☀️ light theme' : '🌑 dark theme'}
                 </Text>
               </TouchableOpacity>
             </View>

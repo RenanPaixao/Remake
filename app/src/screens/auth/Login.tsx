@@ -84,7 +84,7 @@ export default function Login({
               Login
             </Text>
             {/*TODO: remove it after development*/}
-            <Button size='md' fontWeight="bold" text='Test login' onPress={async() => {
+            <Button size='md' text='Test login' onPress={async() => {
               setEmail('test@test.com')
               setPassword('12345678')
               await login()
@@ -95,7 +95,7 @@ export default function Login({
               placeholder="Enter your email"
               value={email}
               autoCapitalize="none"
-              autoCompleteType="off"
+              autoComplete="off"
               autoCorrect={false}
               keyboardType="email-address"
               onChangeText={(text) => setEmail(text)}
@@ -107,7 +107,7 @@ export default function Login({
               placeholder="Enter your password"
               value={password}
               autoCapitalize="none"
-              autoCompleteType="off"
+              autoComplete="off"
               autoCorrect={false}
               secureTextEntry={true}
               onChangeText={(text) => setPassword(text)}
