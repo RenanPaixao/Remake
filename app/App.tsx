@@ -3,6 +3,7 @@ import React from 'react'
 import { ThemeProvider } from 'react-native-rapi-ui'
 import Navigation from './src/navigation'
 import { AuthProvider } from './src/provider/AuthProvider'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 export default function App() {
   const images = [
@@ -11,11 +12,13 @@ export default function App() {
     require('./assets/images/forget.png')
   ]
   return (
-    <ThemeProvider images={images}>
-      <AuthProvider>
-        <Navigation />
-      </AuthProvider>
-      <StatusBar />
-    </ThemeProvider>
+    <QueryClientProvider client={new QueryClient()}>
+      <ThemeProvider images={images}>
+        <AuthProvider>
+          <Navigation />
+        </AuthProvider>
+        <StatusBar />
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }

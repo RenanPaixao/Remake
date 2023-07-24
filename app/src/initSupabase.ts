@@ -1,9 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import 'react-native-url-polyfill/auto'
 import { createClient } from '@supabase/supabase-js'
-import {API_URL, API_KEY} from '@env'
 
-// Better put your these secret keys in .env file
-export const supabase = createClient(API_URL, API_KEY, {
+const apiURL = process.env.EXPO_PUBLIC_API_URL
+const apiKey = process.env.EXPO_PUBLIC_API_KEY
+
+export const supabase = createClient(apiURL as string, apiKey as string, {
   localStorage: AsyncStorage as any,
-  detectSessionInUrl: false // Prevents Supabase from evaluating window.location.href, breaking mobile
+  detectSessionInUrl: false, // Prevents Supabase from evaluating window.location.href, breaking mobile,
+  autoRefreshToken: true
 })

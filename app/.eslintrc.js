@@ -8,7 +8,9 @@ module.exports = {
   'extends': [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended'
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:@tanstack/eslint-plugin-query/recommended'
   ],
   'overrides': [
     {
@@ -38,6 +40,15 @@ module.exports = {
     'comma-dangle': ['error', 'never'],
     'linebreak-style': ['error', 'unix'],
     'quotes': ['error', 'single'],
-    'semi': ['error', 'never']
+    'semi': ['error', 'never'],
+    'no-mixed-spaces-and-tabs': ['error'],
+    'max-len': ['error', { 'code': 120 }],
+    'object-curly-spacing': ['error', 'always'],
+    'space-before-function-paren': ['error', 'never'],
+    'space-before-blocks': ['error', 'always'],
+    'comma-spacing': ['error', { 'before': false, 'after': true }],
+    'no-multi-spaces': ['error'],
+    'no-trailing-spaces': ['error'],
+    'space-infix-ops': ['error']
   }
 }

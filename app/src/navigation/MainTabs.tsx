@@ -1,24 +1,23 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import { themeColor, useTheme } from 'react-native-rapi-ui'
 import TabBarIcon from '../components/utils/TabBarIcon'
 import TabBarText from '../components/utils/TabBarText'
+import { MainTabsParamList } from '../types/navigation'
 
 import Home from '../screens/Home'
 import About from '../screens/About'
 import Profile from '../screens/Profile'
 
-const Tabs = createBottomTabNavigator()
+const Tabs = createBottomTabNavigator<MainTabsParamList>()
 const MainTabs = () => {
-  const { isDarkmode } = useTheme()
   return (
     <Tabs.Navigator
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          borderTopColor: isDarkmode ? themeColor.dark100 : '#c0c0c0',
-          backgroundColor: isDarkmode ? themeColor.dark200 : '#ffffff'
+          borderTopColor: '#c0c0c0',
+          backgroundColor: '#ffffff'
         }
       }}
     >
