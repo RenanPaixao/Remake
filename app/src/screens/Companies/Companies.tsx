@@ -47,7 +47,7 @@ export default function Companies({
         }}
       >
         <Text fontWeight="bold" size="h2">Mais Próximos a voce!</Text>
-        <View style={{ flexDirection: 'column' }}>
+        <View style={{ flexDirection: 'column', paddingVertical: 2, flex: 1, width: '90%' }}>
           {
             isLoading ?
               <Loading />

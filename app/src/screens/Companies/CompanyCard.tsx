@@ -43,11 +43,10 @@ export default function CompanyCard(props: CompanyCardProps) {
       borderWidth: 1,
       borderRadius: 10,
       borderColor: '#c0c0c0',
-      width: 300,
       height: 100,
-      backgroundColor: '#D9D9D9'
+      backgroundColor: 'white100'
     },
-    shadow: generateBoxShadowStyle(-2, 4, 0.2, 3, 3)
+    shadow: generateBoxShadowStyle(-2, 4, 0.3, 3, 5)
   })
   return (
     <View
@@ -55,13 +54,12 @@ export default function CompanyCard(props: CompanyCardProps) {
     >
       {
         address && (
-          <View style={[{ display: 'flex', height: '100%' }]}>
+          <View style={[{ display: 'flex', flex:1, height: '100%' }]}>
             <View style={{ display: 'flex', flexDirection: 'row', flexWrap:'nowrap' }}>
-              <Text fontWeight="bold" size="xl" style={{ textTransform: 'capitalize' }}>{props.name}</Text>
-              {/*TODO: Add this values dynamically in the future*/}
+              <Text fontWeight="bold" size="lg" style={{ textTransform: 'capitalize' }}>{props.name}</Text>
               <Text style={{ marginLeft: 'auto' }}>800m</Text>
             </View>
-            <Text style={{ marginTop: 'auto' }} size="lg">{address}</Text>
+            <Text style={{ marginTop: 'auto' }} size="md">{address}</Text>
           </View>
         )
       }
