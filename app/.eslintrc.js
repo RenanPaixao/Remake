@@ -43,6 +43,12 @@ module.exports = {
     'semi': ['error', 'never'],
     'no-mixed-spaces-and-tabs': ['error'],
     'max-len': ['error', { 'code': 120 }],
-    'object-curly-spacing': ['error', 'always']
+    'object-curly-spacing': ['error', 'always'],
+    'space-before-function-paren': ['error', 'never'],
+    'space-before-blocks': ['error', 'always'],
+    'comma-spacing': ['error', { 'before': false, 'after': true }],
+    'no-multi-spaces': ['error'],
+    'no-trailing-spaces': ['error'],
+    'space-infix-ops': ['error']
   }
 }
