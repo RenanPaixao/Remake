@@ -15,14 +15,12 @@ import {
   Text,
   TextInput,
   Button,
-  useTheme,
   themeColor
 } from 'react-native-rapi-ui'
 
 export default function Login({
   navigation
 }: NativeStackScreenProps<AuthStackParamList, 'Login'>) {
-  const { isDarkmode, setTheme } = useTheme()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
@@ -55,7 +53,7 @@ export default function Login({
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: isDarkmode ? '#17171E' : themeColor.white100
+              backgroundColor: themeColor.white100
             }}
           >
             <Image
@@ -72,7 +70,7 @@ export default function Login({
               flex: 3,
               paddingHorizontal: 20,
               paddingBottom: 20,
-              backgroundColor: isDarkmode ? themeColor.dark : themeColor.white
+              backgroundColor: themeColor.white
             }}
           >
             <Text
@@ -85,6 +83,12 @@ export default function Login({
             >
               Login
             </Text>
+            {/*TODO: remove it after development*/}
+            <Button size='md' fontWeight="bold" text='Test login' onPress={async() => {
+              setEmail('test@test.com')
+              setPassword('12345678')
+              await login()
+            }}/>
             <Text>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
@@ -127,6 +131,7 @@ export default function Login({
                 justifyContent: 'center'
               }}
             >
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
               <Text size="md">Don't have an account?</Text>
               <TouchableOpacity
                 onPress={() => {
@@ -159,30 +164,6 @@ export default function Login({
               >
                 <Text size="md" fontWeight="bold">
                   Forget password
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 30,
-                justifyContent: 'center'
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  isDarkmode ? setTheme('light') : setTheme('dark')
-                }}
-              >
-                <Text
-                  size="md"
-                  fontWeight="bold"
-                  style={{
-                    marginLeft: 5
-                  }}
-                >
-                  {isDarkmode ? '☀️ light theme' : '🌑 dark theme'}
                 </Text>
               </TouchableOpacity>
             </View>
