@@ -1,12 +1,9 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import axiod from "https://deno.land/x/axiod@0.26.2/mod.ts";
-console.log("Hello from Functions!");
 
 serve(async (req) => {
   const a = Deno.env.get("GPT_KEY");
 
-  console.log("aa", a);
-  console.log("bb", req);
   const body = await req.json();
   if (!body?.product) {
     return new Response(
@@ -38,8 +35,6 @@ serve(async (req) => {
       },
     }
   );
-  console.log("ja foi gpt");
-  console.log(gptResponse);
 
   const responseData = JSON.parse(gptResponse.data.choices[0].message.content);
   return new Response(JSON.stringify(responseData), {
