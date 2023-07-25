@@ -3,6 +3,7 @@ import { Text } from 'react-native-rapi-ui'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { generateBoxShadowStyle } from '../../utils/styles'
+import { themeColor } from 'react-native-rapi-ui'
 
 interface Location {
   latitude: number,
@@ -39,12 +40,9 @@ export default function CompanyCard(props: CompanyCardProps) {
       flex: 1,
       paddingHorizontal: 30,
       paddingVertical: 15,
-      borderStyle: 'solid',
-      borderWidth: 1,
       borderRadius: 10,
-      borderColor: '#c0c0c0',
       height: 100,
-      backgroundColor: 'white100'
+      backgroundColor: themeColor.white
     },
     shadow: generateBoxShadowStyle(-2, 4, 0.3, 3, 5)
   })
@@ -54,8 +52,8 @@ export default function CompanyCard(props: CompanyCardProps) {
     >
       {
         address && (
-          <View style={[{ display: 'flex', flex:1, height: '100%' }]}>
-            <View style={{ display: 'flex', flexDirection: 'row', flexWrap:'nowrap' }}>
+          <View style={[{ display: 'flex', flex: 1, height: '100%' }]}>
+            <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap' }}>
               <Text fontWeight="bold" size="lg" style={{ textTransform: 'capitalize' }}>{props.name}</Text>
               <Text style={{ marginLeft: 'auto' }}>800m</Text>
             </View>

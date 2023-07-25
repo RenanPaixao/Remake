@@ -49,9 +49,10 @@ module.exports = {
     'comma-spacing': ['error', { 'before': false, 'after': true }],
     'no-multi-spaces': ['error'],
     'no-trailing-spaces': ['error'],
-    'space-infix-ops': ['error'],
+    'space-infix-ops': ['error' ],
     'key-spacing': ['error', { 'beforeColon': false }],
     'keyword-spacing': ['error'],
-    'eqeqeq': ['error', 'always']
+    'eqeqeq': ['error', 'always'],
+    'require-await': ['error']
   }
 }
