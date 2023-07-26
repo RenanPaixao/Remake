@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { FlatList, View } from 'react-native'
 import { MainStackParamList } from '../../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -8,20 +8,38 @@ import { Ionicons } from '@expo/vector-icons'
 import CompanyCard from './CompanyCard'
 import { useQuery } from '@tanstack/react-query'
 import Loading from '../utils/Loading'
+import { LocationContext } from '../../provider/LocationProvider'
 
 export default function Companies({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
 
+  const { location, updateLocation } = useContext(LocationContext)
+
   const { isLoading, data, error } = useQuery({
-    queryKey: ['companies'],
-    queryFn: CompaniesService.getAllWithLocations
+    queryKey: ['companies', location],
+    queryFn: async() => {
+      if (!location) {
+        console.log('Location not found!')
+        return await CompaniesService.getAllWithLocations()
+      }
+
+      return await CompaniesService.getCompaniesSortedByProximity({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude
+      })
+    }
   })
 
   useEffect(() => {
-    if (error) {
-      console.error(error)
-    }
+    (async() => {
+
+      try {
+        await updateLocation()
+      } catch (e) {
+        console.log(e)
+      }
+    })()
   }, [error])
 
 
@@ -58,11 +76,16 @@ export default function Companies({
                   paddingHorizontal: 30,
                   paddingVertical: 30
                 }}
-                renderItem={({ item: company }) =>
-                  <View style={{ marginTop: 10 }}>
+                ListEmptyComponent={() => (
+                  <View>
+                    <Text>Nenhum ponto de entrega encontrado</Text>
+                  </View>
+                )}
+                renderItem={({ item: company }) => (
+                  <View style={{ paddingVertical: 10, marginHorizontal: 5 }}>
                     <CompanyCard {...company}/>
                   </View>
-                }
+                )}
               />
           }
         </View>
