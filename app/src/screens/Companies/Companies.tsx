@@ -9,6 +9,7 @@ import CompanyCard from './CompanyCard'
 import { useQuery } from '@tanstack/react-query'
 import Loading from '../utils/Loading'
 import { LocationContext } from '../../provider/LocationProvider'
+import haversine from 'haversine-distance'
 
 export default function Companies({
   navigation
@@ -16,7 +17,7 @@ export default function Companies({
 
   const { location, updateLocation } = useContext(LocationContext)
 
-  const { isLoading, data, error } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ['companies', location],
     queryFn: async() => {
       if (!location) {
@@ -40,7 +41,7 @@ export default function Companies({
         console.log(e)
       }
     })()
-  }, [error])
+  }, [updateLocation])
 
 
   return (
@@ -81,11 +82,22 @@ export default function Companies({
                     <Text>Nenhum ponto de entrega encontrado</Text>
                   </View>
                 )}
-                renderItem={({ item: company }) => (
-                  <View style={{ paddingVertical: 10, marginHorizontal: 5 }}>
-                    <CompanyCard {...company}/>
+                renderItem={({ item: company }) => {
+                  //The first company is the nearer already
+                  const nearerCompanyLocation = company.locations[0]
+                  const distance = location ? haversine(nearerCompanyLocation, {
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude
+                  }) : 0
+
+                  return <View style={{ paddingVertical: 10, marginHorizontal: 5 }}>
+                    <CompanyCard id={company.id}
+                      name={company.name}
+                      location={nearerCompanyLocation}
+                      distance={distance}
+                    />
                   </View>
-                )}
+                }}
               />
           }
         </View>
