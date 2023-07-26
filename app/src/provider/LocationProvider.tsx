@@ -38,7 +38,7 @@ const LocationProvider = (props: Props) => {
   }, [])
 
   useEffect(() => {
-    console.log('Location:', location)
+    console.log('Location:', { latitude: location?.coords.latitude, longitude: location?.coords.longitude })
   }, [location])
 
   return (
