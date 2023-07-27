@@ -80,12 +80,12 @@ export default function Register({
                 padding: 30
               }}
             >
-              Register
+              Cadastro
             </Text>
             <Text>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Enter your email"
+              placeholder="Insira seu email aqui..."
               value={email}
               autoCapitalize="none"
               autoComplete="off"
@@ -97,7 +97,7 @@ export default function Register({
             <Text style={{ marginTop: 15 }}>Password</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Enter your password"
+              placeholder="Insira sua senha aqui..."
               value={password}
               autoCapitalize="none"
               autoComplete="off"
@@ -106,7 +106,7 @@ export default function Register({
               onChangeText={(text) => setPassword(text)}
             />
             <Button
-              text={loading ? 'Loading' : 'Create an account'}
+              text={loading ? 'Carregando' : 'Criar uma conta'}
               onPress={() => {
                 register()
               }}
@@ -124,7 +124,7 @@ export default function Register({
                 justifyContent: 'center'
               }}
             >
-              <Text size="md">Already have an account?</Text>
+              <Text size="md">Já tem conta?</Text>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('Login')
@@ -137,7 +137,7 @@ export default function Register({
                     marginLeft: 5
                   }}
                 >
-                  Login here
+                  Ir para o Login
                 </Text>
               </TouchableOpacity>
             </View>
