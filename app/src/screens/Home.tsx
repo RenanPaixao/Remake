@@ -3,10 +3,8 @@ import { View, StyleSheet } from 'react-native';
 import { Text, TouchableOpacity } from 'react-native';
 import { MainStackParamList } from '../types/navigation';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { supabase } from '../initSupabase';
 import { Button, Layout, TopNav, Section, SectionContent } from 'react-native-rapi-ui';
 
-// Estilos
 const styles = StyleSheet.create({
   buttonContainer: {
     paddingVertical: 5,
@@ -31,7 +29,7 @@ type CustomButtonProps = {
   onPress: () => void;
 };
 
-// Componente botão link
+//link button component
 const CustomButton: React.FC<CustomButtonProps> = ({ text, onPress }) => (
   <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
     <Text style={styles.buttonText}>{text}</Text>
@@ -61,13 +59,13 @@ export default function Home({
               </Text>
             </View>
 
-            {/* Botão de Listas*/}
+            {/* List Button */}
             <CustomButton
               text="Veja os locais mais próximos à sua localização!"
               onPress={() => navigation.navigate('Companies')}
             />
 
-            {/* Botões */}
+            {/* Buttons */}
             {buttons.map((button, index) => (
               <Button
                 key={index}
@@ -77,7 +75,7 @@ export default function Home({
               />
             ))}
 
-            {/* Botão de FAQ */}
+            {/* FAQ Button */}
             <CustomButton
               text="Qualquer dúvida acesse nosso FAQ!"
               onPress={() => navigation.navigate('Companies')}
