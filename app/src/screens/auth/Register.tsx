@@ -14,6 +14,7 @@ import {
   Text,
   TextInput,
   Button,
+  CheckBox,
   themeColor
 } from 'react-native-rapi-ui'
 
@@ -23,6 +24,8 @@ export default function Register({
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
+
+  const [amIRecycler, setAmIRecycler] = useState<boolean>(false)
 
   async function register() {
     setLoading(true)
@@ -105,6 +108,14 @@ export default function Register({
               secureTextEntry={true}
               onChangeText={(text) => setPassword(text)}
             />
+            <TouchableOpacity
+              style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 15 }}
+              onPress={() => setAmIRecycler(!amIRecycler)}
+            >
+              <CheckBox value={amIRecycler}/>
+              <Text> Sou um reciclador?</Text>
+            </TouchableOpacity>
+
             <Button
               text={loading ? 'Carregando' : 'Criar uma conta'}
               onPress={() => {
