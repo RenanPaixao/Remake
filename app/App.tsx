@@ -4,6 +4,7 @@ import { ThemeProvider } from 'react-native-rapi-ui'
 import Navigation from './src/navigation'
 import { AuthProvider } from './src/provider/AuthProvider'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { LocationProvider } from './src/provider/LocationProvider'
 
 export default function App() {
   const images = [
@@ -15,7 +16,9 @@ export default function App() {
     <QueryClientProvider client={new QueryClient()}>
       <ThemeProvider images={images}>
         <AuthProvider>
-          <Navigation />
+          <LocationProvider>
+            <Navigation />
+          </LocationProvider>
         </AuthProvider>
         <StatusBar />
       </ThemeProvider>

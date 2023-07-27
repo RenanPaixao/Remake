@@ -3,6 +3,7 @@ import { Text } from 'react-native-rapi-ui'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { generateBoxShadowStyle } from '../../utils/styles'
+import { themeColor } from 'react-native-rapi-ui'
 
 interface Location {
   latitude: number,
@@ -21,10 +22,10 @@ interface Location {
 interface CompanyCardProps {
   id: string,
   name: string,
-  locations: Location[]
+  location: Location,
+  distance: number
 }
 export default function CompanyCard(props: CompanyCardProps) {
-  const [firstLocation] = props.locations
   const formatAddress = (location: Location) => {
     if (location) {
       return `${location.name}, ${location.district}, ${location.number}`
@@ -32,22 +33,28 @@ export default function CompanyCard(props: CompanyCardProps) {
     return null
   }
 
-  const address = formatAddress(firstLocation)
+  const address = formatAddress(props.location)
+
+  const distanceFormat = (distance: number) => {
+    if (!distance) {
+      return ''
+    }
+    if (distance < 1000) {
+      return `${distance.toFixed(2)}m`
+    }
+    return `${Math.round(distance / 1000)}km`
+  }
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       paddingHorizontal: 30,
       paddingVertical: 15,
-      borderStyle: 'solid',
-      borderWidth: 1,
       borderRadius: 10,
-      borderColor: '#c0c0c0',
-      width: 300,
       height: 100,
-      backgroundColor: '#D9D9D9'
+      backgroundColor: themeColor.white
     },
-    shadow: generateBoxShadowStyle(-2, 4, 0.2, 3, 3)
+    shadow: generateBoxShadowStyle(-2, 4, 0.3, 3, 5)
   })
   return (
     <View
@@ -55,13 +62,12 @@ export default function CompanyCard(props: CompanyCardProps) {
     >
       {
         address && (
-          <View style={[{ display: 'flex', height: '100%' }]}>
-            <View style={{ display: 'flex', flexDirection: 'row', flexWrap:'nowrap' }}>
-              <Text fontWeight="bold" size="xl" style={{ textTransform: 'capitalize' }}>{props.name}</Text>
-              {/*TODO: Add this values dynamically in the future*/}
-              <Text style={{ marginLeft: 'auto' }}>800m</Text>
+          <View style={[{ display: 'flex', flex: 1, height: '100%' }]}>
+            <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap' }}>
+              <Text fontWeight="bold" size="lg" style={{ textTransform: 'capitalize' }}>{props.name}</Text>
+              <Text style={{ marginLeft: 'auto' }}>{distanceFormat(props.distance)}</Text>
             </View>
-            <Text style={{ marginTop: 'auto' }} size="lg">{address}</Text>
+            <Text style={{ marginTop: 'auto' }} size="md">{address}</Text>
           </View>
         )
       }
