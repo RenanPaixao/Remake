@@ -1,61 +1,90 @@
-import React from 'react'
-import { View } from 'react-native'
-import { MainStackParamList } from '../types/navigation'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { supabase } from '../initSupabase'
-import {
-  Layout,
-  Button,
-  TopNav,
-  Section,
-  SectionContent
-} from 'react-native-rapi-ui'
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
+import { MainStackParamList } from '../types/navigation';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { supabase } from '../initSupabase';
+import { Button, Layout, TopNav, Section, SectionContent } from 'react-native-rapi-ui';
+
+// Estilos
+const styles = StyleSheet.create({
+  buttonContainer: {
+    paddingVertical: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 20,
+  },
+  buttonText: {
+    color: 'gray',
+    textDecorationLine: 'underline',
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 10,
+  },
+});
+
+type CustomButtonProps = {
+  text: string;
+  onPress: () => void;
+};
+
+// Componente botão link
+const CustomButton: React.FC<CustomButtonProps> = ({ text, onPress }) => (
+  <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
+    <Text style={styles.buttonText}>{text}</Text>
+  </TouchableOpacity>
+);
 
 export default function Home({
-  navigation
+  navigation,
 }: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
+  const buttons = [
+    'Lixo Organico' ,
+    'Lixo Reciclavel' ,
+    'Lixo Eletronico' ,
+    'Residuos Perigosos' ,
+    'Lixo não reciclável',
+  ];
+
   return (
     <Layout>
-      <TopNav
-        middleContent="Home"
-      />
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <Section style={{ marginTop: 20 }}>
+      <TopNav middleContent="Home" />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Section style={{ marginTop: -30 }}>
           <SectionContent>
-            <Button
-              text="Go to second screen"
-              onPress={() => {
-                navigation.navigate('Companies')
-              }}
-              style={{
-                marginTop: 10
-              }}
+            <View>
+              <Text style={styles.title}>
+                Escolha a categoria que deseja descartar
+              </Text>
+            </View>
+
+            {/* Botão de Listas*/}
+            <CustomButton
+              text="Veja os locais mais próximos à sua localização!"
+              onPress={() => navigation.navigate('Companies')}
             />
-            <Button
-              status="danger"
-              text="Logout"
-              onPress={async() => {
-                const { error } = await supabase.auth.signOut()
-                if (!error) {
-                  alert('Signed out!')
-                }
-                if (error) {
-                  alert(error.message)
-                }
-              }}
-              style={{
-                marginTop: 10
-              }}
+
+            {/* Botões */}
+            {buttons.map((button, index) => (
+              <Button
+                key={index}
+                text={button}
+                onPress={() => navigation.navigate('Companies')}
+                style={{marginTop: 20}}
+              />
+            ))}
+
+            {/* Botão de FAQ */}
+            <CustomButton
+              text="Qualquer dúvida acesse nosso FAQ!"
+              onPress={() => navigation.navigate('Companies')}
             />
           </SectionContent>
         </Section>
       </View>
     </Layout>
-  )
+  );
 }
