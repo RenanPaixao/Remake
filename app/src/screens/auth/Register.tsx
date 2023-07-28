@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ScrollView,
   TouchableOpacity,
@@ -17,6 +17,8 @@ import {
   CheckBox,
   themeColor
 } from 'react-native-rapi-ui'
+import { CompanyForm, companyFormSchema, InitialCompanyFormValues } from './CompanyForm'
+import { useFormik } from 'formik'
 
 export default function Register({
   navigation
@@ -26,6 +28,27 @@ export default function Register({
   const [loading, setLoading] = useState<boolean>(false)
 
   const [amIRecycler, setAmIRecycler] = useState<boolean>(false)
+
+  const companyFormProps = useFormik<InitialCompanyFormValues>({
+    initialValues: {
+      companyName: '',
+      cep: '',
+      number: '',
+      complement: '',
+      district: '',
+      city: '',
+      state: '',
+      street: ''
+    },
+    onSubmit: (values) => {
+      console.log(values)
+    },
+    validationSchema: companyFormSchema
+  })
+
+  useEffect(() => {
+    console.log(companyFormProps.values)
+  }, [companyFormProps.values])
 
   async function register() {
     setLoading(true)
@@ -112,9 +135,19 @@ export default function Register({
               style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 15 }}
               onPress={() => setAmIRecycler(!amIRecycler)}
             >
-              <CheckBox value={amIRecycler}/>
+              <CheckBox value={amIRecycler} onValueChange={() => setAmIRecycler(!amIRecycler) }/>
               <Text> Sou um reciclador?</Text>
             </TouchableOpacity>
+
+
+            {amIRecycler && (
+              <>
+                <Text size={'xl'} fontWeight={'bold'} style={{ marginTop: 30, textAlign: 'center' }}>Compania</Text>
+                <CompanyForm
+                  {...companyFormProps}
+                />
+              </>
+            )}
 
             <Button
               text={loading ? 'Carregando' : 'Criar uma conta'}
