@@ -19,6 +19,8 @@ import {
 } from 'react-native-rapi-ui'
 import { CompanyForm, companyFormSchema, InitialCompanyFormValues } from './CompanyForm'
 import { useFormik } from 'formik'
+import { ProfilesService } from '../../services/profiles/profileService'
+import { schemaNormalize } from '../../utils/schemaNormalize'
 
 export default function Register({
   navigation
@@ -27,7 +29,9 @@ export default function Register({
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
 
-  const [amIRecycler, setAmIRecycler] = useState<boolean>(false)
+  const [firstName, setFirstName] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
+  const [isRecycler, setIsRecycler] = useState<boolean>(false)
 
   const companyFormProps = useFormik<InitialCompanyFormValues>({
     initialValues: {
@@ -56,15 +60,28 @@ export default function Register({
       email: email,
       password: password
     })
-    if (!error && !user) {
-      setLoading(false)
-      alert('Check your email for the login link!')
-    }
+
     if (error) {
       setLoading(false)
       alert(error.message)
     }
+
+    if (user) {
+      setLoading(false)
+
+      try {
+        await ProfilesService.updateProfile(user.id, schemaNormalize({
+          firstName,
+          lastName,
+          isRecycler
+        }))
+      } catch (e: any) {
+        console.log(firstName, lastName, isRecycler)
+        alert(e.message)
+      }
+    }
   }
+
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
       <Layout>
@@ -108,6 +125,27 @@ export default function Register({
             >
               Cadastro
             </Text>
+
+            <Text>Nome</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder="Insira seu nome..."
+              value={firstName}
+              autoComplete="off"
+              autoCorrect={false}
+              onChangeText={(text) => setFirstName(text)}
+            />
+
+            <Text>Sobrenome</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder="Insira seu sobrenome..."
+              value={lastName}
+              autoComplete="off"
+              autoCorrect={false}
+              onChangeText={(text) => setLastName(text)}
+            />
+
             <Text>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
@@ -133,14 +171,14 @@ export default function Register({
             />
             <TouchableOpacity
               style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 15 }}
-              onPress={() => setAmIRecycler(!amIRecycler)}
+              onPress={() => setIsRecycler(!isRecycler)}
             >
-              <CheckBox value={amIRecycler} onValueChange={() => setAmIRecycler(!amIRecycler) }/>
+              <CheckBox value={isRecycler} onValueChange={() => setIsRecycler(!isRecycler) }/>
               <Text> Sou um reciclador?</Text>
             </TouchableOpacity>
 
 
-            {amIRecycler && (
+            {isRecycler && (
               <>
                 <Text size={'xl'} fontWeight={'bold'} style={{ marginTop: 30, textAlign: 'center' }}>Compania</Text>
                 <CompanyForm
@@ -151,8 +189,8 @@ export default function Register({
 
             <Button
               text={loading ? 'Carregando' : 'Criar uma conta'}
-              onPress={() => {
-                register()
+              onPress={async() => {
+                await register()
               }}
               style={{
                 marginTop: 20
