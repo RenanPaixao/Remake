@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormikProps } from 'formik'
 import * as Yup from 'yup'
-import { Text } from 'react-native-rapi-ui'
 import { FormField } from '../../components/FormField/FormField'
 
 const fieldNames = {
@@ -24,7 +23,7 @@ const errorMessages = {
 const companyFormSchema = Yup.object({
   companyName: Yup.string().required(errorMessages.required),
   cep: Yup.string().required(errorMessages.required)
-    .matches(/\d{3}[.\s]?\d{3}[.\s]?\d{3}[-.\s]?\d{2}/, errorMessages.invalidCep),
+    .matches(/\d{2}[.\s]?\d{3}[-.\s]?\d{3}$/, errorMessages.invalidCep),
   number: Yup.string().required(errorMessages.required).matches(/^[0-9]+$/, errorMessages.invalidNumber),
   complement: Yup.string(),
   district: Yup.string().required(errorMessages.required),
@@ -127,8 +126,6 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues> ) => {
       placeholder={'Complemento'}
       multiline={true}
     />
-    <Text style={{ marginTop: 15 }}>{props.errors && JSON.stringify(props.errors)}</Text>
-    <Text style={{ marginTop: 15 }}>{JSON.stringify(props.values)}</Text>
   </>)
 }
 
