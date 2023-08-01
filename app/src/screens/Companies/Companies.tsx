@@ -11,7 +11,7 @@ import Loading from '../utils/Loading'
 
 export default function Companies({
   navigation
-}: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
+}: NativeStackScreenProps<MainStackParamList, 'Companies'>) {
 
   const { isLoading, data, error } = useQuery({
     queryKey: ['companies'],
@@ -59,14 +59,15 @@ export default function Companies({
                   paddingVertical: 30
                 }}
                 renderItem={({ item: company }) =>
-                  <View style={{ marginTop: 10 }}>
-                    <CompanyCard {...company}/>
+                  <View style={{ marginTop: 10 }}
+                    onTouchEnd={() => navigation.navigate('LocationDetails', company.locations[0])}>
+                    <CompanyCard {...company} />
                   </View>
                 }
               />
           }
         </View>
       </View>
-    </Layout>
+    </Layout >
   )
 }

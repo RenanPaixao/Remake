@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import MainTabs from './MainTabs'
 import Companies from '../screens/Companies/Companies'
 import { MainStackParamList } from '../types/navigation'
-import Location from '../screens/locations/Location'
+import LocationDetails from '../screens/locations/LocationDetails'
 
 const MainStack = createNativeStackNavigator<MainStackParamList>()
 const Main = () => {
@@ -16,7 +16,7 @@ const Main = () => {
     >
       <MainStack.Screen name="MainTabs" component={MainTabs} />
       <MainStack.Screen name="Companies" component={Companies} />
-      <MainStack.Screen name="Location" component={Location} />
+      <MainStack.Screen name="LocationDetails" component={LocationDetails} />
     </MainStack.Navigator>
   )
 }

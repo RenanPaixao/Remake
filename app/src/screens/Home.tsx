@@ -38,18 +38,9 @@ export default function Home({
               }}
             />
             <Button
-              text="Go to details"
-              onPress={() => {
-                navigation.navigate('Location')
-              }}
-              style={{
-                marginTop: 10
-              }}
-            />
-            <Button
               status="danger"
               text="Logout"
-              onPress={async () => {
+              onPress={async() => {
                 const { error } = await supabase.auth.signOut()
                 if (!error) {
                   alert('Signed out!')

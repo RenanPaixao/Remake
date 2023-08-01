@@ -1,7 +1,7 @@
 export type MainStackParamList = {
 	MainTabs: undefined
 	Home: undefined
-	Location: undefined
+	LocationDetails: undefined
 	Companies: undefined
 };
 
