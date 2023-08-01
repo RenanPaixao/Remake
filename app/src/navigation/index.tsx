@@ -12,9 +12,10 @@ export default function Index() {
   const user = auth.user
   return (
     <NavigationContainer>
-      {user == null && <Loading />}
-      {user == false && <Auth />}
-      {user == true && <Main />}
+      {user === null && <Loading />}
+      {user === false && <Auth />}
+      {user === true && <Main />
+      }
     </NavigationContainer>
   )
 }

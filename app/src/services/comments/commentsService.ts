@@ -20,7 +20,7 @@ export class CommentsService {
       .order('created_at', { ascending: false })
       .throwOnError()
 
-    if(!data) return []
+    if (!data) return []
 
     return data
   }
