@@ -2,25 +2,26 @@
 
 Project to connect recyclers with donors of recyclable materials - proposal in the discipline of mobile development - UFRPE
 
+- Alberto José
+- Lucas Henrique
+- Renan Paixão
+- Vitor Alencar
+- Herculles Hendrius
 
-* Alberto José
-* Lucas Henrique
-* Renan Paixão
-* Vitor Alencar
-* Herculles Hendrius
+To view the project, you need to:
+-Clone the repository.
+-Use the command:
 
-Para visualizar o projeto você precisa: 
+```javascript
+yarn;
+```
 
-- Clonar o repositório 
-- Utilizar o comando
-~~~javascript
-yarn
-~~~
-- E depois o comando
- ~~~javascript
- yarn start
-~~~
+-And then the command:
 
-Caso não tenha um emulador instalado, pode usar o expo go pra conectar num smartphone conectado.
+```javascript
+yarn start
+```
 
-Pra usar um emulador, você precisa instalar o android studio ou outro emulador. O comando yarn start abre direto o emulador em execução.
+If you don't have an emulator installed, you can use Expo Go to connect to a connected smartphone.
+
+To use an emulator, you need to install Android Studio or another emulator. The yarn start command opens the emulator directly in execution.
