@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
   },
+  Button:{
+    
+  }
 });
 
 type CustomButtonProps = {
@@ -68,6 +71,7 @@ export default function Home({
             {/* Buttons */}
             {buttons.map((button, index) => (
               <Button
+              color='#6E8963'
                 key={index}
                 text={button}
                 onPress={() => navigation.navigate('Companies')}
@@ -78,7 +82,7 @@ export default function Home({
             {/* FAQ Button */}
             <CustomButton
               text="Qualquer dúvida acesse nosso FAQ!"
-              onPress={() => navigation.navigate('Companies')}
+              onPress={() => navigation.navigate('Faq')}
             />
           </SectionContent>
         </Section>
