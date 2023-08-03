@@ -1,10 +1,10 @@
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'
-import { Layout, themeColor } from 'react-native-rapi-ui'
+import { SectionContent, themeColor } from 'react-native-rapi-ui'
 
 export default function Loading() {
   return (
-    <Layout>
+    <SectionContent>
       <View
         style={{
           flex: 1,
@@ -14,6 +14,6 @@ export default function Loading() {
       >
         <ActivityIndicator size="large" color={themeColor.primary} />
       </View>
-    </Layout>
+    </SectionContent>
   )
 }

@@ -11,7 +11,7 @@ import {
 import { StarRatingDisplay } from 'react-native-star-rating-widget'
 import { generateBoxShadowStyle } from '../../utils/styles'
 interface IProfile {
-  name: string
+  name?: string
   img_url?: string
 }
 
@@ -19,7 +19,7 @@ interface ICommentCardProps {
   profile: IProfile;
   comment?: string;
   avaliation?: number;
-  id: string;
+  id?: string;
   created_at?: string;
 }
 
@@ -66,8 +66,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#c0c0c0',
-    width: 320,
-    backgroundColor: '#D9D9D9'
+    width: 320
   },
   shadow: generateBoxShadowStyle(-2, 4, 0.2, 3, 3),
   headerContainer: { flexDirection: 'row', justifyContent: 'space-between' },

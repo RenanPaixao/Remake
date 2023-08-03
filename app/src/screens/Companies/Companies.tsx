@@ -12,7 +12,7 @@ import haversine from 'haversine-distance'
 
 export default function Companies({
   navigation
-}: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
+}: NativeStackScreenProps<MainStackParamList, 'Companies'>) {
 
   const { location, updateLocation } = useContext(LocationContext)
 
@@ -88,7 +88,9 @@ export default function Companies({
                       longitude: location.coords.longitude
                     }) : 0
 
-                    return <View style={{ paddingVertical: 10, marginHorizontal: 5 }}>
+                    return <View
+                      style={{ paddingVertical: 10, marginHorizontal: 5 }}
+                      onTouchEnd={() => navigation.navigate('LocationDetails', company.locations[0])}>
                       <CompanyCard id={company.id}
                         name={company.name}
                         location={nearerCompanyLocation}
@@ -101,6 +103,6 @@ export default function Companies({
           }
         </View>
       </View>
-    </Layout>
+    </Layout >
   )
 }
