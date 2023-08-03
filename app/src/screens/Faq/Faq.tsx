@@ -118,13 +118,17 @@ export default function Faq({
         />
       </View>
       <View style={styles.response}>
-        {response ? (
-          <View>
-          <Text style={styles.responseText} >{response.categoria}, {response.justificativa}</Text>
-          </View>
-        ) : (
-          <Text style={styles.input}> Tire sua duvida sobre o material a ser reciclado... </Text>
-        )}
+      {response ? (
+    response.message ? (
+      <Text style={styles.responseText}>{response.message}</Text>
+    ) : (
+      <View>
+        <Text style={styles.responseText}>{response.categoria}, {response.justificativa}</Text>
+      </View>
+    )
+  ) : (
+    <Text style={styles.input}>Tire sua dúvida sobre o material a ser reciclado...</Text>
+  )}
       </View>
       <Text style={styles.title}>
         Perguntas Frequentes
