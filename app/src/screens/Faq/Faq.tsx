@@ -4,7 +4,7 @@ import { View, StyleSheet, TextInput } from 'react-native';
 import { MainStackParamList } from '../../types/navigation'
 import Accordion from './Accordion'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Button, Layout, TopNav, Section, SectionContent, Text } from 'react-native-rapi-ui';
+import { Layout, TopNav, Text } from 'react-native-rapi-ui';
 import { createClient } from '@supabase/supabase-js'
 
 const faqData = [
@@ -58,7 +58,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const supabase = createClient('https://izgjtgdyvjzrsyxtabfx.supabase.co/functions/v1/material-type', 'public-anon-key')
+const apiURL = process.env.MATERIALTYPE_PUBLIC_API_URL;
+const apiKey = process.env.MATERIALTYPE_PUBLIC_API_KEY;
+
+export const supabase = createClient(apiURL as string, apiKey as string, {
+  detectSessionInUrl: false,
+  autoRefreshToken: true
+});
+
 let response="";
 
 export default function Faq({
