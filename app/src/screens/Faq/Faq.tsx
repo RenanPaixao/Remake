@@ -55,20 +55,28 @@ const styles = StyleSheet.create({
 const supabase = createClient('https://izgjtgdyvjzrsyxtabfx.supabase.co/functions/v1/material-type', 'public-anon-key')
 
 
-export default async function Faq({
+export default function Faq({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
 
   const [searchText, setSearchText] = useState('');
-  
-  const { data, error } = await supabase.functions.invoke('material-type', {
-    body: { "Produto": searchText },
-  })
 
   // Função para atualizar o estado do input
   const handleInputChange = (text) => {
     setSearchText(text);
   };
+
+
+  const handleInputSubmit = async () => {
+    console.log('Texto inserido:', searchText);
+
+    const { data, error } = await supabase.functions.invoke('material-type', {
+    body: JSON.stringify({ 'product': searchText })
+    ,});
+
+    console.log('Resposta:', data);
+  
+    };
 
   return (
     
@@ -83,6 +91,7 @@ export default async function Faq({
           placeholder="Pesquisar categoria"
           value={searchText}
           onChangeText={handleInputChange}
+          onSubmitEditing={handleInputSubmit}
         />
       </View>
       <View style={styles.response}>
