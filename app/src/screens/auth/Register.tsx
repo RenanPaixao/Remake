@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   ScrollView,
   TouchableOpacity,
@@ -6,7 +6,6 @@ import {
   KeyboardAvoidingView,
   Image
 } from 'react-native'
-import { supabase } from '../../initSupabase'
 import { AuthStackParamList } from '../../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import {
@@ -17,10 +16,7 @@ import {
   CheckBox,
   themeColor
 } from 'react-native-rapi-ui'
-import { CompanyForm, companyFormSchema, InitialCompanyFormValues } from './CompanyForm'
-import { useFormik } from 'formik'
-import { ProfilesService } from '../../services/profiles/profileService'
-import { schemaNormalize } from '../../utils/schemaNormalize'
+import { UsersService } from '../../services/supabase/usersService'
 
 export default function Register({
   navigation
@@ -33,53 +29,14 @@ export default function Register({
   const [lastName, setLastName] = useState<string>('')
   const [isRecycler, setIsRecycler] = useState<boolean>(false)
 
-  const companyFormProps = useFormik<InitialCompanyFormValues>({
-    initialValues: {
-      companyName: '',
-      cep: '',
-      number: '',
-      complement: '',
-      district: '',
-      city: '',
-      state: '',
-      street: ''
-    },
-    onSubmit: (values) => {
-      console.log(values)
-    },
-    validationSchema: companyFormSchema
-  })
-
-  useEffect(() => {
-    console.log(companyFormProps.values)
-  }, [companyFormProps.values])
-
   async function register() {
     setLoading(true)
-    const { user, error } = await supabase.auth.signUp({
-      email: email,
-      password: password
+    await UsersService.signUp(email, password, {
+      first_name: firstName,
+      last_name: lastName,
+      is_recycler: isRecycler
     })
-
-    if (error) {
-      setLoading(false)
-      alert(error.message)
-    }
-
-    if (user) {
-      setLoading(false)
-
-      try {
-        await ProfilesService.updateProfile(user.id, schemaNormalize({
-          firstName,
-          lastName,
-          isRecycler
-        }))
-      } catch (e: any) {
-        console.log(firstName, lastName, isRecycler)
-        alert(e.message)
-      }
-    }
+    setLoading(false)
   }
 
   return (
@@ -158,7 +115,7 @@ export default function Register({
               onChangeText={(text) => setEmail(text)}
             />
 
-            <Text style={{ marginTop: 15 }}>Password</Text>
+            <Text style={{ marginTop: 15 }}>Senha</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
               placeholder="Insira sua senha aqui..."
@@ -176,16 +133,6 @@ export default function Register({
               <CheckBox value={isRecycler} onValueChange={() => setIsRecycler(!isRecycler) }/>
               <Text> Sou um reciclador?</Text>
             </TouchableOpacity>
-
-
-            {isRecycler && (
-              <>
-                <Text size={'xl'} fontWeight={'bold'} style={{ marginTop: 30, textAlign: 'center' }}>Compania</Text>
-                <CompanyForm
-                  {...companyFormProps}
-                />
-              </>
-            )}
 
             <Button
               text={loading ? 'Carregando' : 'Criar uma conta'}
