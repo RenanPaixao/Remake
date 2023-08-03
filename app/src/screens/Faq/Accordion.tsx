@@ -1,3 +1,4 @@
+import { AntDesign } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
@@ -17,7 +18,7 @@ const Accordion: React.FC<Accordion> = ({ title, content }) => {
         <View style={styles.container}>
             <TouchableOpacity onPress={toggleAccordion}>
                 <Text style={styles.title}>{title}</Text>
-                <Text style={styles.title}>{expanded ? '-' : '+'}</Text>
+                <Text style={styles.title}>{expanded ? <AntDesign name="minuscircleo" size={5} color="black" /> : <AntDesign name="pluscircleo" size={5} color="black" />}</Text>
             </TouchableOpacity>
             {expanded && <Text style={styles.content}>{content}</Text>}
         </View>
