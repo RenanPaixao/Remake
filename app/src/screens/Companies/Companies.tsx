@@ -2,9 +2,8 @@ import React, { useContext, useEffect } from 'react'
 import { FlatList, View } from 'react-native'
 import { MainStackParamList } from '../../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Button, Layout, Text, themeColor, TopNav } from 'react-native-rapi-ui'
+import { Button, Layout, Text, TopNav } from 'react-native-rapi-ui'
 import { CompaniesService } from '../../services/supabase/companiesService'
-import { Ionicons } from '@expo/vector-icons'
 import CompanyCard from './CompanyCard'
 import { useQuery } from '@tanstack/react-query'
 import Loading from '../utils/Loading'
@@ -47,15 +46,7 @@ export default function Companies({
   return (
     <Layout>
       <TopNav
-        middleContent="Companies"
-        leftContent={
-          <Ionicons
-            name="chevron-back"
-            size={20}
-            color={themeColor.dark}
-          />
-        }
-        leftAction={() => navigation.goBack()}
+        middleContent="Pontos de coleta"
       />
       <View
         style={{
@@ -73,7 +64,11 @@ export default function Companies({
               :
               <>
                 <View style={{ display: 'flex', alignItems: 'flex-end', alignSelf: 'flex-end' }}>
-                  <Button text={'Adicionar'} size={'md'} width={100}/>
+                  <Button
+                    text={'Adicionar'}
+                    size={'md'} width={100}
+                    onPress={() => navigation.navigate('NewLocation')}
+                  />
                 </View>
                 <FlatList
                   data={data}
