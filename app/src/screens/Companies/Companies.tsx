@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { FlatList, View } from 'react-native'
 import { MainStackParamList } from '../../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Layout, Text, themeColor, TopNav } from 'react-native-rapi-ui'
+import { Button, Layout, Text, themeColor, TopNav } from 'react-native-rapi-ui'
 import { CompaniesService } from '../../services/supabase/companiesService'
 import { Ionicons } from '@expo/vector-icons'
 import CompanyCard from './CompanyCard'
@@ -62,43 +62,47 @@ export default function Companies({
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          paddingTop: 50
+          paddingTop: 30
         }}
       >
         <Text fontWeight="bold" size="h2">Mais Próximos a voce!</Text>
-        <View style={{ flexDirection: 'column', paddingVertical: 2, flex: 1, width: '90%' }}>
+        <View style={{ flexDirection: 'column', flex: 1, width: '90%', marginVertical: 30 }}>
           {
             isLoading ?
               <Loading />
               :
-              <FlatList
-                data={data}
-                style={{
-                  paddingHorizontal: 30,
-                  paddingVertical: 30
-                }}
-                ListEmptyComponent={() => (
-                  <View>
-                    <Text>Nenhum ponto de entrega encontrado</Text>
-                  </View>
-                )}
-                renderItem={({ item: company }) => {
+              <>
+                <View style={{ display: 'flex', alignItems: 'flex-end', alignSelf: 'flex-end' }}>
+                  <Button text={'Adicionar'} size={'md'} width={100}/>
+                </View>
+                <FlatList
+                  data={data}
+                  style={{
+                    paddingHorizontal: 30
+                  }}
+                  ListEmptyComponent={() => (
+                    <View>
+                      <Text>Nenhum ponto de entrega encontrado</Text>
+                    </View>
+                  )}
+                  renderItem={({ item: company }) => {
                   //The first company is the nearer already
-                  const nearerCompanyLocation = company.locations[0]
-                  const distance = location ? haversine(nearerCompanyLocation, {
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude
-                  }) : 0
+                    const nearerCompanyLocation = company.locations[0]
+                    const distance = location ? haversine(nearerCompanyLocation, {
+                      latitude: location.coords.latitude,
+                      longitude: location.coords.longitude
+                    }) : 0
 
-                  return <View style={{ paddingVertical: 10, marginHorizontal: 5 }}>
-                    <CompanyCard id={company.id}
-                      name={company.name}
-                      location={nearerCompanyLocation}
-                      distance={distance}
-                    />
-                  </View>
-                }}
-              />
+                    return <View style={{ paddingVertical: 10, marginHorizontal: 5 }}>
+                      <CompanyCard id={company.id}
+                        name={company.name}
+                        location={nearerCompanyLocation}
+                        distance={distance}
+                      />
+                    </View>
+                  }}
+                />
+              </>
           }
         </View>
       </View>
