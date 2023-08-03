@@ -7,6 +7,7 @@ export interface Company {
   id?: string
   name: string
   created_at?: string
+  owner_id: string
 }
 
 export class CompaniesService {
