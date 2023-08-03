@@ -66,7 +66,7 @@ export const supabase = createClient(apiURL as string, apiKey as string, {
   autoRefreshToken: true
 });
 
-let response="";
+let response = "";
 
 export default function Faq({
   navigation
@@ -74,9 +74,6 @@ export default function Faq({
 
   const [searchText, setSearchText] = useState('');
 
-  const [responseState, setResponse] = useState(null);
-
-  // Função para atualizar o estado do input
   const handleInputChange = (text) => {
     setSearchText(text);
   };
@@ -87,7 +84,6 @@ export default function Faq({
   };
 
   const handleInputSubmit = async () => {
-    console.log('Texto inserido:', searchText);
 
     const { data, error } = await supabase.functions.invoke('material-type', {
       headers: {
@@ -96,15 +92,12 @@ export default function Faq({
       body: JSON.stringify({ 'product': searchText })
       ,
     });
-    console.log('Resposta:', data);
-    response=data;
+    response = data;
     setResponse(data);
-    
+
   };
 
-  useEffect(() => {
-    console.log('Data atualizada:', response);
-  }, [response]);
+  useEffect(() => { }, [response]);
 
 
 
@@ -123,28 +116,26 @@ export default function Faq({
           onChangeText={handleInputChange}
           onSubmitEditing={handleInputSubmit}
         />
-      </View>
-      <View style={styles.response}>
-      {response ? (
-    response.message ? (
-      <Text style={styles.responseText}>{response.message}</Text>
-    ) : (
-      <View>
-        <Text style={styles.responseText}>{response.categoria}, {response.justificativa}</Text>
-      </View>
-    )
-  ) : (
-    <Text style={styles.input}>Tire sua dúvida sobre o material a ser reciclado...</Text>
-  )}
-      </View>
-      <Text style={styles.title}>
-        Perguntas Frequentes
-      </Text>
-      <View style={{ flex: 1, padding: 25 }}>
-        {faqData.map((item, index) => (
-          <Accordion key={index} title={item.title} content={item.content} />
-        ))}
-      </View>
+        <View style={styles.response}>
+          {response && (
+            <Text style={styles.responseText}>
+              {response.message ? response.message : (
+                <View>
+                  {response.categoria}, {response.justificativa}
+                </View>
+              )}
+            </Text>
+          )}
+          {!response && <Text style={styles.input}>Tire sua dúvida sobre o material a ser reciclado...</Text>}
+        </View>
+        <Text style={styles.title}>
+          Perguntas Frequentes
+        </Text>
+        <View style={{ flex: 1, padding: 25 }}>
+          {faqData.map((item, index) => (
+            <Accordion key={index} title={item.title} content={item.content} />
+          ))}
+        </View>
     </Layout>
   )
 
