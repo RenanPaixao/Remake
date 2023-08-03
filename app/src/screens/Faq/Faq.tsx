@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
 import { MainStackParamList } from '../../types/navigation'
@@ -36,13 +36,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
   },
-  response:{
+  response: {
     width: 320,
     height: 100,
     borderRadius: 5,
     backgroundColor: '#d9d9d9',
     marginVertical: 5,
-    marginHorizontal:35,
+    marginHorizontal: 35,
   },
   title: {
     fontSize: 17,
@@ -54,12 +54,13 @@ const styles = StyleSheet.create({
 
 const supabase = createClient('https://izgjtgdyvjzrsyxtabfx.supabase.co/functions/v1/material-type', 'public-anon-key')
 
-
 export default function Faq({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
 
   const [searchText, setSearchText] = useState('');
+
+  const [data, setData] = useState('');
 
   // Função para atualizar o estado do input
   const handleInputChange = (text) => {
@@ -71,19 +72,22 @@ export default function Faq({
     console.log('Texto inserido:', searchText);
 
     const { data, error } = await supabase.functions.invoke('material-type', {
-    body: JSON.stringify({ 'product': searchText })
-    ,});
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({ 'product': searchText })
+      ,
+    });
 
     console.log('Resposta:', data);
-  
-    };
+  };
 
   return (
-    
+
     <Layout>
       <TopNav middleContent="FAQ" />
       <Text style={styles.title}>
-      Qual objeto você tem dúvida se é reciclável?
+        Qual objeto você tem dúvida se é reciclável?
       </Text>
       <View style={styles.inputContainer}>
         <TextInput
@@ -95,7 +99,13 @@ export default function Faq({
         />
       </View>
       <View style={styles.response}>
-
+      {data? (
+        <View>
+          <Text>{data}</Text>
+        </View>
+      ) : (
+        <Text>   Carregando... </Text>
+      )}
       </View>
       <View style={{ flex: 1, padding: 25 }}>
         {faqData.map((item, index) => (
@@ -104,5 +114,5 @@ export default function Faq({
       </View>
     </Layout>
   )
-  
+
 }
