@@ -1,6 +1,6 @@
 import { supabase } from '../../initSupabase'
 
-interface Metadata {
+export interface Metadata {
   first_name: string
   last_name: string
   is_recycler: boolean
