@@ -9,7 +9,7 @@ import CommentCard from './CommentCard'
 import { CommentsService, IComment } from '../../services/comments/commentsService'
 import Loading from '../utils/Loading'
 import { useQuery } from '@tanstack/react-query'
-import { DateTime } from 'luxon'
+import { DateTime, Interval } from 'luxon'
 interface ILocation {
   created_at: string,
   cep: string,
@@ -49,7 +49,6 @@ export default function LocationDetails(props: ILocationProps) {
       console.log(error)
     }
   })
-
   const getLocationAverageRating = (comments: IComment[]) => {
     return (comments.reduce((avaliationSum, item) => avaliationSum + (item?.avaliation || 0), 0) / comments.length)
   }
@@ -64,20 +63,19 @@ export default function LocationDetails(props: ILocationProps) {
     })
   }
   const isOpen = (location: ILocation) => {
-    const zone = 'America/Recife'
-    const format = 'yyyy-M-d HH:mm'
+    const now = DateTime.now()
+    const [openningHours, openningMinutes] = location.openning_hour.split(':')
+    const [closingHours, closingMinutes] = location.closing_hour.split(':')
+    const openningDate = now.set({
+      hour: +openningHours,
+      minute: +openningMinutes
+    })
 
-    const now = DateTime.now().setZone(zone)
-    const openningDate = DateTime.fromFormat(
-      `${now.year}-${now.month}-${now.day} ` + location.openning_hour,
-      format,
-      { zone })
-    const closingDate = DateTime.fromFormat(
-      `${now.year}-${now.month}-${now.day} ` + location.closing_hour,
-      format,
-      { zone })
-
-    return now.toMillis() >= openningDate.toMillis() && now.toMillis() <= closingDate.toMillis()
+    const closingDate = now.set({
+      hour: +closingHours,
+      minute: +closingMinutes
+    })
+    return Interval.fromDateTimes(openningDate, closingDate).contains(now)
   }
   return (
     <Layout style={{ flex: 1 }} >
