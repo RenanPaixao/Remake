@@ -6,10 +6,10 @@ import { FlatList, Image, StyleSheet, View } from 'react-native'
 import { MainStackParamList } from '../../types/navigation'
 import { StarRatingDisplay } from 'react-native-star-rating-widget'
 import CommentCard from './CommentCard'
-import { CommentsService, IComment, IProfile } from '../../services/comments/commentsService'
+import { CommentsService, IComment } from '../../services/comments/commentsService'
 import Loading from '../utils/Loading'
 import { useQuery } from '@tanstack/react-query'
-
+import { DateTime } from 'luxon'
 interface ILocation {
   created_at: string,
   cep: string,
@@ -34,9 +34,12 @@ interface ILocationProps extends NativeStackScreenProps<MainStackParamList, 'Loc
 export default function LocationDetails(props: ILocationProps) {
   const { navigation, route } = props
   const location = (route?.params || {}) as ILocation
+
   function useComments(id: string) {
     return useQuery ({
       queryKey: ['comment', id],
+      cacheTime: 0,
+      staleTime: 1,
       queryFn: () => CommentsService.getAllCommentsFromLocation(id)
     })
   }
@@ -50,27 +53,31 @@ export default function LocationDetails(props: ILocationProps) {
   const getLocationAverageRating = (comments: IComment[]) => {
     return (comments.reduce((avaliationSum, item) => avaliationSum + (item?.avaliation || 0), 0) / comments.length)
   }
-
-  const formatDataToComments = (item: IComment & { profiles: IProfile }) => {
+  const formatDataToComments = (item: IComment) => {
     return ({
       profile: {
-        name: item.profiles.name,
-        img_url: item.profiles?.img_url || ''
+        name: item.users.meta_data?.name,
+        img_url: item.users.meta_data?.img_url || ''
       },
       comment: item.comment,
       avaliation: item.avaliation
     })
   }
   const isOpen = (location: ILocation) => {
-    const now = new Date()
+    const zone = 'America/Recife'
+    const format = 'yyyy-M-d HH:mm'
 
-    const day = now.getDate()
-    const month = now.getUTCMonth() + 1
-    const year = now.getFullYear()
-    const openningDate = new Date(`${year}-${month}-${day} ` + location.openning_hour)
-    const closingDate = new Date(`${year}-${month}-${day} ` + location.closing_hour)
+    const now = DateTime.now().setZone(zone)
+    const openningDate = DateTime.fromFormat(
+      `${now.year}-${now.month}-${now.day} ` + location.openning_hour,
+      format,
+      { zone })
+    const closingDate = DateTime.fromFormat(
+      `${now.year}-${now.month}-${now.day} ` + location.closing_hour,
+      format,
+      { zone })
 
-    return now.getTime() > openningDate.getTime() && now.getTime() <= closingDate.getTime()
+    return now.toMillis() >= openningDate.toMillis() && now.toMillis() <= closingDate.toMillis()
   }
   return (
     <Layout style={{ flex: 1 }} >

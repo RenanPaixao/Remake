@@ -11,7 +11,7 @@ import {
 import { StarRatingDisplay } from 'react-native-star-rating-widget'
 import { generateBoxShadowStyle } from '../../utils/styles'
 interface IProfile {
-  name: string
+  name?: string
   img_url?: string
 }
 
