@@ -36,16 +36,19 @@ export class CommentsService {
     return data
   }
 
-  static async createComment(props: InputCreateComment) {
-    const { data } = await supabase
+  static async createComment({ locationId, userId, ...rest }: InputCreateComment) {
+    console.log(locationId, userId, rest)
+
+    const { data, error } = await supabase
       .from('comments')
       .insert({
-        ...props,
-        location_id: props.locationId,
-        user_id: props.userId
+        ...rest,
+        location_id: locationId,
+        user_id: userId
       })
-      .select('*')
       .throwOnError()
+
+    console.log(error)
 
     return data
   }

@@ -6,13 +6,23 @@ import { Button, Layout, Section, SectionContent, Text, TopNav, themeColor } fro
 import { MainStackParamList } from '../../types/navigation'
 import StarRating from 'react-native-star-rating-widget'
 import { supabase } from '../../initSupabase'
+import { useQuery } from '@tanstack/react-query'
+import { CommentsService } from '../../services/comments/commentsService'
 
 interface ICommentFormProps extends NativeStackScreenProps<MainStackParamList, 'CommentForm'> {
 }
 export default function CommentForm({ navigation, route }: ICommentFormProps) {
   const [rating, setRating] = useState(0)
-  const locationId = route.params
-  const userId = supabase.auth.user()?.id
+  const [comment, setComment] = useState('')
+  const locationId = route.params || ''
+  const userId = supabase.auth.user()?.id || ''
+
+  //   useQuery({
+  //     queryKey: ['comment_create', { userId, locationId, avaliation: rating, comment }],
+  //     enabled: false,
+  //     queryFn: () => CommentsService.createComment({ userId, locationId, avaliation: rating, comment })
+  //   })
+
   return (
     <Layout style={{ flex: 1 }} >
       <TopNav
@@ -43,9 +53,13 @@ export default function CommentForm({ navigation, route }: ICommentFormProps) {
               borderRadius: 8,
               padding: 12,
               fontSize: 18
-            }} spellCheck multiline textAlignVertical='top' numberOfLines={5} placeholder={message} />
+            }}
+            value={comment}
+            onChangeText={setComment}
+            spellCheck multiline textAlignVertical='top' numberOfLines={5} placeholder={message} />
           </View>
-          <Button text='enviar' color={themeColor.success700}/>
+          <Button text='enviars' color={themeColor.success700}
+            onPress={() => CommentsService.createComment({ userId, locationId, avaliation: rating, comment })}/>
         </SectionContent>
       </Section>
     </Layout>

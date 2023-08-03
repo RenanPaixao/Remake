@@ -99,7 +99,7 @@ export default function LocationDetails(props: ILocationProps) {
             color={themeColor.dark}
           />
         }
-        rightAction={() => navigation.navigate('CommentForm')}
+        rightAction={() => navigation.navigate('CommentForm', location.id)}
       />
       <Section style={{
         alignItems: 'center',
