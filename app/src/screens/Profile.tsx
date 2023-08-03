@@ -1,23 +1,16 @@
 import React from 'react'
-import { View } from 'react-native'
 import { MainStackParamList } from '../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Layout, Text } from 'react-native-rapi-ui'
+import { Button, Layout, TopNav } from 'react-native-rapi-ui'
+import { supabase } from '../initSupabase'
 
 export default function Profile({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
   return (
     <Layout>
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <Text>This is the Profile tab</Text>
-      </View>
+      <TopNav middleContent="Perfil" />
+      <Button text={'Logout'} onPress={async() => await supabase.auth.signOut()} status={'danger'}/>
     </Layout>
   )
 }

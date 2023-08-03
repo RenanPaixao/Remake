@@ -14,20 +14,18 @@ import {
   Text,
   TextInput,
   Button,
-  useTheme,
   themeColor
 } from 'react-native-rapi-ui'
 
 export default function ForgetPassword({
   navigation
 }: NativeStackScreenProps<AuthStackParamList, 'ForgetPassword'>) {
-  const { isDarkmode, setTheme } = useTheme()
   const [email, setEmail] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
 
   async function forget() {
     setLoading(true)
-    const { data, error } = await supabase.auth.api.resetPasswordForEmail(
+    const { error } = await supabase.auth.api.resetPasswordForEmail(
       email
     )
     if (!error) {
@@ -52,7 +50,7 @@ export default function ForgetPassword({
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: isDarkmode ? '#17171E' : themeColor.white100
+              backgroundColor: themeColor.white100
             }}
           >
             <Image
@@ -69,7 +67,7 @@ export default function ForgetPassword({
               flex: 3,
               paddingHorizontal: 20,
               paddingBottom: 20,
-              backgroundColor: isDarkmode ? themeColor.dark : themeColor.white
+              backgroundColor: themeColor.white
             }}
           >
             <Text
@@ -88,7 +86,7 @@ export default function ForgetPassword({
               placeholder="Enter your email"
               value={email}
               autoCapitalize="none"
-              autoCompleteType="off"
+              autoComplete="off"
               autoCorrect={false}
               keyboardType="email-address"
               onChangeText={(text) => setEmail(text)}
@@ -137,21 +135,6 @@ export default function ForgetPassword({
                 justifyContent: 'center'
               }}
             >
-              <TouchableOpacity
-                onPress={() => {
-                  isDarkmode ? setTheme('light') : setTheme('dark')
-                }}
-              >
-                <Text
-                  size="md"
-                  fontWeight="bold"
-                  style={{
-                    marginLeft: 5
-                  }}
-                >
-                  {isDarkmode ? '☀️ light theme' : '🌑 dark theme'}
-                </Text>
-              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>

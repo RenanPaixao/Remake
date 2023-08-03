@@ -3,6 +3,7 @@ export type MainStackParamList = {
 	Home: undefined
 	LocationDetails: undefined
 	Companies: undefined
+	NewLocation: undefined;
 };
 
 export type AuthStackParamList = {
@@ -13,6 +14,6 @@ export type AuthStackParamList = {
 
 export type MainTabsParamList = {
 	Home: undefined;
+	Companies: undefined;
 	Profile: undefined;
-	About: undefined;
 };

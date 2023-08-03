@@ -8,7 +8,9 @@ type ContextProps = {
   updateLocationPermission: () => Promise<void>
 };
 
-const LocationContext = createContext<ContextProps>({})
+// The type is weakly enforced because I cannot get the function that are inside the provider.
+// Let it with an empty object shows errors without the type.
+const LocationContext = createContext<ContextProps>({} as ContextProps)
 
 interface Props {
 	children: React.ReactNode;
