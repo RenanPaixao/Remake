@@ -24,7 +24,7 @@ const faqData = [
 
 const styles = StyleSheet.create({
   inputContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingVertical: 10,
     backgroundColor: '#d9d9d9',
     borderRadius: 5,
@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 16,
-    color: 'black',
+    color: 'gray',
+    margin: 10,
   },
   response: {
     width: 320,
@@ -43,6 +44,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#d9d9d9',
     marginVertical: 5,
     marginHorizontal: 35,
+  },
+  responseText: {
+    fontSize: 12,
+    color: 'black',
+    margin: 4,
   },
   title: {
     fontSize: 17,
@@ -53,6 +59,7 @@ const styles = StyleSheet.create({
 });
 
 const supabase = createClient('https://izgjtgdyvjzrsyxtabfx.supabase.co/functions/v1/material-type', 'public-anon-key')
+let response="";
 
 export default function Faq({
   navigation
@@ -60,13 +67,17 @@ export default function Faq({
 
   const [searchText, setSearchText] = useState('');
 
-  const [data, setData] = useState('');
+  const [responseState, setResponse] = useState(null);
 
   // Função para atualizar o estado do input
   const handleInputChange = (text) => {
     setSearchText(text);
   };
 
+  const handleDataReceived = (jsonData: string) => {
+    const parsedData = JSON.parse(jsonData);
+    setData(parsedData);
+  };
 
   const handleInputSubmit = async () => {
     console.log('Texto inserido:', searchText);
@@ -78,9 +89,17 @@ export default function Faq({
       body: JSON.stringify({ 'product': searchText })
       ,
     });
-
     console.log('Resposta:', data);
+    response=data;
+    setResponse(data);
+    
   };
+
+  useEffect(() => {
+    console.log('Data atualizada:', response);
+  }, [response]);
+
+
 
   return (
 
@@ -99,14 +118,17 @@ export default function Faq({
         />
       </View>
       <View style={styles.response}>
-      {data? (
-        <View>
-          <Text>{data}</Text>
-        </View>
-      ) : (
-        <Text>   Carregando... </Text>
-      )}
+        {response ? (
+          <View>
+          <Text style={styles.responseText} >{response.categoria}, {response.justificativa}</Text>
+          </View>
+        ) : (
+          <Text style={styles.input}> Tire sua duvida sobre o material a ser reciclado... </Text>
+        )}
       </View>
+      <Text style={styles.title}>
+        Perguntas Frequentes
+      </Text>
       <View style={{ flex: 1, padding: 25 }}>
         {faqData.map((item, index) => (
           <Accordion key={index} title={item.title} content={item.content} />
