@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: 50,
   },
   Button:{
     
@@ -54,7 +54,7 @@ export default function Home({
     <Layout>
       <TopNav middleContent="Home" />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Section style={{ marginTop: -30 }}>
+        <Section style={{ marginTop:-30}}>
           <SectionContent>
             <View>
               <Text style={styles.title}>
