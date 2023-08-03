@@ -1,30 +1,27 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text, TouchableOpacity } from 'react-native';
-import { MainStackParamList } from '../types/navigation';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Button, Layout, TopNav, Section, SectionContent } from 'react-native-rapi-ui';
+import React from 'react'
+import { View, StyleSheet } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
+import { MainStackParamList } from '../types/navigation'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { Button, Layout, TopNav, Section, SectionContent } from 'react-native-rapi-ui'
 
 const styles = StyleSheet.create({
   buttonContainer: {
     paddingVertical: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 20,
+    margin: 20
   },
   buttonText: {
     color: 'gray',
-    textDecorationLine: 'underline',
+    textDecorationLine: 'underline'
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 50,
+    marginTop: 10,
   },
-  Button:{
-    
-  }
 });
 
 type CustomButtonProps = {
@@ -37,22 +34,22 @@ const CustomButton: React.FC<CustomButtonProps> = ({ text, onPress }) => (
   <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
     <Text style={styles.buttonText}>{text}</Text>
   </TouchableOpacity>
-);
+)
 
 export default function Home({
-  navigation,
+  navigation
 }: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
   const buttons = [
-    'Lixo Organico' ,
-    'Lixo Reciclavel' ,
-    'Lixo Eletronico' ,
-    'Residuos Perigosos' ,
-    'Lixo não reciclável',
-  ];
+    'Lixo Organico',
+    'Lixo Reciclavel',
+    'Lixo Eletronico',
+    'Residuos Perigosos',
+    'Lixo não reciclável'
+  ]
 
   return (
     <Layout>
-      <TopNav middleContent="Home" />
+      <TopNav middleContent="Tela inicial" />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Section style={{ marginTop:-30}}>
           <SectionContent>
@@ -75,7 +72,7 @@ export default function Home({
                 key={index}
                 text={button}
                 onPress={() => navigation.navigate('Companies')}
-                style={{marginTop: 20}}
+                style={{ marginTop: 20 }}
               />
             ))}
 
@@ -88,5 +85,5 @@ export default function Home({
         </Section>
       </View>
     </Layout>
-  );
+  )
 }

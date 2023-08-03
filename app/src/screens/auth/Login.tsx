@@ -33,7 +33,7 @@ export default function Login({
     })
     if (!error && !user) {
       setLoading(false)
-      alert('Check your email for the login link!')
+      alert('Verifique seu email para o')
     }
     if (error) {
       setLoading(false)
@@ -92,7 +92,7 @@ export default function Login({
             <Text>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Enter your email"
+              placeholder="Digite seu email"
               value={email}
               autoCapitalize="none"
               autoComplete="off"
@@ -101,10 +101,10 @@ export default function Login({
               onChangeText={(text) => setEmail(text)}
             />
 
-            <Text style={{ marginTop: 15 }}>Password</Text>
+            <Text style={{ marginTop: 15 }}>Senha</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Enter your password"
+              placeholder="Digite sua senha"
               value={password}
               autoCapitalize="none"
               autoComplete="off"
@@ -113,9 +113,9 @@ export default function Login({
               onChangeText={(text) => setPassword(text)}
             />
             <Button
-              text={loading ? 'Loading' : 'Continue'}
-              onPress={() => {
-                login()
+              text={loading ? 'Carregando' : 'Continue'}
+              onPress={async() => {
+                await login()
               }}
               style={{
                 marginTop: 20
@@ -132,7 +132,7 @@ export default function Login({
               }}
             >
               {/* eslint-disable-next-line react/no-unescaped-entities */}
-              <Text size="md">Don't have an account?</Text>
+              <Text size="md">Não tem uma conta?</Text>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('Register')
@@ -145,7 +145,7 @@ export default function Login({
                     marginLeft: 5
                   }}
                 >
-                  Register here
+                  Registre-se aqui
                 </Text>
               </TouchableOpacity>
             </View>
@@ -163,7 +163,7 @@ export default function Login({
                 }}
               >
                 <Text size="md" fontWeight="bold">
-                  Forget password
+                  Esqueceu a senha?
                 </Text>
               </TouchableOpacity>
             </View>
