@@ -92,6 +92,14 @@ export default function LocationDetails(props: ILocationProps) {
           />
         }
         leftAction={() => navigation.goBack()}
+        rightContent={
+          <Ionicons
+            name="add-sharp"
+            size={20}
+            color={themeColor.dark}
+          />
+        }
+        rightAction={() => navigation.navigate('CommentForm')}
       />
       <Section style={{
         alignItems: 'center',
