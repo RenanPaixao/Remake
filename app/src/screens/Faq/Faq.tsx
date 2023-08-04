@@ -5,7 +5,7 @@ import { MainStackParamList } from '../../types/navigation'
 import Accordion from './Accordion'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Layout, TopNav, Text } from 'react-native-rapi-ui';
-import { createClient } from '@supabase/supabase-js'
+import { GptService, MaterialServiceResponse } from '../../services/supabase/materialTypeService'
 
 const faqData = [
   {
@@ -58,51 +58,23 @@ const styles = StyleSheet.create({
   },
 });
 
-const apiURL = process.env.MATERIALTYPE_PUBLIC_API_URL;
-const apiKey = process.env.MATERIALTYPE_PUBLIC_API_KEY;
-
-export const supabase = createClient(apiURL as string, apiKey as string, {
-  detectSessionInUrl: false,
-  autoRefreshToken: true
-});
-
-let response = "";
+let response = {};
 
 export default function Faq({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
 
   const [searchText, setSearchText] = useState('');
-
-  const handleInputChange = (text) => {
-    setSearchText(text);
-  };
-
-  const handleDataReceived = (jsonData: string) => {
-    const parsedData = JSON.parse(jsonData);
-    setData(parsedData);
-  };
-
-  const handleInputSubmit = async () => {
-
-    const { data, error } = await supabase.functions.invoke('material-type', {
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({ 'product': searchText })
-      ,
-    });
-    response = data;
-    setResponse(data);
-
-  };
+  const [response, setResponse] = useState<MaterialServiceResponse>({} as MaterialServiceResponse);
 
   useEffect(() => { }, [response]);
 
+  const handleInputSubmit = async () => {
+    setResponse(await GptService.materialType(searchText));
 
+  }
 
   return (
-
     <Layout>
       <TopNav middleContent="FAQ" />
       <Text style={styles.title}>
@@ -113,29 +85,30 @@ export default function Faq({
           style={styles.input}
           placeholder="Pesquisar categoria"
           value={searchText}
-          onChangeText={handleInputChange}
-          onSubmitEditing={handleInputSubmit}
-        />
-        <View style={styles.response}>
-          {response && (
-            <Text style={styles.responseText}>
-              {response.message ? response.message : (
-                <View>
-                  {response.categoria}, {response.justificativa}
-                </View>
-              )}
-            </Text>
-          )}
-          {!response && <Text style={styles.input}>Tire sua dúvida sobre o material a ser reciclado...</Text>}
-        </View>
-        <Text style={styles.title}>
-          Perguntas Frequentes
-        </Text>
-        <View style={{ flex: 1, padding: 25 }}>
-          {faqData.map((item, index) => (
-            <Accordion key={index} title={item.title} content={item.content} />
-          ))}
-        </View>
+          onChangeText={setSearchText}
+          onSubmitEditing={handleInputSubmit}>
+        </TextInput>
+      </View>
+      <View style={styles.response}>
+        {(response.message || response.categoria) && (
+          <Text style={styles.responseText}>
+            {response.message ? response.message : (
+              <Text style={styles.responseText}>
+                {response.categoria}, {response.justificativa}
+              </Text>
+            )}
+          </Text>
+        )}
+        {(!response.message && !response.categoria) && <Text style={styles.input}>Tire sua dúvida sobre o material a ser reciclado...</Text>}
+      </View>
+      <Text style={styles.title}>
+        Perguntas Frequentes
+      </Text>
+      <View style={{ flex: 1, padding: 25 }}>
+        {faqData.map((item, index) => (
+          <Accordion key={index} title={item.title} content={item.content} />
+        ))}
+      </View>
     </Layout>
   )
 

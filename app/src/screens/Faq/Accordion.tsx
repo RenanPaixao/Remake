@@ -17,8 +17,16 @@ const Accordion: React.FC<Accordion> = ({ title, content }) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={toggleAccordion}>
-                <Text style={styles.title}>{title}</Text>
-                <Text style={styles.title}>{expanded ? <AntDesign name="minuscircleo" size={5} color="black" /> : <AntDesign name="pluscircleo" size={5} color="black" />}</Text>
+                <View style={styles.titlecontainer}>
+                    <Text style={styles.title}>{title}</Text>
+                    <View style={styles.buttons}>
+                        {expanded ? (
+                            <AntDesign name="minuscircleo" size={18} color="black" />
+                        ) : (
+                            <AntDesign name="pluscircleo" size={18} color="black" />
+                        )}
+                    </View>
+                </View>
             </TouchableOpacity>
             {expanded && <Text style={styles.content}>{content}</Text>}
         </View>
@@ -32,10 +40,24 @@ const styles = StyleSheet.create({
         margin: 10,
         borderRadius: 5,
     },
+    titlecontainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        height: 55,
+        alignItems: 'center'
+    },
     title: {
         fontSize: 18,
-        width: 300,
+        width: 250,
         textAlign: 'left',
+        paddingBottom:10,
+        paddingRight: 10,
+    },
+    buttons: {
+        paddingLeft: 20,
+        paddingBottom:20,
+        width: 40,
+
     },
     content: {
         marginTop: 5,
