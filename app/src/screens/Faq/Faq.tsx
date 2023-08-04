@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { View, StyleSheet, TextInput, ScrollView } from 'react-native';
-import { MainStackParamList } from '../../types/navigation'
-import Accordion from './Accordion'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { MainStackParamList } from '../../types/navigation';
+import Accordion from './AccordionProps';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Layout, TopNav, Text } from 'react-native-rapi-ui';
-import { GptService, MaterialServiceResponse } from '../../services/supabase/materialTypeService'
+import { GptService, MaterialServiceResponse } from '../../services/supabase/materialTypeService';
 
 const faqData = [
   {
     title: 'Como posso criar um local de reciclagem?',
-    content: 'A criação pode ser realizada pelo cadastro onde o criador vai ter uma consta especifica para realizar o gerenciamento da conta e das informações do local e do reciclador...',
+    content: 'A criação pode ser realizada pelo cadastro onde o criador vai ter uma conta especifica para realizar o gerenciamento da conta e das informações do local e do reciclador...',
   },
   {
     title: 'O que é reciclagem?',
@@ -58,40 +58,46 @@ const styles = StyleSheet.create({
   },
 });
 
-let response = {};
-
 export default function Faq({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
-
+  // State variables
   const [searchText, setSearchText] = useState('');
   const [response, setResponse] = useState<MaterialServiceResponse>({} as MaterialServiceResponse);
 
-  useEffect(() => { }, [response]);
-
+  // Handle input submission
   const handleInputSubmit = async () => {
     setResponse(await GptService.materialType(searchText));
+  };
 
-  }
+  // Empty useEffect for potential future use
+  useEffect(() => { }, [response]);
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <Layout>
+        {/* Top navigation */}
         <TopNav middleContent="FAQ" />
+
+        {/* Title */}
         <Text style={styles.title}>
           Qual objeto você tem dúvida se é reciclável?
         </Text>
+
+        {/* Input Container */}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             placeholder="Pesquisar categoria"
             value={searchText}
             onChangeText={setSearchText}
-            onSubmitEditing={handleInputSubmit}>
-          </TextInput>
+            onSubmitEditing={handleInputSubmit}
+          />
         </View>
+
+        {/* Response */}
         <View style={styles.response}>
-          {(response.message || response.categoria) && (
+          {(response.message || response.categoria) ? (
             <Text style={styles.responseText}>
               {response.message ? response.message : (
                 <Text style={styles.responseText}>
@@ -99,12 +105,13 @@ export default function Faq({
                 </Text>
               )}
             </Text>
+          ) : (
+            <Text style={styles.input}>Tire sua dúvida sobre o material a ser reciclado...</Text>
           )}
-          {(!response.message && !response.categoria) && <Text style={styles.input}>Tire sua dúvida sobre o material a ser reciclado...</Text>}
         </View>
-        <Text style={styles.title}>
-          Perguntas Frequentes
-        </Text>
+
+        {/* FAQ section */}
+        <Text style={styles.title}>Perguntas Frequentes</Text>
         <View style={{ flex: 1, padding: 25 }}>
           {faqData.map((item, index) => (
             <Accordion key={index} title={item.title} content={item.content} />
@@ -112,6 +119,5 @@ export default function Faq({
         </View>
       </Layout>
     </ScrollView>
-  )
-
+  );
 }
