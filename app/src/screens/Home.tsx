@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 10
-  }
-})
+    marginTop: 10,
+  },
+});
 
 type CustomButtonProps = {
   text: string;
@@ -51,7 +51,7 @@ export default function Home({
     <Layout>
       <TopNav middleContent="Tela inicial" />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Section style={{ marginTop: -30 }}>
+        <Section style={{ marginTop:-30}}>
           <SectionContent>
             <View>
               <Text style={styles.title}>
@@ -68,6 +68,7 @@ export default function Home({
             {/* Buttons */}
             {buttons.map((button, index) => (
               <Button
+              color='#6E8963'
                 key={index}
                 text={button}
                 onPress={() => navigation.navigate('Companies')}
@@ -78,7 +79,7 @@ export default function Home({
             {/* FAQ Button */}
             <CustomButton
               text="Qualquer dúvida acesse nosso FAQ!"
-              onPress={() => navigation.navigate('Companies')}
+              onPress={() => navigation.navigate('Faq')}
             />
           </SectionContent>
         </Section>

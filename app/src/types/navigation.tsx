@@ -3,6 +3,7 @@ export type MainStackParamList = {
 	Home: undefined
 	LocationDetails: undefined
 	Companies: undefined
+	Faq: undefined
 	NewLocation: undefined;
 };
 
