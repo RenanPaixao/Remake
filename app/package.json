@@ -25,6 +25,7 @@
     "firebase": "^9.6.1",
     "formik": "^2.4.2",
     "haversine-distance": "^1.2.1",
+    "luxon": "^3.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "^0.72.3",
@@ -40,6 +41,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@tanstack/eslint-plugin-query": "^4.29.25",
+    "@types/luxon": "^3.3.1",
     "@types/react": "~18.2.14",
     "@types/react-native": "~0.64.12",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
