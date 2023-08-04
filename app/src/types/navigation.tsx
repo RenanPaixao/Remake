@@ -1,16 +1,9 @@
 export type MainStackParamList = {
-<<<<<<< HEAD
-	MainTabs: undefined;
-	Companies: undefined;
-	Home: undefined;
-	Faq: undefined
-=======
 	MainTabs: undefined
 	Home: undefined
 	LocationDetails: undefined
 	Companies: undefined
 	Faq: undefined
->>>>>>> main
 	NewLocation: undefined;
 };
 
