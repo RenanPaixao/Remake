@@ -20,8 +20,7 @@ class MaterialService{
       body: JSON.stringify({ 'product': inputText }),
     });
   
-    const dataString = data;  
-    return dataString;
+    return data
   };
   
  } export const GptService = new MaterialService()
