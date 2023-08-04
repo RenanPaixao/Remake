@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, ScrollView } from 'react-native';
 import { MainStackParamList } from '../../types/navigation'
 import Accordion from './Accordion'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -75,41 +75,43 @@ export default function Faq({
   }
 
   return (
-    <Layout>
-      <TopNav middleContent="FAQ" />
-      <Text style={styles.title}>
-        Qual objeto você tem dúvida se é reciclável?
-      </Text>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Pesquisar categoria"
-          value={searchText}
-          onChangeText={setSearchText}
-          onSubmitEditing={handleInputSubmit}>
-        </TextInput>
-      </View>
-      <View style={styles.response}>
-        {(response.message || response.categoria) && (
-          <Text style={styles.responseText}>
-            {response.message ? response.message : (
-              <Text style={styles.responseText}>
-                {response.categoria}, {response.justificativa}
-              </Text>
-            )}
-          </Text>
-        )}
-        {(!response.message && !response.categoria) && <Text style={styles.input}>Tire sua dúvida sobre o material a ser reciclado...</Text>}
-      </View>
-      <Text style={styles.title}>
-        Perguntas Frequentes
-      </Text>
-      <View style={{ flex: 1, padding: 25 }}>
-        {faqData.map((item, index) => (
-          <Accordion key={index} title={item.title} content={item.content} />
-        ))}
-      </View>
-    </Layout>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <Layout>
+        <TopNav middleContent="FAQ" />
+        <Text style={styles.title}>
+          Qual objeto você tem dúvida se é reciclável?
+        </Text>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Pesquisar categoria"
+            value={searchText}
+            onChangeText={setSearchText}
+            onSubmitEditing={handleInputSubmit}>
+          </TextInput>
+        </View>
+        <View style={styles.response}>
+          {(response.message || response.categoria) && (
+            <Text style={styles.responseText}>
+              {response.message ? response.message : (
+                <Text style={styles.responseText}>
+                  {response.categoria}, {response.justificativa}
+                </Text>
+              )}
+            </Text>
+          )}
+          {(!response.message && !response.categoria) && <Text style={styles.input}>Tire sua dúvida sobre o material a ser reciclado...</Text>}
+        </View>
+        <Text style={styles.title}>
+          Perguntas Frequentes
+        </Text>
+        <View style={{ flex: 1, padding: 25 }}>
+          {faqData.map((item, index) => (
+            <Accordion key={index} title={item.title} content={item.content} />
+          ))}
+        </View>
+      </Layout>
+    </ScrollView>
   )
 
 }
