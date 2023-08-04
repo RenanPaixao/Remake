@@ -74,8 +74,8 @@ export default function Faq({
   useEffect(() => { }, [response]);
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <Layout>
+    <Layout>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         {/* Top navigation */}
         <TopNav middleContent="FAQ" />
 
@@ -117,7 +117,7 @@ export default function Faq({
             <Accordion key={index} title={item.title} content={item.content} />
           ))}
         </View>
-      </Layout>
-    </ScrollView>
+      </ScrollView>
+    </Layout>
   );
 }
