@@ -1,6 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient('https://izgjtgdyvjzrsyxtabfx.supabase.co/functions/v1/material-type', 'public-anon-key')
+import { supabase } from "../../initSupabase"
 
 export interface MaterialServiceResponse {
   nome: string
