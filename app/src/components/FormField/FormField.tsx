@@ -1,7 +1,6 @@
 import { Text, TextInput, themeColor } from 'react-native-rapi-ui'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { TextInputProps } from 'react-native'
+import { StyleSheet, View, TextInputProps } from 'react-native'
 
 interface FormFieldProps {
   label: string
@@ -37,12 +36,16 @@ export const FormField = (
 
   return (
     <View style={containerStyle}>
-      <Text >{label}</Text>
+      <Text style={{ marginBottom: 5 }}>{label}</Text>
       <TextInput
         borderColor={styles.input.borderColor}
-        onChangeText={text => {setFieldValue(name, text) }}
+        onChangeText={text => {
+          setFieldValue(name, text)
+        }}
         placeholder={placeholder}
-        onBlur={() => {validateField(name) }}
+        onBlur={() => {
+          validateField(name)
+        }}
         onKeyPress={() => {
           validateField(name)
         }}

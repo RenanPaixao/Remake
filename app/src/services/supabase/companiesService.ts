@@ -16,9 +16,12 @@ export class CompaniesService {
   static async getAllWithLocations() {
     const { data } = await CompaniesService.queryBuilder.select('*, locations(*)').throwOnError()
 
-    if (data === null) return []
+    if (data === null) {
+      return []
+    }
 
-    // TODO: Remove the possibility of a company without locations
+    // This filter should be removed and add companies without location never happens, but I will let it avoiding
+    // problems.
     return data.filter(company => company.locations.length)
   }
 
@@ -29,7 +32,6 @@ export class CompaniesService {
       console.log('No user location!')
       return companies
     }
-
 
     return companies.sort((a, b) => {
       const aDistance = haversine(locationCoordinates, CompaniesService
@@ -62,7 +64,10 @@ export class CompaniesService {
     return companyData
   }
 
-  static async createCompanyWithLocation(company: Company, location: Omit<LocationWithoutCoordinates, 'company_id'>) {
+  static async createCompanyWithLocation(
+    company: Company,
+    location: Omit<LocationWithoutCoordinates, 'company_id'>): Promise<void> {
+
     try {
       const onlyNumbersCep = location.cep.replace(/\D/g, '')
       const cepData = await BrasilService.getCep(onlyNumbersCep)
@@ -75,15 +80,16 @@ export class CompaniesService {
         latitude: cepData.location.coordinates.latitude,
         longitude: cepData.location.coordinates.longitude
       })
-    } catch (e) {
-      alert(e.message)
-
+    } catch (error) {
+      console.log(error)
       if (company.id) {
         await CompaniesService.deleteCompany(company.id)
       }
       if (location.id) {
         await LocationsService.delete(location.id)
       }
+
+      throw error
     }
   }
 }
