@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { View, KeyboardAvoidingView, ScrollView } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Button, Layout, themeColor, TopNav } from 'react-native-rapi-ui'
@@ -17,7 +17,6 @@ export default function NewLocation({
   const { user } = useContext(AuthContext).session || {}
 
   const [ isLoading, setIsLoading ] = React.useState<boolean>(false)
-  const [ canAdd, setCanAdd ] = React.useState<boolean>(false)
 
   const companyFormProps = useFormik<InitialCompanyFormValues>({
     initialValues: {
@@ -35,15 +34,9 @@ export default function NewLocation({
       longitude: ''
     },
     onSubmit: addCompany,
+    validateOnMount: true,
     validationSchema: companyFormSchema
   })
-
-  useEffect(()=>{
-    setCanAdd(companyFormProps.isValid ||
-      (!isLoading && Object.keys(companyFormProps.touched).length > 0)
-    )
-    console.log(canAdd)
-  }, [canAdd, companyFormProps.isValid, companyFormProps.touched, isLoading])
 
   async function addCompany() {
     if (!user) {
@@ -111,7 +104,7 @@ export default function NewLocation({
               {...companyFormProps}
             />
             <Button text={'Adicionar'}
-              disabled={!canAdd}
+              disabled={isLoading || !companyFormProps.isValid}
               onPress={companyFormProps.submitForm}
             />
           </View>
