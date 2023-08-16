@@ -9,11 +9,11 @@ export interface Company {
   owner_id: string
 }
 
-export class CompaniesService {
-  static queryBuilder = supabase.from('companies')
+export class CompaniesServiceInstance {
+  queryBuilder = supabase.from('companies')
 
-  static async getAllWithLocations() {
-    const { data } = await CompaniesService.queryBuilder.select('*, locations(*)').throwOnError()
+  async getAllWithLocations() {
+    const { data } = await this.queryBuilder.select('*, locations(*)').throwOnError()
 
     if (data === null) {
       return []
@@ -24,8 +24,8 @@ export class CompaniesService {
     return data.filter(company => company.locations.length)
   }
 
-  static async getCompaniesSortedByProximity(locationCoordinates: LocationCoordinates) {
-    const companies = await CompaniesService.getAllWithLocations()
+  async getCompaniesSortedByProximity(locationCoordinates: LocationCoordinates) {
+    const companies = await this.getAllWithLocations()
 
     if (!locationCoordinates) {
       console.log('No user location!')
@@ -33,15 +33,15 @@ export class CompaniesService {
     }
 
     return companies.sort((a, b) => {
-      const aDistance = haversine(locationCoordinates, CompaniesService
-        .getNearestLocationInCompany(a.locations, locationCoordinates))
-      const bDistance = haversine(locationCoordinates, CompaniesService
-        .getNearestLocationInCompany(b.locations, locationCoordinates))
+      const aDistance =
+        haversine(locationCoordinates, this.getNearestLocationInCompany(a.locations, locationCoordinates))
+      const bDistance =
+        haversine(locationCoordinates, this.getNearestLocationInCompany(b.locations, locationCoordinates))
 
       return aDistance - bDistance
     })
   }
-  static getNearestLocationInCompany(locations: any, locationCoordinates: LocationCoordinates) {
+  getNearestLocationInCompany(locations: any, locationCoordinates: LocationCoordinates) {
 
     return [...locations].sort((a: any, b: any) => {
       const aDistance = haversine(locationCoordinates, { latitude: a.latitude, longitude: a.longitude })
@@ -51,39 +51,43 @@ export class CompaniesService {
     })[0]
   }
 
-  static async createCompany(company: Company) {
-    const { data: companyData } = await CompaniesService.queryBuilder.insert(company).throwOnError().single()
+  async createCompany(company: Company) {
+    const { data: companyData } = await this.queryBuilder.insert(company).throwOnError().single()
 
     return companyData
   }
 
-  static async deleteCompany(id: string) {
-    const { data: companyData } = await CompaniesService.queryBuilder.delete().eq('id', id).throwOnError().single()
-
-    return companyData
+  async deleteCompany(id: string) {
+    await this.queryBuilder.delete().eq('id', id).throwOnError()
   }
 
-  static async createCompanyWithLocation(
+  async createCompanyWithLocation(
     company: Company,
     location: Omit<Location, 'company_id'>): Promise<void> {
 
+    let companyId = null
+    let locationId = null
     try {
-      const companyData = await CompaniesService.createCompany(company)
+      const companyData = await this.createCompany(company)
+      companyId = companyData.id
 
-      await LocationsService.create({
+      const locationData = await LocationsService.create({
         ...location,
         company_id: companyData.id
       })
+      locationId = locationData.id
     } catch (error) {
-      console.log(error)
-      if (company.id) {
-        await CompaniesService.deleteCompany(company.id)
+      if (companyId) {
+        await this.deleteCompany(companyId)
       }
-      if (location.id) {
-        await LocationsService.delete(location.id)
+      if (locationId) {
+        await LocationsService.delete(locationId)
       }
 
       throw error
     }
   }
 }
+
+export const CompaniesService = new CompaniesServiceInstance()
+

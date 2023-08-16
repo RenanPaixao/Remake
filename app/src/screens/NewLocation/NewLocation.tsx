@@ -96,7 +96,9 @@ export default function NewLocation({
         state: companyFormProps.values.state,
         name: companyFormProps.values.street,
         latitude: Number(companyFormProps.values.latitude),
-        longitude: Number(companyFormProps.values.longitude)
+        longitude: Number(companyFormProps.values.longitude),
+        openning_hour: companyFormProps.values.openingHour,
+        closing_hour: companyFormProps.values.closingHour
       })
 
       await CompaniesService.createCompanyWithLocation(company, location)

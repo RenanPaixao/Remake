@@ -34,8 +34,6 @@ export class LocationsService {
     return data
   }
   static async delete(id: string) {
-    const { data } = await LocationsService.queryBuilder.delete().eq('id', id).throwOnError().single()
-
-    return data
+    await LocationsService.queryBuilder.delete().eq('id', id).throwOnError()
   }
 }
