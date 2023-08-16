@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { View, StyleSheet, TextInput, ScrollView } from 'react-native';
+import { View, StyleSheet, TextInput, ScrollView,  ActivityIndicator } from 'react-native';
 import { MainStackParamList } from '../../types/navigation';
 import Accordion from './AccordionProps';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -35,19 +35,27 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 16,
+    color: 'black',
+    margin: 10,
+  },
+  input2: {
+    fontSize: 16,
     color: 'gray',
     margin: 10,
   },
   response: {
     width: 320,
-    height: 100,
+    height: 140,
     borderRadius: 5,
     backgroundColor: '#d9d9d9',
     marginVertical: 5,
     marginHorizontal: 35,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    justifyContent: 'center', alignItems: 'center'
   },
   responseText: {
-    fontSize: 12,
+    fontSize: 14,
     color: 'black',
     margin: 4,
   },
@@ -65,14 +73,14 @@ export default function Faq({
   // State variables
   const [searchText, setSearchText] = useState('');
   const [response, setResponse] = useState<MaterialServiceResponse>({} as MaterialServiceResponse);
+  const [loading, setLoading] = useState(false);
 
   // Handle input submission
   const handleInputSubmit = async () => {
+    setLoading(true);
     setResponse(await GptService.materialType(searchText));
+    setLoading(false);
   };
-
-  // Empty useEffect for potential future use
-  useEffect(() => { }, [response]);
 
   return (
     <Layout>
@@ -97,8 +105,11 @@ export default function Faq({
         </View>
 
         {/* Response */}
-        <View style={styles.response}>
-          {(response.message || response.categoria) ? (
+      <View style={styles.response}>
+        {loading ? (
+          <ActivityIndicator size="large" color='#6E8963' />
+        ) : (
+          response.message || response.categoria ? (
             <Text style={styles.responseText}>
               {response.message ? response.message : (
                 <Text style={styles.responseText}>
@@ -107,9 +118,10 @@ export default function Faq({
               )}
             </Text>
           ) : (
-            <Text style={styles.input}>Tire sua dúvida sobre o material a ser reciclado...</Text>
-          )}
-        </View>
+            <Text style={styles.input2}>Tire sua dúvida sobre o material a ser reciclado...</Text>
+          )
+        )}
+      </View>
 
         {/* FAQ section */}
         <Text style={styles.title}>Perguntas Frequentes</Text>
