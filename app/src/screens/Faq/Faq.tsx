@@ -33,6 +33,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 20,
   },
+  indicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   input: {
     fontSize: 16,
     color: 'black',
@@ -52,7 +57,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 35,
     paddingHorizontal: 10,
     paddingVertical: 10,
-    justifyContent: 'center', alignItems: 'center'
   },
   responseText: {
     fontSize: 14,
@@ -107,7 +111,7 @@ export default function Faq({
         {/* Response */}
       <View style={styles.response}>
         {loading ? (
-          <ActivityIndicator size="large" color='#6E8963' />
+          <View style={styles.indicator}><ActivityIndicator size="large" color='#6E8963'/></View>
         ) : (
           response.message || response.categoria ? (
             <Text style={styles.responseText}>
