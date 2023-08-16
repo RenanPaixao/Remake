@@ -1,7 +1,6 @@
 import { supabase } from '../../initSupabase'
 import haversine from 'haversine-distance'
-import { LocationCoordinates, LocationsService, LocationWithoutCoordinates } from './locationService'
-import { BrasilService } from '../brasilApi/brasilApi'
+import { Location, LocationCoordinates, LocationsService } from './locationService'
 
 export interface Company {
   id?: string
@@ -66,19 +65,14 @@ export class CompaniesService {
 
   static async createCompanyWithLocation(
     company: Company,
-    location: Omit<LocationWithoutCoordinates, 'company_id'>): Promise<void> {
+    location: Omit<Location, 'company_id'>): Promise<void> {
 
     try {
-      const onlyNumbersCep = location.cep.replace(/\D/g, '')
-      const cepData = await BrasilService.getCep(onlyNumbersCep)
-
       const companyData = await CompaniesService.createCompany(company)
 
       await LocationsService.create({
         ...location,
-        company_id: companyData.id,
-        latitude: cepData.location.coordinates.latitude,
-        longitude: cepData.location.coordinates.longitude
+        company_id: companyData.id
       })
     } catch (error) {
       console.log(error)

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View, KeyboardAvoidingView, ScrollView } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Button, Layout, themeColor, TopNav } from 'react-native-rapi-ui'
@@ -10,14 +10,14 @@ import { Location } from '../../services/supabase/locationService'
 import { CompanyForm, companyFormSchema, InitialCompanyFormValues } from '../auth/CompanyForm'
 import { Ionicons } from '@expo/vector-icons'
 import { AuthContext } from '../../provider/AuthProvider'
+import { BrasilService } from '../../services/brasilApi/brasilApi'
 
 export default function NewLocation({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
   const { user } = useContext(AuthContext).session || {}
 
-  const [ isLoading, setIsLoading ] = React.useState<boolean>(false)
-
+  const [ isLoading, setIsLoading ] = useState<boolean>(false)
   const companyFormProps = useFormik<InitialCompanyFormValues>({
     initialValues: {
       companyName: '',
@@ -37,6 +37,43 @@ export default function NewLocation({
     validateOnMount: true,
     validationSchema: companyFormSchema
   })
+
+  useEffect(() => {
+    async function getAddressByCep(cep: string) {
+      try {
+        const cepData = await BrasilService.getCep(cep)
+        return {
+          cep: companyFormProps.values.cep,
+          street: cepData.street,
+          city: cepData.city,
+          state: cepData.state,
+          district: cepData.neighborhood
+        }
+      } catch (e) {
+        alert(e.message)
+      }
+    }
+
+    (async () => {
+      const onlyNumbersCep = companyFormProps.values.cep.replace(/\D/g, '')
+      try {
+        setIsLoading(true)
+        if (onlyNumbersCep.length < 8) {
+          return
+        }
+
+        const addressData = await getAddressByCep(onlyNumbersCep)
+        for (const key in addressData) {
+          await companyFormProps.setFieldValue(key, addressData[key])
+        }
+        return addressData
+      } catch (e) {
+        alert(e.message)
+      } finally {
+        setIsLoading(false)
+      }
+    })()
+  }, [companyFormProps.values.cep])
 
   async function addCompany() {
     if (!user) {
@@ -102,6 +139,7 @@ export default function NewLocation({
           >
             <CompanyForm
               {...companyFormProps}
+              loading={isLoading}
             />
             <Button text={'Adicionar'}
               disabled={isLoading || !companyFormProps.isValid}

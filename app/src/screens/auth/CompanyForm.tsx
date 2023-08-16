@@ -47,7 +47,7 @@ type InitialCompanyFormValues = Yup.InferType<typeof companyFormSchema> & {
   complement: string
 }
 
-const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
+const CompanyForm = (props: FormikProps<InitialCompanyFormValues> & { loading?: boolean }) => {
   return (<>
     <FormField
       label={'Nome da empresa (*)'}
@@ -55,6 +55,7 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
       value={props.values.companyName}
       setFieldValue={props.setFieldValue}
       validateField={props.validateField}
+      loading={props.loading}
       error={props.errors.companyName}
       containerStyle={{ marginTop: 15 }}
       placeholder={'Insira o nome da empresa. Pode ser seu nome'}
@@ -64,6 +65,7 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
       label={'CEP (*)'}
       name={fieldNames.cep}
       value={props.values.cep}
+      loading={props.loading}
       setFieldValue={props.setFieldValue}
       validateField={props.validateField}
       error={props.errors.cep}
@@ -74,6 +76,7 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
     <FormField
       label={'Estado (*)'}
       name={fieldNames.state}
+      loading={props.loading}
       value={props.values.state}
       setFieldValue={props.setFieldValue}
       validateField={props.validateField}
@@ -85,6 +88,7 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
     <FormField
       label={'Cidade (*)'}
       name={fieldNames.city}
+      loading={props.loading}
       value={props.values.city}
       setFieldValue={props.setFieldValue}
       validateField={props.validateField}
@@ -96,6 +100,7 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
     <FormField
       label={'Bairro (*)'}
       name={fieldNames.district}
+      loading={props.loading}
       value={props.values.district}
       setFieldValue={props.setFieldValue}
       validateField={props.validateField}
@@ -107,6 +112,7 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
     <FormField
       label={'Nome da rua (*)'}
       name={fieldNames.street}
+      loading={props.loading}
       value={props.values.street}
       setFieldValue={props.setFieldValue}
       validateField={props.validateField}
@@ -118,6 +124,7 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
     <FormField
       label={'Número (*)'}
       name={fieldNames.number}
+      loading={props.loading}
       value={props.values.number}
       setFieldValue={props.setFieldValue}
       validateField={props.validateField}
@@ -129,6 +136,7 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
     <FormField
       label={'Complemento'}
       name={fieldNames.complement}
+      loading={props.loading}
       value={props.values.complement}
       setFieldValue={props.setFieldValue}
       validateField={props.validateField}
@@ -141,6 +149,7 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
     <FormField
       label={'Latitude (*)'}
       name={fieldNames.latitude}
+      loading={props.loading}
       value={props.values.latitude.toString()}
       setFieldValue={props.setFieldValue}
       validateField={props.validateField}
@@ -152,6 +161,7 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
     <FormField
       label={'Longitude (*)'}
       name={fieldNames.longitude}
+      loading={props.loading}
       value={props.values.longitude.toString()}
       setFieldValue={props.setFieldValue}
       validateField={props.validateField}
@@ -163,6 +173,7 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
     <FormField
       label={'Aberto às (*)'}
       name={fieldNames.openingHour}
+      loading={props.loading}
       value={props.values.openingHour}
       setFieldValue={props.setFieldValue}
       validateField={props.validateField}
@@ -174,6 +185,7 @@ const CompanyForm = (props: FormikProps<InitialCompanyFormValues>) => {
     <FormField
       label={'Fechado às (*)'}
       name={fieldNames.closingHour}
+      loading={props.loading}
       value={props.values.closingHour}
       setFieldValue={props.setFieldValue}
       validateField={props.validateField}
