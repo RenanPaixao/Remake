@@ -5,6 +5,7 @@ import { MainStackParamList } from '../../types/navigation';
 import Accordion from './AccordionProps';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Layout, TopNav, Text } from 'react-native-rapi-ui';
+import TypeWriter from './TypeWritter';
 import { GptService, MaterialServiceResponse } from '../../services/supabase/materialTypeService';
 
 const faqData = [
@@ -101,7 +102,7 @@ export default function Faq({
             <Text style={styles.responseText}>
               {response.message ? response.message : (
                 <Text style={styles.responseText}>
-                  {response.categoria}, {response.justificativa}
+                  <TypeWriter text={`${response.categoria}, ${response.justificativa}`} />
                 </Text>
               )}
             </Text>
