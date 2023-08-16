@@ -20,6 +20,10 @@ const faqData = [
   {
     title: 'Como separar o lixo para reciclagem?',
     content: 'Para separar o lixo para reciclagem, é importante seguir algumas dicas...',
+  },
+  {
+    title: 'Porque é importante descartar o lixo corretamente?',
+    content: 'descartar o lixo de maneira adequada é uma responsabilidade coletiva que contribui para a saúde humana, a proteção ambiental e a sustentabilidade global...',
   }
 ];
 
