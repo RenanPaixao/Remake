@@ -9,13 +9,12 @@ import LocationDetails from '../screens/locations/LocationDetails'
 import { LocationContext } from '../provider/LocationProvider'
 import Faq from '../screens/Faq/Faq'
 
-
 const MainStack = createNativeStackNavigator<MainStackParamList>()
 const Main = () => {
   const { updateLocation } = useContext(LocationContext)
 
   useEffect(() => {
-    (async() => {
+    (async () => {
       await updateLocation()
     })()
   }, [])

@@ -1,26 +1,25 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import { View, StyleSheet, TextInput, ScrollView } from 'react-native';
-import { MainStackParamList } from '../../types/navigation';
-import Accordion from './AccordionProps';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Layout, TopNav, Text } from 'react-native-rapi-ui';
-import { GptService, MaterialServiceResponse } from '../../services/supabase/materialTypeService';
+import React, { useEffect, useState } from 'react'
+import { View, StyleSheet, TextInput, ScrollView } from 'react-native'
+import { MainStackParamList } from '../../types/navigation'
+import Accordion from './AccordionProps'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { Layout, TopNav, Text } from 'react-native-rapi-ui'
+import { GptService, MaterialServiceResponse } from '../../services/supabase/materialTypeService'
 
 const faqData = [
   {
     title: 'Como posso criar um local de reciclagem?',
-    content: 'A criação pode ser realizada pelo cadastro onde o criador vai ter uma conta especifica para realizar o gerenciamento da conta e das informações do local e do reciclador...',
+    content: 'A criação pode ser realizada pelo cadastro onde o criador vai ter uma conta especifica para realizar o gerenciamento da conta e das informações do local e do reciclador...'
   },
   {
     title: 'O que é reciclagem?',
-    content: 'Reciclagem é o processo de transformar materiais descartados...',
+    content: 'Reciclagem é o processo de transformar materiais descartados...'
   },
   {
     title: 'Como separar o lixo para reciclagem?',
-    content: 'Para separar o lixo para reciclagem, é importante seguir algumas dicas...',
+    content: 'Para separar o lixo para reciclagem, é importante seguir algumas dicas...'
   }
-];
+]
 
 const styles = StyleSheet.create({
   inputContainer: {
@@ -30,12 +29,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 35,
     marginBottom: 20,
-    marginTop: 20,
+    marginTop: 20
   },
   input: {
     fontSize: 16,
     color: 'gray',
-    margin: 10,
+    margin: 10
   },
   response: {
     width: 320,
@@ -43,35 +42,35 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#d9d9d9',
     marginVertical: 5,
-    marginHorizontal: 35,
+    marginHorizontal: 35
   },
   responseText: {
     fontSize: 12,
     color: 'black',
-    margin: 4,
+    margin: 4
   },
   title: {
     fontSize: 17,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 40,
-  },
-});
+    marginTop: 40
+  }
+})
 
 export default function Faq({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
   // State variables
-  const [searchText, setSearchText] = useState('');
-  const [response, setResponse] = useState<MaterialServiceResponse>({} as MaterialServiceResponse);
+  const [searchText, setSearchText] = useState('')
+  const [response, setResponse] = useState<MaterialServiceResponse>({} as MaterialServiceResponse)
 
   // Handle input submission
   const handleInputSubmit = async () => {
-    setResponse(await GptService.materialType(searchText));
-  };
+    setResponse(await GptService.materialType(searchText))
+  }
 
   // Empty useEffect for potential future use
-  useEffect(() => { }, [response]);
+  useEffect(() => { }, [response])
 
   return (
     <Layout>
@@ -119,5 +118,5 @@ export default function Faq({
         </View>
       </ScrollView>
     </Layout>
-  );
+  )
 }

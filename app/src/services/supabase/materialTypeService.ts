@@ -1,4 +1,4 @@
-import { supabase } from "../../initSupabase"
+import { supabase } from '../../initSupabase'
 
 export interface MaterialServiceResponse {
   nome: string
@@ -11,17 +11,17 @@ export interface MaterialServiceInput {
   product: string
 }
 
-class MaterialService{
-  async materialType (inputText: string):Promise<MaterialServiceResponse>{
+class MaterialService {
+  async materialType(inputText: string):Promise<MaterialServiceResponse> {
+    // eslint-disable-next-line
     const { data, error } = await supabase.functions.invoke('material-type', {
       headers: {
         'Content-type': 'application/json'
       },
-      body: JSON.stringify({ 'product': inputText }),
-    });
-  
+      body: JSON.stringify({ 'product': inputText })
+    })
+
     return data
-  };
-  
- } export const GptService = new MaterialService()
-  
+  }
+
+} export const GptService = new MaterialService()

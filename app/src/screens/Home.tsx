@@ -1,6 +1,5 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import { Text, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { MainStackParamList } from '../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Button, Layout, TopNav, Section, SectionContent } from 'react-native-rapi-ui'
@@ -20,9 +19,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 10,
-  },
-});
+    marginTop: 10
+  }
+})
 
 type CustomButtonProps = {
   text: string;
@@ -51,7 +50,7 @@ export default function Home({
     <Layout>
       <TopNav middleContent="Tela inicial" />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Section style={{ marginTop:-30}}>
+        <Section style={{ marginTop: -30 }}>
           <SectionContent>
             <View>
               <Text style={styles.title}>
@@ -68,7 +67,7 @@ export default function Home({
             {/* Buttons */}
             {buttons.map((button, index) => (
               <Button
-              color='#6E8963'
+                color='#6E8963'
                 key={index}
                 text={button}
                 onPress={() => navigation.navigate('Companies')}

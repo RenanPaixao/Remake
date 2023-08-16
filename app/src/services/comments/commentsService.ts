@@ -24,7 +24,9 @@ export class CommentsService {
       .eq('location_id', locationId)
       .order('created_at', { ascending: false })
       .throwOnError()
-    if (!data) return []
+    if (!data) {
+      return []
+    }
 
     return data
   }

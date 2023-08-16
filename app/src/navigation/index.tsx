@@ -9,7 +9,7 @@ import Loading from '../screens/utils/Loading'
 
 export default function Index() {
   const auth = useContext(AuthContext)
-  const user = auth.user
+  const { user } = auth
   return (
     <NavigationContainer>
       {user === null && <Loading />}
