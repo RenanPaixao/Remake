@@ -9,6 +9,8 @@ import {
 import { supabase } from '../../initSupabase'
 import { AuthStackParamList } from '../../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { useTranslation } from 'react-i18next'
+import { changeLanguage } from 'i18next'
 
 import {
   Layout,
@@ -18,13 +20,18 @@ import {
   themeColor
 } from 'react-native-rapi-ui'
 
+
 export default function Login({
   navigation
 }: NativeStackScreenProps<AuthStackParamList, 'Login'>) {
+  const { t, i18n } = useTranslation();
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
 
+  const changeLanguage = (value: string) =>{ 
+    i18n.changeLanguage(value)
+  }
   async function login() {
     setLoading(true)
     const { user, error } = await supabase.auth.signIn({
@@ -48,6 +55,39 @@ export default function Login({
             flexGrow: 1
           }}
         >
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+
+            }}
+          >
+            <TouchableOpacity onPress={()=> changeLanguage('pt')}>
+              <Image
+                resizeMode="contain"
+                style={{
+                  height: 40,
+                  width: 40,
+                  marginHorizontal: 15
+                }}
+                source={require('../../../assets/images/brasil.png')}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={()=> changeLanguage('en')}>
+              <Image
+                resizeMode="contain"
+                style={{
+                  height: 40,
+                  width: 40
+                }}
+                source={require('../../../assets/images/eua.png')}
+              />
+            </TouchableOpacity>
+
+          </View>
           <View
             style={{
               flex: 1,
@@ -84,15 +124,15 @@ export default function Login({
               Login
             </Text>
             {/*TODO: remove it after development*/}
-            <Button size='md' text='Test login' onPress={async() => {
+            <Button size='md' text={t('Test login')} onPress={async () => {
               setEmail('test@test.com')
               setPassword('12345678')
               await login()
-            }}/>
+            }} />
             <Text>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Digite seu email"
+              placeholder={t('Digite seu email')}
               value={email}
               autoCapitalize="none"
               autoComplete="off"
@@ -104,7 +144,7 @@ export default function Login({
             <Text style={{ marginTop: 15 }}>Senha</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Digite sua senha"
+              placeholder={t('Digite sua senha')}
               value={password}
               autoCapitalize="none"
               autoComplete="off"
@@ -113,8 +153,8 @@ export default function Login({
               onChangeText={(text) => setPassword(text)}
             />
             <Button
-              text={loading ? 'Carregando' : 'Continue'}
-              onPress={async() => {
+              text={loading ? t('Carregando') : t('Continue')}
+              onPress={async () => {
                 await login()
               }}
               style={{
@@ -132,7 +172,7 @@ export default function Login({
               }}
             >
               {/* eslint-disable-next-line react/no-unescaped-entities */}
-              <Text size="md">Não tem uma conta?</Text>
+              <Text size="md">{t('Não tem uma conta?')}</Text>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('Register')
@@ -145,7 +185,7 @@ export default function Login({
                     marginLeft: 5
                   }}
                 >
-                  Registre-se aqui
+                  {t('Registre-se aqui')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -163,7 +203,7 @@ export default function Login({
                 }}
               >
                 <Text size="md" fontWeight="bold">
-                  Esqueceu a senha?
+                {t('Esqueceu a senha?')}
                 </Text>
               </TouchableOpacity>
             </View>
