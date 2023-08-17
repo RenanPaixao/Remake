@@ -24,7 +24,7 @@ serve(async (req) => {
       messages: [
         {
           role: "user",
-          content: `Um caderno é descartado no lixo reciclável pois é predominantemente composto por papel, levando em consideração a predominância dos materiais e as seguintes classificações: Lixo-Orgânico Lixo Reciclável Lixo Eletrônico Resíduos Perigosos Lixo não Reciclável Em qual categoria podemos classificar o seguinte produto: ${body.product}? Retorne apenas a categoria no formato JSON contendo como atributos o nome, a categoria e uma justificativa para encaixá-lo na categoria retornada.`,
+          content: `Um caderno é descartado no lixo reciclável pois é predominantemente composto por papel, levando em consideração a predominância dos materiais e as seguintes classificações: Lixo-Orgânico Lixo Reciclável Lixo Eletrônico Resíduos Perigosos Lixo não Reciclável Em qual categoria podemos classificar o seguinte produto: ${body.product}? Retorne apenas a categoria no formato JSON contendo como atributos o nome, a categoria e uma justificativa de até 5 linhas para encaixá-lo na categoria retornada.`,
         },
       ],
       temperature: 0,
