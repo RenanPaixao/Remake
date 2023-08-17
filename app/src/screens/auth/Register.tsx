@@ -136,7 +136,7 @@ export default function Register({
 
             <Button
               text={loading ? 'Carregando' : 'Criar uma conta'}
-              onPress={async() => {
+              onPress={async () => {
                 await register()
               }}
               style={{

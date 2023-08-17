@@ -1,7 +1,7 @@
 import { Text, TextInput, themeColor } from 'react-native-rapi-ui'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { TextInputProps } from 'react-native'
+import { StyleSheet, View, TextInputProps } from 'react-native'
+import Loading from '../../screens/utils/Loading'
 
 interface FormFieldProps {
   label: string
@@ -12,6 +12,7 @@ interface FormFieldProps {
   error?: any
   containerStyle?: object
   placeholder?: string
+  loading?: boolean
 }
 export const FormField = (
   {
@@ -23,6 +24,7 @@ export const FormField = (
     error,
     containerStyle,
     placeholder,
+    loading,
     ...rest
   }: TextInputProps & FormFieldProps) => {
   const styles = StyleSheet.create({
@@ -36,13 +38,24 @@ export const FormField = (
   })
 
   return (
-    <View style={containerStyle}>
-      <Text >{label}</Text>
+    <View
+      style={[containerStyle, { opacity: loading ? 0.5 : 1 }]}
+      pointerEvents={loading ? 'none' : 'auto'}
+    >
+      <Text style={{ marginBottom: 5 }}>{label}</Text>
       <TextInput
+        editable={!loading}
+        selectTextOnFocus={!loading}
+        contextMenuHidden={loading}
+        leftContent={loading && <Loading />}
         borderColor={styles.input.borderColor}
-        onChangeText={text => {setFieldValue(name, text) }}
+        onChangeText={text => {
+          setFieldValue(name, text)
+        }}
         placeholder={placeholder}
-        onBlur={() => {validateField(name) }}
+        onBlur={() => {
+          validateField(name)
+        }}
         onKeyPress={() => {
           validateField(name)
         }}
