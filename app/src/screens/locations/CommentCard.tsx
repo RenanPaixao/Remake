@@ -58,7 +58,6 @@ export default function CommentCard(props: ICommentCardProps) {
   )
 }
 
-
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 15,

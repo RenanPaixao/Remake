@@ -1,7 +1,6 @@
 import { supabase } from '../../initSupabase'
 import haversine from 'haversine-distance'
-import { LocationCoordinates, LocationsService, LocationWithoutCoordinates } from './locationService'
-import { BrasilService } from '../brasilApi/brasilApi'
+import { Location, LocationCoordinates, LocationsService } from './locationService'
 
 export interface Company {
   id?: string
@@ -10,37 +9,39 @@ export interface Company {
   owner_id: string
 }
 
-export class CompaniesService {
-  static queryBuilder = supabase.from('companies')
+export class CompaniesServiceInstance {
+  queryBuilder = supabase.from('companies')
 
-  static async getAllWithLocations() {
-    const { data } = await CompaniesService.queryBuilder.select('*, locations(*)').throwOnError()
+  async getAllWithLocations() {
+    const { data } = await this.queryBuilder.select('*, locations(*)').throwOnError()
 
-    if (data === null) return []
+    if (data === null) {
+      return []
+    }
 
-    // TODO: Remove the possibility of a company without locations
+    // This filter should be removed and add companies without location never happens, but I will let it avoiding
+    // problems.
     return data.filter(company => company.locations.length)
   }
 
-  static async getCompaniesSortedByProximity(locationCoordinates: LocationCoordinates) {
-    const companies = await CompaniesService.getAllWithLocations()
+  async getCompaniesSortedByProximity(locationCoordinates: LocationCoordinates) {
+    const companies = await this.getAllWithLocations()
 
     if (!locationCoordinates) {
       console.log('No user location!')
       return companies
     }
 
-
     return companies.sort((a, b) => {
-      const aDistance = haversine(locationCoordinates, CompaniesService
-        .getNearestLocationInCompany(a.locations, locationCoordinates))
-      const bDistance = haversine(locationCoordinates, CompaniesService
-        .getNearestLocationInCompany(b.locations, locationCoordinates))
+      const aDistance =
+        haversine(locationCoordinates, this.getNearestLocationInCompany(a.locations, locationCoordinates))
+      const bDistance =
+        haversine(locationCoordinates, this.getNearestLocationInCompany(b.locations, locationCoordinates))
 
       return aDistance - bDistance
     })
   }
-  static getNearestLocationInCompany(locations: any, locationCoordinates: LocationCoordinates) {
+  getNearestLocationInCompany(locations: any, locationCoordinates: LocationCoordinates) {
 
     return [...locations].sort((a: any, b: any) => {
       const aDistance = haversine(locationCoordinates, { latitude: a.latitude, longitude: a.longitude })
@@ -50,40 +51,43 @@ export class CompaniesService {
     })[0]
   }
 
-  static async createCompany(company: Company) {
-    const { data: companyData } = await CompaniesService.queryBuilder.insert(company).throwOnError().single()
+  async createCompany(company: Company) {
+    const { data: companyData } = await this.queryBuilder.insert(company).throwOnError().single()
 
     return companyData
   }
 
-  static async deleteCompany(id: string) {
-    const { data: companyData } = await CompaniesService.queryBuilder.delete().eq('id', id).throwOnError().single()
-
-    return companyData
+  async deleteCompany(id: string) {
+    await this.queryBuilder.delete().eq('id', id).throwOnError()
   }
 
-  static async createCompanyWithLocation(company: Company, location: Omit<LocationWithoutCoordinates, 'company_id'>) {
+  async createCompanyWithLocation(
+    company: Company,
+    location: Omit<Location, 'company_id'>): Promise<void> {
+
+    let companyId = null
+    let locationId = null
     try {
-      const onlyNumbersCep = location.cep.replace(/\D/g, '')
-      const cepData = await BrasilService.getCep(onlyNumbersCep)
+      const companyData = await this.createCompany(company)
+      companyId = companyData.id
 
-      const companyData = await CompaniesService.createCompany(company)
-
-      await LocationsService.create({
+      const locationData = await LocationsService.create({
         ...location,
-        company_id: companyData.id,
-        latitude: cepData.location.coordinates.latitude,
-        longitude: cepData.location.coordinates.longitude
+        company_id: companyData.id
       })
-    } catch (e) {
-      alert(e.message)
+      locationId = locationData.id
+    } catch (error) {
+      if (companyId) {
+        await this.deleteCompany(companyId)
+      }
+      if (locationId) {
+        await LocationsService.delete(locationId)
+      }
 
-      if (company.id) {
-        await CompaniesService.deleteCompany(company.id)
-      }
-      if (location.id) {
-        await LocationsService.delete(location.id)
-      }
+      throw error
     }
   }
 }
+
+export const CompaniesService = new CompaniesServiceInstance()
+

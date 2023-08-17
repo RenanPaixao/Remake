@@ -36,7 +36,7 @@ export default function LocationDetails(props: ILocationProps) {
   const location = (route?.params || {}) as ILocation
 
   function useComments(id: string) {
-    return useQuery ({
+    return useQuery({
       queryKey: ['comment', id],
       cacheTime: 0,
       staleTime: 1,

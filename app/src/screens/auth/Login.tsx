@@ -84,7 +84,7 @@ export default function Login({
               Login
             </Text>
             {/*TODO: remove it after development*/}
-            <Button size='md' text='Test login' onPress={async() => {
+            <Button size='md' text='Test login' onPress={async () => {
               setEmail('test@test.com')
               setPassword('12345678')
               await login()
@@ -114,7 +114,7 @@ export default function Login({
             />
             <Button
               text={loading ? 'Carregando' : 'Continue'}
-              onPress={async() => {
+              onPress={async () => {
                 await login()
               }}
               style={{
