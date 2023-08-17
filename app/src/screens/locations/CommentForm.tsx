@@ -54,7 +54,7 @@ export default function CommentForm({ navigation, route }: ICommentFormProps) {
         <SectionContent>
           <View style={{ marginBottom: 10 }}>
             <Text size='xl' fontWeight='bold'>Como você classificaria esse local?</Text>
-            <StarRating style={{ marginVertical: 5 }} starSize={36} rating={rating} onChange={setRating} />
+            <StarRating style={{ marginVertical: 5 }} starSize={36} rating={rating} onChange={setRating}/>
           </View>
 
           <View>
@@ -76,7 +76,7 @@ export default function CommentForm({ navigation, route }: ICommentFormProps) {
           <TouchableOpacity
             disabled={submitLoading}
             style={{
-              backgroundColor: submitLoading ? '#72a106a6' : themeColor.success700,
+              backgroundColor: submitLoading ? '#6e896373': '#6E8963',
               height: 45,
               flexDirection: 'row',
               justifyContent: 'center',
