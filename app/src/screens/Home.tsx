@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { MainStackParamList } from '../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Button, Layout, TopNav, Section, SectionContent } from 'react-native-rapi-ui'
+import { Button, Layout, Section, SectionContent } from 'react-native-rapi-ui'
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -48,9 +48,8 @@ export default function Home({
 
   return (
     <Layout>
-      <TopNav middleContent="Tela inicial" />
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Section style={{ marginTop: -30 }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 10 }}>
+        <Section>
           <SectionContent>
             <View>
               <Text style={styles.title}>
