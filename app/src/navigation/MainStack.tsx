@@ -2,11 +2,13 @@ import React, { useContext, useEffect } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import MainTabs from './MainTabs'
+import NewLocation from '../screens/NewLocation/NewLocation'
 import Companies from '../screens/Companies/Companies'
 import { MainStackParamList } from '../types/navigation'
 import LocationDetails from '../screens/locations/LocationDetails'
 import { LocationContext } from '../provider/LocationProvider'
 import CommentForm from '../screens/locations/CommentForm'
+import Faq from '../screens/Faq/Faq'
 
 
 const MainStack = createNativeStackNavigator<MainStackParamList>()
@@ -28,6 +30,8 @@ const Main = () => {
       <MainStack.Screen name="Companies" component={Companies} />
       <MainStack.Screen name="LocationDetails" component={LocationDetails} />
       <MainStack.Screen name="CommentForm" component={CommentForm} />
+      <MainStack.Screen name="NewLocation" component={NewLocation} />
+      <MainStack.Screen name="Faq" component={Faq} />
     </MainStack.Navigator>
   )
 }
