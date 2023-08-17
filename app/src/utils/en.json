@@ -21,6 +21,17 @@
         "Pontos de coleta": "Collection Points",
         "Mais Próximos a voce!": "Nearest to You!",
         "Adicionar": "Add",
-        "Nenhum ponto de entrega encontrado": "No delivery points found"
+        "Nenhum ponto de entrega encontrado": "No delivery points found",
+        "Test login": "Test login",
+        "Email": "Email",
+        "Digite seu email": "Enter your email",
+        "Senha": "Password",
+        "Digite sua senha": "Enter your password",
+        "Carregando": "Loading",
+        "Continue": "Continue",
+        "Não tem uma conta?": "Don't have an account?",
+        "Registre-se aqui": "Register here",
+        "Esqueceu a senha?": "Forgot password?",
+        "Tela inicial":"Home Screen"
     }
 }

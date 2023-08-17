@@ -21,6 +21,17 @@
         "Pontos de coleta": "Pontos de coleta",
         "Mais Próximos a voce!": "Mais Próximos a você!",
         "Adicionar": "Adicionar",
-        "Nenhum ponto de entrega encontrado": "Nenhum ponto de entrega encontrado"
+        "Nenhum ponto de entrega encontrado": "Nenhum ponto de entrega encontrado",
+        "Test login": "Testar login",
+        "Email": "Email",
+        "Digite seu email": "Digite seu email",
+        "Senha": "Senha",
+        "Digite sua senha": "Digite sua senha",
+        "Carregando": "Carregando",
+        "Continue": "Continuar",
+        "Não tem uma conta?": "Não tem uma conta?",
+        "Registre-se aqui": "Registre-se aqui",
+        "Esqueceu a senha?": "Esqueceu a senha?",
+        "Tela inicial": "Tela inicial"
     }
 }
