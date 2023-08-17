@@ -13,7 +13,7 @@ export interface IComment {
   users: IUser;
   comment?: string;
   avaliation?: number;
-  id?: string;
+  id: string;
   created_at?: string;
 }
 
