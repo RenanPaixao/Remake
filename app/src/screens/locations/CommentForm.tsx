@@ -1,12 +1,12 @@
 import { Ionicons } from '@expo/vector-icons'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { TextInput, View, TouchableOpacity, ActivityIndicator, Alert } from 'react-native'
 import { Layout, Section, SectionContent, Text, TopNav, themeColor } from 'react-native-rapi-ui'
 import { MainStackParamList } from '../../types/navigation'
 import StarRating from 'react-native-star-rating-widget'
-import { supabase } from '../../initSupabase'
 import { CommentsService } from '../../services/comments/commentsService'
+import { AuthContext } from '../../provider/AuthProvider'
 
 interface ICommentFormProps extends NativeStackScreenProps<MainStackParamList, 'CommentForm'> {
 }
@@ -15,7 +15,8 @@ export default function CommentForm({ navigation, route }: ICommentFormProps) {
   const [comment, setComment] = useState('')
   const [submitLoading, setSubmitLoading] = useState(false)
   const locationId = route.params || ''
-  const userId = supabase.auth.user()?.id || ''
+  const authContext = useContext(AuthContext)
+  const { user } = authContext?.session || {}
 
   const handleSubmit = async() => {
     try {
@@ -25,12 +26,12 @@ export default function CommentForm({ navigation, route }: ICommentFormProps) {
       }
 
       setSubmitLoading(true)
-      await CommentsService.createComment({ userId, locationId, avaliation: rating, comment })
+      await CommentsService.createComment({ userId: user?.id || '', locationId, avaliation: rating, comment })
       Alert.alert('', 'Sua avaliação foi enviada!', [
         { text: 'OK', onPress: () => {navigation.pop()} }
       ])
     } catch (error) {
-      console.log(error)
+      console.error(error)
     } finally {
       setSubmitLoading(false)
     }
@@ -76,7 +77,7 @@ export default function CommentForm({ navigation, route }: ICommentFormProps) {
           <TouchableOpacity
             disabled={submitLoading}
             style={{
-              backgroundColor: submitLoading ? '#6e896373': '#6E8963',
+              backgroundColor: submitLoading ? '#6e896373' : '#6E8963',
               height: 45,
               flexDirection: 'row',
               justifyContent: 'center',

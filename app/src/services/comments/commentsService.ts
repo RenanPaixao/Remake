@@ -39,7 +39,7 @@ export class CommentsService {
   static async createComment({ locationId, userId, ...rest }: InputCreateComment) {
     console.log(locationId, userId, rest)
 
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('comments')
       .insert({
         ...rest,
@@ -47,8 +47,6 @@ export class CommentsService {
         user_id: userId
       })
       .throwOnError()
-
-    console.log(error)
 
     return data
   }
