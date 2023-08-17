@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   response: {
     width: 320,
-    height: 140,
+    minHeight: 140,
     borderRadius: 5,
     backgroundColor: '#d9d9d9',
     marginVertical: 5,
