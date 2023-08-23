@@ -8,6 +8,7 @@
         "Escolha a categoria que deseja descartar": "Choose the category you want to dispose of",
         "Veja os locais mais próximos à sua localização!": "See the locations nearest to your location!",
         "Qualquer dúvida acesse nosso FAQ!": "For any questions, access our FAQ!",
+
         "Como posso criar um local de reciclagem?": "How can I create a recycling location?",
         "A criação pode ser realizada pelo cadastro onde o criador vai ter uma conta especifica para realizar o gerenciamento da conta e das informações do local e do reciclador...": "Creation can be done through registration where the creator will have a specific account to manage the location and recycler information...",
         "O que é reciclagem?": "What is recycling?",
@@ -15,9 +16,10 @@
         "Como separar o lixo para reciclagem?": "How to separate waste for recycling?",
         "Para separar o lixo para reciclagem, é importante seguir algumas dicas...": "To separate waste for recycling, it is important to follow some tips...",
         "Qual objeto você tem dúvida se é reciclável?": "Which item are you unsure if it's recyclable?",
-        "Pesquisar categoria": "Search category",
+        "Pesquisar categoria ou objeto": "Search category or object",
         "Tire sua dúvida sobre o material a ser reciclado...": "Get your doubts cleared about the recyclable material...",
         "Perguntas Frequentes": "Frequently Asked Questions",
+        
         "Pontos de coleta": "Collection Points",
         "Mais Próximos a voce!": "Nearest to You!",
         "Adicionar": "Add",

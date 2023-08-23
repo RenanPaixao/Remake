@@ -7,26 +7,8 @@ import { Layout, TopNav, Text, themeColor } from 'react-native-rapi-ui'
 import TypeWriter from './TypeWritter'
 import { GptService, MaterialServiceResponse } from '../../services/supabase/materialTypeService'
 import { Ionicons } from '@expo/vector-icons'
-
-const faqData = [
-  {
-    title: 'Como posso criar um local de reciclagem?',
-    //eslint-disable-next-line
-    content: 'A criação pode ser realizada pelo cadastro onde o criador vai ter uma conta especifica para realizar o gerenciamento da conta e das informações do local e do reciclador...'
-  },
-  {
-    title: 'O que é reciclagem?',
-    content: 'Reciclagem é o processo de transformar materiais descartados...'
-  },
-  {
-    title: 'Como separar o lixo para reciclagem?',
-    content: 'Para separar o lixo para reciclagem, é importante seguir algumas dicas...'
-  },
-  {
-    title: 'Porque é importante descartar o lixo corretamente?',
-    content: 'descartar o lixo de maneira adequada é uma responsabilidade coletiva que contribui para a saúde humana, a proteção ambiental e a sustentabilidade global...'
-  }
-]
+import '../../utils/i18n'
+import { useTranslation } from 'react-i18next'
 
 const styles = StyleSheet.create({
   inputContainer: {
@@ -83,7 +65,26 @@ export default function Faq({
   const [searchText, setSearchText] = useState('')
   const [response, setResponse] = useState<MaterialServiceResponse>({} as MaterialServiceResponse)
   const [loading, setLoading] = useState(false)
+  const { t, i18n } = useTranslation()
 
+  const faqData = [
+    {
+      title: t('Como posso criar um local de reciclagem?'),
+      content: t('A criação pode ser realizada pelo cadastro onde o criador vai ter uma conta especifica para realizar o gerenciamento da conta e das informações do local e do reciclador...')
+    },
+    {
+      title: t('O que é reciclagem?'),
+      content: t('Reciclagem é o processo de transformar materiais descartados...')
+    },
+    {
+      title: t('Como separar o lixo para reciclagem?'),
+      content: t('Para separar o lixo para reciclagem, é importante seguir algumas dicas...')
+    },
+    {
+      title: t('Porque é importante descartar o lixo corretamente?'),
+      content: t('descartar o lixo de maneira adequada é uma responsabilidade coletiva que contribui para a saúde humana, a proteção ambiental e a sustentabilidade global...')
+    }
+  ]
   // Handle input submission
   const handleInputSubmit = async () => {
     setLoading(true)
@@ -109,14 +110,14 @@ export default function Faq({
 
         {/* Title */}
         <Text style={styles.title}>
-          Qual objeto você tem dúvida se é reciclável?
+          {t('Qual objeto você tem dúvida se é reciclável?')}
         </Text>
 
         {/* Input Container */}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Pesquisar categoria ou objeto"
+            placeholder={t('Pesquisar categoria ou objeto')}
             value={searchText}
             onChangeText={setSearchText}
             onSubmitEditing={handleInputSubmit}
@@ -138,13 +139,13 @@ export default function Faq({
                 )}
               </Text>
             ) : (
-              <Text style={styles.input2}>Tire sua dúvida sobre o material a ser reciclado...</Text>
+              <Text style={styles.input2}>{t('Tire sua dúvida sobre o material a ser reciclado...')}</Text>
             )
           )}
         </View>
 
         {/* FAQ section */}
-        <Text style={styles.title}>Perguntas Frequentes</Text>
+        <Text style={styles.title}>{t('Perguntas Frequentes')}</Text>
         <View style={{ flex: 1, padding: 25 }}>
           {faqData.map((item, index) => (
             <Accordion key={index} title={item.title} content={item.content} />
