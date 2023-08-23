@@ -11,16 +11,20 @@ import { LocationContext } from '../../provider/LocationProvider'
 import haversine from 'haversine-distance'
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-
+import { ButtonToMaps } from '../../components/ButtonToMaps/ButtonToMaps'
 export default function Companies({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'Companies'>) {
 
   const { location, updateLocation } = useContext(LocationContext)
   const [selectedCompany, setSelectedCompany] = useState(null)
+  const [selectedLocation, setSelectedLocation] = useState(null)
 
   const { isLoading, data } = useQuery({
     queryKey: ['companies', location],
+    staleTime: 1,
+    refetchOnMount: true,
+    cacheTime: 0,
     queryFn: async () => {
       if (!location) {
         return await CompaniesService.getAllWithLocations()
@@ -44,14 +48,14 @@ export default function Companies({
     })()
   }, [updateLocation])
 
+  useEffect(()=>{
+    setSelectedLocation(selectedCompany?.locations[0])
+  }, [selectedCompany])
+
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const snapPoints = useMemo(() => ['25%'], [])
   const presentModal = useCallback(() => {
     bottomSheetModalRef.current?.present()
-  }, [])
-
-  const closeModal = useCallback(() => {
-    bottomSheetModalRef.current?.dismiss()
   }, [])
 
   return (
@@ -130,11 +134,12 @@ export default function Companies({
                   {selectedCompany?.name}
                 </Text>
                 <View style={styles.buttonContainer}>
-                  <Button text={'Fechar'} onPress={() => closeModal()} outline />
                   <Button
+                    outline
                     text={'Ver detalhes...'}
-                    onPress={() => navigation.navigate('LocationDetails', selectedCompany?.locations[0])}
+                    onPress={() => navigation.navigate('LocationDetails', selectedLocation)}
                   />
+                  <ButtonToMaps latitude={selectedLocation?.latitude} longitude={selectedLocation?.longitude}/>
                 </View>
               </View>
             </BottomSheetModal>

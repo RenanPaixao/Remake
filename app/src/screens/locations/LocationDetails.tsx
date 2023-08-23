@@ -11,7 +11,7 @@ import Loading from '../utils/Loading'
 import { useQuery } from '@tanstack/react-query'
 import { useFocusEffect } from '@react-navigation/native'
 import { DateTime, Interval } from 'luxon'
-
+import { ButtonToMaps } from '../../components/ButtonToMaps/ButtonToMaps'
 interface ILocation {
   created_at: string,
   cep: string,
@@ -150,6 +150,8 @@ export default function LocationDetails(props: ILocationProps) {
                   {(location.openning_hour && location.closing_hour)
                     && <Text style={{ marginTop: 8 }}>{isOpen(location) ? 'Aberto' : 'Fechado'}</Text>}
                 </SectionContent>
+
+                <ButtonToMaps latitude={location.latitude} longitude={location.longitude}/>
 
                 <SectionContent padding={0} style={{ marginVertical: 10, height: 1, backgroundColor: '#A19E9E' }} />
               </SectionContent>
