@@ -1,7 +1,7 @@
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect } from 'react'
-import { Layout, Section, SectionContent, Text, TopNav, themeColor } from 'react-native-rapi-ui'
+import { Layout, Section, SectionContent, Text, TopNav, themeColor, Button } from 'react-native-rapi-ui'
 import { FlatList, Image, StyleSheet, View } from 'react-native'
 import { MainStackParamList } from '../../types/navigation'
 import { StarRatingDisplay } from 'react-native-star-rating-widget'
@@ -53,7 +53,9 @@ export default function LocationDetails(props: ILocationProps) {
     }
   })
 
-  useFocusEffect(useCallback(() => { refetch() }, [refetch]))
+  useFocusEffect(useCallback(() => {
+    refetch()
+  }, [refetch]))
 
   const getLocationAverageRating = (comments: IComment[]) => {
     return (comments.reduce((avaliationSum, item) => avaliationSum + (item?.avaliation || 0), 0) / comments.length)
@@ -97,13 +99,17 @@ export default function LocationDetails(props: ILocationProps) {
         }
         leftAction={() => navigation.goBack()}
         rightContent={
-          <Ionicons
-            name="star"
-            size={20}
-            color='gold'
+          <Button
+            width={60}
+            rightContent={
+              <FontAwesome
+                name="comment"
+                size={24}
+                color='white'
+              />}
+            onPress={() => navigation.navigate('CommentForm', location.id)}
           />
         }
-        rightAction={() => navigation.navigate('CommentForm', location.id)}
       />
       <Section style={{
         alignItems: 'center',
@@ -113,7 +119,8 @@ export default function LocationDetails(props: ILocationProps) {
           <FlatList
             data={data}
             style={{
-              flex: 1, marginVertical: 8,
+              flex: 1,
+              marginVertical: 8,
               borderRadius: 10,
               marginBottom: 10
             }}
@@ -125,37 +132,38 @@ export default function LocationDetails(props: ILocationProps) {
             }
             ListHeaderComponent={() => <>
               <SectionContent padding={0} style={{
-                alignItems: 'center'
+                alignItems: 'center',
+                marginBottom: 12
               }}>
                 <Text style={{ padding: 30 }} fontWeight="bold" size="h3">Mais Próximos a voce!</Text>
               </SectionContent>
-              <Image
-                style={{ width: 320, height: 150, marginBottom: 12 }}
-                source={{ uri: location?.image_url || DEFAULT_IMAGE_URL }}
-                resizeMode='contain'
-              />
-              <SectionContent padding={0} style={{ flex: 1 }}>
-                <SectionContent
-                  style={styles.locationDetails}
-                >
-                  <Text style={{ fontSize: 24, marginRight: 8, fontWeight: 'bold' }}>{location?.name}</Text>
-                  <StarRatingDisplay
-                    starSize={25}
-                    rating={getLocationAverageRating(data || [])}
-                    starStyle={{ marginHorizontal: 0 }} />
-                </SectionContent>
 
-                <SectionContent style={{ paddingVertical: 5 }}>
-                  <Text>{`${location.city}/${location.state}`}</Text>
-                  {(location.openning_hour && location.closing_hour)
-                    && <Text style={{ marginTop: 8 }}>{isOpen(location) ? 'Aberto' : 'Fechado'}</Text>}
-                </SectionContent>
-
-                <ButtonToMaps latitude={location.latitude} longitude={location.longitude}/>
-
-                <SectionContent padding={0} style={{ marginVertical: 10, height: 1, backgroundColor: '#A19E9E' }} />
+              <SectionContent
+                style={styles.locationDetails}
+              >
+                <Image
+                  style={{ width: 320, height: 150 }}
+                  source={{ uri: location?.image_url || DEFAULT_IMAGE_URL }}
+                  resizeMode='contain'
+                />
+                <Text style={{ fontSize: 24, marginRight: 8, fontWeight: 'bold', textAlign: 'center' }}>
+                  {location?.name}
+                </Text>
+                <StarRatingDisplay
+                  starSize={30}
+                  rating={getLocationAverageRating(data || [])}
+                  starStyle={{ marginHorizontal: 0, marginVertical: 10 }} />
               </SectionContent>
 
+              <SectionContent style={{ paddingVertical: 5 }}>
+                <Text>{`${location.city}/${location.state}`}</Text>
+                {(location.openning_hour && location.closing_hour)
+                    && <Text style={{ marginTop: 8 }}>{isOpen(location) ? 'Aberto' : 'Fechado'}</Text>}
+              </SectionContent>
+
+              <ButtonToMaps latitude={location.latitude} longitude={location.longitude}/>
+
+              <SectionContent padding={0} style={{ marginVertical: 10, height: 1, backgroundColor: '#A19E9E' }} />
             </>}
             showsVerticalScrollIndicator={false}
           />}
@@ -167,7 +175,6 @@ export default function LocationDetails(props: ILocationProps) {
 
 const styles = StyleSheet.create({
   locationDetails: {
-    flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
