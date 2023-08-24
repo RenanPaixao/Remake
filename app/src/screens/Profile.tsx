@@ -10,7 +10,7 @@ export default function Profile({
   return (
     <Layout>
       <TopNav middleContent="Perfil" />
-      <Button text={'Logout'} onPress={async() => await supabase.auth.signOut()} status={'danger'}/>
+      <Button text={'Logout'} onPress={async () => await supabase.auth.signOut()} status={'danger'}/>
     </Layout>
   )
 }

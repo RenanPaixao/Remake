@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { FlatList, View } from 'react-native'
+import { FlatList, TouchableHighlight, View } from 'react-native'
 import { MainStackParamList } from '../../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Button, Layout, Text, TopNav } from 'react-native-rapi-ui'
@@ -18,9 +18,8 @@ export default function Companies({
 
   const { isLoading, data } = useQuery({
     queryKey: ['companies', location],
-    queryFn: async() => {
+    queryFn: async () => {
       if (!location) {
-        console.log('Location not found!')
         return await CompaniesService.getAllWithLocations()
       }
 
@@ -32,16 +31,15 @@ export default function Companies({
   })
 
   useEffect(() => {
-    (async() => {
+    (async () => {
 
       try {
         await updateLocation()
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
     })()
   }, [updateLocation])
-
 
   return (
     <Layout>
@@ -81,22 +79,24 @@ export default function Companies({
                     </View>
                   )}
                   renderItem={({ item: company }) => {
-                  //The first company is the nearer already
+                    //The first company is the nearer already
                     const nearerCompanyLocation = company.locations[0]
                     const distance = location ? haversine(nearerCompanyLocation, {
                       latitude: location.coords.latitude,
                       longitude: location.coords.longitude
                     }) : 0
 
-                    return <View
+                    return <TouchableHighlight
+                      onPress={() => navigation.navigate('LocationDetails', company.locations[0])}
                       style={{ paddingVertical: 10, marginHorizontal: 5 }}
-                      onTouchEnd={() => navigation.navigate('LocationDetails', company.locations[0])}>
+                      underlayColor="transparent"
+                    >
                       <CompanyCard id={company.id}
                         name={company.name}
                         location={nearerCompanyLocation}
                         distance={distance}
                       />
-                    </View>
+                    </TouchableHighlight>
                   }}
                 />
               </>

@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Layout, Section, SectionContent, Text, TopNav, themeColor } from 'react-native-rapi-ui'
 import { FlatList, Image, StyleSheet, View } from 'react-native'
 import { MainStackParamList } from '../../types/navigation'
@@ -9,7 +9,9 @@ import CommentCard from './CommentCard'
 import { CommentsService, IComment } from '../../services/comments/commentsService'
 import Loading from '../utils/Loading'
 import { useQuery } from '@tanstack/react-query'
+import { useFocusEffect } from '@react-navigation/native'
 import { DateTime, Interval } from 'luxon'
+
 interface ILocation {
   created_at: string,
   cep: string,
@@ -36,19 +38,23 @@ export default function LocationDetails(props: ILocationProps) {
   const location = (route?.params || {}) as ILocation
 
   function useComments(id: string) {
-    return useQuery ({
+    return useQuery({
       queryKey: ['comment', id],
       cacheTime: 0,
       staleTime: 1,
       queryFn: () => CommentsService.getAllCommentsFromLocation(id)
     })
   }
-  const { error, data, isLoading } = useComments(location.id)
+  const { error, data, isLoading, refetch } = useComments(location.id)
+
   useEffect(() => {
     if (error) {
       console.log(error)
     }
   })
+
+  useFocusEffect(useCallback(() => { refetch() }, [refetch]))
+
   const getLocationAverageRating = (comments: IComment[]) => {
     return (comments.reduce((avaliationSum, item) => avaliationSum + (item?.avaliation || 0), 0) / comments.length)
   }
@@ -90,12 +96,20 @@ export default function LocationDetails(props: ILocationProps) {
           />
         }
         leftAction={() => navigation.goBack()}
+        rightContent={
+          <Ionicons
+            name="star"
+            size={20}
+            color='gold'
+          />
+        }
+        rightAction={() => navigation.navigate('CommentForm', location.id)}
       />
       <Section style={{
         alignItems: 'center',
         flex: 1
       }}>
-        {isLoading ? <Loading /> :
+        {(isLoading) ? <Loading /> :
           <FlatList
             data={data}
             style={{

@@ -29,7 +29,12 @@ class BrasilApiService {
     }
   })) {}
   async getCep(cep: string): Promise<Cep> {
+
     const { data } = await this.apiInstance.get(`${this.cepEndpoint}${cep}`)
+
+    if (!data) {
+      throw new Error('CEP não encontrado')
+    }
 
     return data
   }

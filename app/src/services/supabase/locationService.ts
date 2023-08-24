@@ -1,6 +1,5 @@
 import { supabase } from '../../initSupabase'
 
-
 export interface LocationCoordinates {
   latitude: number
   longitude: number
@@ -26,13 +25,15 @@ export class LocationsService {
   static queryBuilder = supabase.from('locations')
 
   static async create(location: Location) {
-    const { data } = await LocationsService.queryBuilder.insert(location).single()
+    const { data, error } = await LocationsService.queryBuilder.insert(location).single()
+
+    if (error) {
+      throw error
+    }
 
     return data
   }
   static async delete(id: string) {
-    const { data } = await LocationsService.queryBuilder.delete().eq('id', id).throwOnError().single()
-
-    return data
+    await LocationsService.queryBuilder.delete().eq('id', id).throwOnError()
   }
 }

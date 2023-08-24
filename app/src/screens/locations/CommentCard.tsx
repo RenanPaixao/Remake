@@ -2,11 +2,9 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import {
   Avatar,
-  Layout,
   Section,
   SectionContent,
-  Text,
-  TopNav
+  Text
 } from 'react-native-rapi-ui'
 import { StarRatingDisplay } from 'react-native-star-rating-widget'
 import { generateBoxShadowStyle } from '../../utils/styles'
@@ -23,9 +21,6 @@ interface ICommentCardProps {
   created_at?: string;
 }
 
-<Layout>
-  <TopNav middleContent="Home" />
-</Layout>
 export default function CommentCard(props: ICommentCardProps) {
   return (
     <Section style={[styles.container, styles.shadow]}
@@ -57,7 +52,6 @@ export default function CommentCard(props: ICommentCardProps) {
     </Section>
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {

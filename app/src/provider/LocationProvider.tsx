@@ -34,14 +34,15 @@ const LocationProvider = (props: Props) => {
   }
 
   useEffect(() => {
-    (async() => {
-      await updateLocationPermission()
-    })()
-  }, [])
+    (async () => {
+      if (!hasLocationPermission) {
+        await updateLocationPermission()
+      }
 
-  useEffect(() => {
-    console.log('Location:', { latitude: location?.coords.latitude, longitude: location?.coords.longitude })
-  }, [location])
+      // This console log helps to know if the location is working.
+      console.log('Location:', { latitude: location?.coords.latitude, longitude: location?.coords.longitude })
+    })()
+  }, [hasLocationPermission, location])
 
   return (
     <LocationContext.Provider
