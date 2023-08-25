@@ -25,6 +25,7 @@
         "Pontos de coleta": "Pontos de coleta",
         "Mais Próximos a voce!": "Mais Próximos a você!",
         "Adicionar": "Adicionar",
+
         "Nenhum ponto de entrega encontrado": "Nenhum ponto de entrega encontrado",
         "Test login": "Testar login",
         "Email": "Email",
@@ -36,6 +37,20 @@
         "Não tem uma conta?": "Não tem uma conta?",
         "Registre-se aqui": "Registre-se aqui",
         "Esqueceu a senha?": "Esqueceu a senha?",
-        "Tela inicial": "Tela inicial"
+        "Tela inicial": "Tela inicial",
+
+        "Cadastro": "Cadastro",
+        "Nome": "Nome",
+        "Insira seu nome...": "Insira seu nome...",
+        "Sobrenome": "Sobrenome",
+        "Insira seu sobrenome...": "Insira seu sobrenome...",
+        "Insira seu email aqui...": "Insira seu email aqui...",
+        "Insira sua senha aqui...": "Insira sua senha aqui...",
+        "Sou um reciclador?": "Sou um reciclador?",
+        "Criar uma conta": "Criar uma conta",
+        "Já tem conta?": "Já tem conta?",
+        "Ir para o Login": "Ir para o Login"
+
+        
     }
 }

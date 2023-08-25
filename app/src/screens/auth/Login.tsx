@@ -10,7 +10,6 @@ import { supabase } from '../../initSupabase'
 import { AuthStackParamList } from '../../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useTranslation } from 'react-i18next'
-import { changeLanguage } from 'i18next'
 
 import {
   Layout,
@@ -24,7 +23,7 @@ import {
 export default function Login({
   navigation
 }: NativeStackScreenProps<AuthStackParamList, 'Login'>) {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
