@@ -47,6 +47,12 @@
         "Sou um reciclador?": "Am I a recycler?",
         "Criar uma conta": "Create an Account",
         "Já tem conta?": "Already have an account?",
-        "Ir para o Login": "Go to Login"
+        "Ir para o Login": "Go to Login",
+
+        "Detalhes":"Details",
+
+        "Adicionar local de coleta":"Add Collection Points",
+
+        "Perfil":"Profile"
     }
 }

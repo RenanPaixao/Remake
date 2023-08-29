@@ -11,6 +11,8 @@ import Loading from '../utils/Loading'
 import { useQuery } from '@tanstack/react-query'
 import { useFocusEffect } from '@react-navigation/native'
 import { DateTime, Interval } from 'luxon'
+import '../../utils/i18n'
+import { useTranslation } from 'react-i18next'
 
 interface ILocation {
   created_at: string,
@@ -36,6 +38,7 @@ interface ILocationProps extends NativeStackScreenProps<MainStackParamList, 'Loc
 export default function LocationDetails(props: ILocationProps) {
   const { navigation, route } = props
   const location = (route?.params || {}) as ILocation
+  const { t, i18n } = useTranslation()
 
   function useComments(id: string) {
     return useQuery({
@@ -86,7 +89,7 @@ export default function LocationDetails(props: ILocationProps) {
   return (
     <Layout style={{ flex: 1 }} >
       <TopNav
-        middleContent='Detalhes'
+        middleContent={t('Detalhes')}
         middleTextStyle={{ fontSize: 24 }}
         leftContent={
           <Ionicons
@@ -127,7 +130,7 @@ export default function LocationDetails(props: ILocationProps) {
               <SectionContent padding={0} style={{
                 alignItems: 'center'
               }}>
-                <Text style={{ padding: 30 }} fontWeight="bold" size="h3">Mais Próximos a voce!</Text>
+                <Text style={{ padding: 30 }} fontWeight="bold" size="h3">{t("Mais Próximos a voce!")}</Text>
               </SectionContent>
               <Image
                 style={{ width: 320, height: 150, marginBottom: 12 }}
