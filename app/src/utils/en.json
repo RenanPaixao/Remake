@@ -65,6 +65,10 @@
         "Latitude (*)": "Latitude (*)",
         "Longitude (*)": "Longitude (*)",
         "Aberto às (*)": "Open at (*)",
-        "Fechado às (*)": "Closed at (*)"
+        "Fechado às (*)": "Closed at (*)",
+        "Obrigatório!": "Required!",
+        "Cep inválido!": "Invalid ZIP Code!",
+        "Apenas números são permitidos!": "Only numbers are allowed!",
+        "Formato inválido! O formato aceito é 09:00 (HH:MM)": "Invalid format! Accepted format is 09:00 (HH:MM)"
     }
 }
