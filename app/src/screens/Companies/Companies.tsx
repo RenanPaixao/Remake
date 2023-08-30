@@ -9,12 +9,14 @@ import { useQuery } from '@tanstack/react-query'
 import Loading from '../utils/Loading'
 import { LocationContext } from '../../provider/LocationProvider'
 import haversine from 'haversine-distance'
+import { useTranslation } from 'react-i18next'
 
 export default function Companies({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'Companies'>) {
 
   const { location, updateLocation } = useContext(LocationContext)
+  const { t, i18n } = useTranslation()
 
   const { isLoading, data } = useQuery({
     queryKey: ['companies', location],
@@ -44,7 +46,7 @@ export default function Companies({
   return (
     <Layout>
       <TopNav
-        middleContent="Pontos de coleta"
+        middleContent={t("Pontos de coleta")}
       />
       <View
         style={{
@@ -54,7 +56,7 @@ export default function Companies({
           paddingTop: 30
         }}
       >
-        <Text fontWeight="bold" size="h2">Mais Próximos a voce!</Text>
+        <Text fontWeight="bold" size="h2">{t('Mais Próximos a voce!')}</Text>
         <View style={{ flexDirection: 'column', flex: 1, width: '90%', marginVertical: 30 }}>
           {
             isLoading ?
@@ -63,7 +65,7 @@ export default function Companies({
               <>
                 <View style={{ display: 'flex', alignItems: 'flex-end', alignSelf: 'flex-end' }}>
                   <Button
-                    text={'Adicionar'}
+                    text={t('Adicionar')}
                     size={'md'} width={100}
                     onPress={() => navigation.navigate('NewLocation')}
                   />

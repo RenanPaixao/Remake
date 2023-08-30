@@ -85,6 +85,7 @@ export default function Faq({
       content: t('descartar o lixo de maneira adequada é uma responsabilidade coletiva que contribui para a saúde humana, a proteção ambiental e a sustentabilidade global...')
     }
   ]
+  
   // Handle input submission
   const handleInputSubmit = async () => {
     setLoading(true)

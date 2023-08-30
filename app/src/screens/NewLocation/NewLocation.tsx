@@ -11,6 +11,8 @@ import { CompanyForm, companyFormSchema, InitialCompanyFormValues } from '../aut
 import { Ionicons } from '@expo/vector-icons'
 import { AuthContext } from '../../provider/AuthProvider'
 import { BrasilService } from '../../services/brasilApi/brasilApi'
+import '../../utils/i18n'
+import { useTranslation } from 'react-i18next'
 
 export default function NewLocation({
   navigation
@@ -18,6 +20,7 @@ export default function NewLocation({
   const { user } = useContext(AuthContext).session || {}
 
   const [ isLoading, setIsLoading ] = useState<boolean>(false)
+  const { t, i18n } = useTranslation()
   const companyFormProps = useFormik<InitialCompanyFormValues>({
     initialValues: {
       companyName: '',
@@ -121,7 +124,7 @@ export default function NewLocation({
         >
 
           <TopNav
-            middleContent="Adicionar local de coleta"
+            middleContent={t("Adicionar local de coleta")}
             leftContent={
               <Ionicons
                 name="chevron-back"
@@ -143,7 +146,7 @@ export default function NewLocation({
               {...companyFormProps}
               loading={isLoading}
             />
-            <Button text={'Adicionar'}
+            <Button text={t('Adicionar')}
               disabled={isLoading || !companyFormProps.isValid}
               onPress={companyFormProps.submitForm}
             />

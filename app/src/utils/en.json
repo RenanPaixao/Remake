@@ -21,6 +21,7 @@
         "Pontos de coleta": "Collection Points",
         "Mais Próximos a voce!": "Nearest to You!",
         "Adicionar": "Add",
+
         "Nenhum ponto de entrega encontrado": "No delivery points found",
         "Test login": "Test login",
         "Email": "Email",
@@ -32,6 +33,24 @@
         "Não tem uma conta?": "Don't have an account?",
         "Registre-se aqui": "Register here",
         "Esqueceu a senha?": "Forgot password?",
-        "Tela inicial":"Home Screen"
+        "Tela inicial":"Home Screen",
+
+        "Cadastro": "Sign Up",
+        "Nome": "First Name",
+        "Insira seu nome...": "Enter your first name...",
+        "Sobrenome": "Last Name",
+        "Insira seu sobrenome...": "Enter your last name...",
+        "Insira seu email aqui...": "Enter your email here...",
+        "Insira sua senha aqui...": "Enter your password here...",
+        "Sou um reciclador?": "Am I a recycler?",
+        "Criar uma conta": "Create an Account",
+        "Já tem conta?": "Already have an account?",
+        "Ir para o Login": "Go to Login",
+
+        "Detalhes":"Details",
+
+        "Adicionar local de coleta":"Add Collection Points",
+
+        "Perfil":"Profile"
     }
 }
