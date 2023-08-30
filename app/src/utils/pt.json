@@ -58,10 +58,15 @@
         "CEP (*)": "CEP (*)",
         "Insira o CEP do seu principal ponto de coleta": "Insira o CEP do seu principal ponto de coleta",
         "Estado (*)": "Estado (*)",
+        "Estado": "Estado",
         "Cidade (*)": "Cidade (*)",
+        "Cidade": "Cidade",
         "Bairro (*)": "Bairro (*)",
+        "Bairro": "Bairro",
         "Nome da rua (*)": "Nome da rua (*)",
+        "Rua": "Rua",
         "Número (*)": "Número (*)",
+        "Número": "Número",
         "Complemento": "Complemento",
         "Latitude (*)": "Latitude (*)",
         "Longitude (*)": "Longitude (*)",
@@ -70,6 +75,7 @@
         "Obrigatório!": "Obrigatório!",
         "Cep inválido!": "Cep inválido!",
         "Apenas números são permitidos!": "Apenas números são permitidos!",
-        "Formato inválido! O formato aceito é 09:00 (HH:MM)": "Formato inválido! O formato aceito é 09:00 (HH:MM)"      
+        "Formato inválido! O formato aceito é 09:00 (HH:MM)": "Formato inválido! O formato aceito é 09:00 (HH:MM)",
+        "Sem Avaliação!":"Sem Avaliação!"    
     }
 }

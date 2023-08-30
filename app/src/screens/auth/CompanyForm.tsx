@@ -5,7 +5,6 @@ import { FormField } from '../../components/FormField/FormField'
 import '../../utils/i18n'
 import { useTranslation } from 'react-i18next'
 
-const { t, i18n } = useTranslation()
 const fieldNames = {
   companyName: 'companyName',
   cep: 'cep',
@@ -51,7 +50,7 @@ type InitialCompanyFormValues = Yup.InferType<typeof companyFormSchema> & {
 }
 
 const CompanyForm = (props: FormikProps<InitialCompanyFormValues> & { loading?: boolean }) => {
-  
+  const { t, i18n } = useTranslation()
   return (<>
     <FormField
       label={t("Nome da empresa (*)")}

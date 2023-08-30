@@ -57,10 +57,14 @@
         "Insira o nome da empresa. Pode ser seu nome": "Enter the company name. It can be your name",
         "Insira o CEP do seu principal ponto de coleta": "Enter the ZIP code of your main collection point",
         "Estado (*)": "State (*)",
+        "Estado": "State",
         "Cidade (*)": "City (*)",
-        "Bairro (*)": "District (*)",
+        "Cidade": "City",
+        "Bairro": "District",
         "Nome da rua (*)": "Street Name (*)",
+        "Rua": "Street",
         "Número (*)": "Number (*)",
+        "Número": "Number",
         "Complemento": "Complement",
         "Latitude (*)": "Latitude (*)",
         "Longitude (*)": "Longitude (*)",
@@ -69,6 +73,8 @@
         "Obrigatório!": "Required!",
         "Cep inválido!": "Invalid ZIP Code!",
         "Apenas números são permitidos!": "Only numbers are allowed!",
-        "Formato inválido! O formato aceito é 09:00 (HH:MM)": "Invalid format! Accepted format is 09:00 (HH:MM)"
+        "Formato inválido! O formato aceito é 09:00 (HH:MM)": "Invalid format! Accepted format is 09:00 (HH:MM)",
+
+        "Sem Avaliação!":"No Rating!"
     }
 }
