@@ -51,6 +51,20 @@
 
         "Adicionar local de coleta":"Add Collection Points",
 
-        "Perfil":"Profile"
+        "Perfil":"Profile",
+
+        "Nome da empresa (*)": "Company Name (*)",
+        "Insira o nome da empresa. Pode ser seu nome": "Enter the company name. It can be your name",
+        "Insira o CEP do seu principal ponto de coleta": "Enter the ZIP code of your main collection point",
+        "Estado (*)": "State (*)",
+        "Cidade (*)": "City (*)",
+        "Bairro (*)": "District (*)",
+        "Nome da rua (*)": "Street Name (*)",
+        "Número (*)": "Number (*)",
+        "Complemento": "Complement",
+        "Latitude (*)": "Latitude (*)",
+        "Longitude (*)": "Longitude (*)",
+        "Aberto às (*)": "Open at (*)",
+        "Fechado às (*)": "Closed at (*)"
     }
 }

@@ -51,8 +51,21 @@
 
         "Adicionar local de coleta":"Adicionar local de coleta",
 
-        "Perfil": "Perfil"
+        "Perfil": "Perfil",
 
-        
+        "Nome da empresa (*)": "Nome da empresa (*)",
+        "Insira o nome da empresa. Pode ser seu nome": "Insira o nome da empresa. Pode ser seu nome",
+        "CEP (*)": "CEP (*)",
+        "Insira o CEP do seu principal ponto de coleta": "Insira o CEP do seu principal ponto de coleta",
+        "Estado (*)": "Estado (*)",
+        "Cidade (*)": "Cidade (*)",
+        "Bairro (*)": "Bairro (*)",
+        "Nome da rua (*)": "Nome da rua (*)",
+        "Número (*)": "Número (*)",
+        "Complemento": "Complemento",
+        "Latitude (*)": "Latitude (*)",
+        "Longitude (*)": "Longitude (*)",
+        "Aberto às (*)": "Aberto às (*)",
+        "Fechado às (*)": "Fechado às (*)"        
     }
 }
