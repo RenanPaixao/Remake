@@ -75,6 +75,14 @@
         "Apenas números são permitidos!": "Only numbers are allowed!",
         "Formato inválido! O formato aceito é 09:00 (HH:MM)": "Invalid format! Accepted format is 09:00 (HH:MM)",
 
-        "Sem Avaliação!":"No Rating!"
+        "Sem Avaliação!":"No Rating!",
+
+        
+
+        "Aberto":"Open",
+        "Fechado":"Closed",
+        "Ver detalhes...":"View details",
+        "Ver no mapa":"See on map"
+    }
     }
 }

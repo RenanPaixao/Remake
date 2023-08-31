@@ -13,10 +13,13 @@ import { useTranslation } from 'react-i18next'
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ButtonToMaps } from '../../components/ButtonToMaps/ButtonToMaps'
+
+
 export default function Companies({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'Companies'>) {
 
+  const { t, i18n } = useTranslation()
   const { location, updateLocation } = useContext(LocationContext)
 
   const { isLoading, data } = useQuery({
@@ -91,7 +94,7 @@ export default function Companies({
                   }}
                   ListEmptyComponent={() => (
                     <View>
-                      <Text>Nenhum ponto de entrega encontrado</Text>
+                      <Text>{t('Nenhum ponto de entrega encontrado')}</Text>
                     </View>
                   )}
                   renderItem={({ item: company }) => {
@@ -135,7 +138,7 @@ export default function Companies({
                 <View style={styles.buttonContainer}>
                   <Button
                     outline
-                    text={'Ver detalhes...'}
+                    text={t('Ver detalhes...')}
                     onPress={() => navigation.navigate('LocationDetails', selectedLocation)}
                   />
                   <ButtonToMaps latitude={selectedLocation?.latitude} longitude={selectedLocation?.longitude} />

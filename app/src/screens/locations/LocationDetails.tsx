@@ -159,7 +159,7 @@ export default function LocationDetails(props: ILocationProps) {
               <SectionContent style={{ paddingVertical: 5 }}>
                 <Text>{`${location.city}/${location.state}`}</Text>
                 {(location.openning_hour && location.closing_hour)
-                  && <Text style={{ marginTop: 8 }}>{isOpen(location) ? 'Aberto' : 'Fechado'}</Text>}
+                  && <Text style={{ marginTop: 8 }}>{isOpen(location) ? t('Aberto') : t('Fechado')}</Text>}
               </SectionContent>
 
               <ButtonToMaps latitude={location.latitude} longitude={location.longitude} />
