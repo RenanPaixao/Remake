@@ -21,6 +21,9 @@ export default function Companies({
 
   const { t, i18n } = useTranslation()
   const { location, updateLocation } = useContext(LocationContext)
+  const [selectedCompany, setSelectedCompany] = useState(null)
+  const [selectedLocation, setSelectedLocation] = useState(null)
+
 
   const { isLoading, data } = useQuery({
     queryKey: ['companies', location],
