@@ -1,10 +1,3 @@
-<<<<<<< Updated upstream
-import React from 'react'
-import { View } from 'react-native'
-import { MainStackParamList } from '../types/navigation'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Layout, Text } from 'react-native-rapi-ui'
-=======
 import React, { useContext } from 'react'
 import { MainStackParamList } from '../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -13,7 +6,6 @@ import { supabase } from '../initSupabase'
 import { Image, View } from 'react-native'
 import { AuthContext } from '../provider/AuthProvider'
 import { LocationContext } from '../provider/LocationProvider'
->>>>>>> Stashed changes
 
 export default function Profile({
   navigation
@@ -30,16 +22,6 @@ export default function Profile({
 
   return (
     <Layout>
-<<<<<<< Updated upstream
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <Text>This is the Profile tab</Text>
-=======
       <TopNav middleContent="Perfil" />
       <View style={{
         backgroundColor: 'white',
@@ -112,14 +94,27 @@ export default function Profile({
       </View>
 
       <View style={{
+        alignItems: 'center',
+        flexDirection: 'row',
         marginTop: 15,
         marginLeft: 15,
-
+        gap: 10
       }}>
-        <Text style={{color:'#6E8963'}} size='sm'>Latitude: {latitude}</Text>
-        <Text style={{color:'#6E8963'}} size='sm'>Longitude: {longitude}</Text>
+        <Text style={{color:'#6E8963'}} size='sm'>Latitude: </Text>
+        <Text style={{}}size='sm'>{latitude}</Text>
       </View>
 
+            <View style={{
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginTop: 15,
+        marginLeft: 15,
+        gap: 10
+      }}>
+        <Text style={{color:'#6E8963'}} size='sm'>Longitude: </Text>
+        <Text style={{}}size='sm'>{longitude}</Text>
+
+      </View>
 
       <View style={{ marginTop: 100 }}>
         <Button
@@ -127,7 +122,6 @@ export default function Profile({
           onPress={async () => await supabase.auth.signOut()}
           status={'danger'}
         />
->>>>>>> Stashed changes
       </View>
     </Layout>
   )
