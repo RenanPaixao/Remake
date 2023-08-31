@@ -53,16 +53,16 @@ export default function Login({
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: themeColor.white100
+              backgroundColor: 'white'
             }}
           >
             <Image
               resizeMode="contain"
               style={{
-                height: 220,
-                width: 220
+                height: 300,
+                width: 300,
               }}
-              source={require('../../../assets/images/login.png')}
+              source={require('../../../assets/images/remake.jpeg')}
             />
           </View>
           <View
@@ -84,11 +84,7 @@ export default function Login({
               Login
             </Text>
             {/*TODO: remove it after development*/}
-            <Button size='md' text='Test login' onPress={async () => {
-              setEmail('test@test.com')
-              setPassword('12345678')
-              await login()
-            }}/>
+            
             <Text>Email</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}

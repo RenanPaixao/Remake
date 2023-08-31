@@ -8,7 +8,7 @@ import { LocationProvider } from './src/provider/LocationProvider'
 
 export default function App() {
   const images = [
-    require('./assets/images/login.png'),
+    require('./assets/images/remake.jpeg'),
     require('./assets/images/register.png'),
     require('./assets/images/forget.png')
   ]
