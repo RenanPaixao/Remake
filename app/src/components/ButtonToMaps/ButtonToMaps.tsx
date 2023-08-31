@@ -9,13 +9,19 @@ interface ButtonToMapsProps {
   text?: string
 }
 
-const { t, i18n } = useTranslation()
 
-export const ButtonToMaps: React.FC<ButtonToMapsProps> = ({ longitude, latitude, text }) =>
-  <Button text={text ?? t('Ver no mapa')}
-    onPress={() => openMap({
-      longitude: longitude,
-      latitude: latitude,
-      end: `${latitude},${longitude}`
-    })}
-  />
+
+export const ButtonToMaps: React.FC<ButtonToMapsProps> = ({ longitude, latitude, text }) => {
+  const { t } = useTranslation()
+
+  return (
+    <Button
+      text={text ?? t('Ver no mapa')}
+      onPress={() => openMap({
+        longitude: longitude,
+        latitude: latitude,
+        end: `${latitude},${longitude}`
+      })}
+    />
+  )
+}
