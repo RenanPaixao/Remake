@@ -1,8 +1,11 @@
 import React from 'react'
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { View, StyleSheet } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import { MainStackParamList } from '../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Button, Layout, Section, SectionContent } from 'react-native-rapi-ui'
+import { Button, Layout, TopNav, Section, SectionContent } from 'react-native-rapi-ui'
+import '../utils/i18n'
+import { useTranslation } from 'react-i18next'
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -19,9 +22,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 10
-  }
-})
+    marginTop: 10,
+  },
+});
 
 type CustomButtonProps = {
   text: string;
@@ -38,28 +41,31 @@ const CustomButton: React.FC<CustomButtonProps> = ({ text, onPress }) => (
 export default function Home({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
+  const { t, i18n } = useTranslation();
+
   const buttons = [
-    'Lixo Organico',
-    'Lixo Reciclavel',
-    'Lixo Eletronico',
-    'Residuos Perigosos',
-    'Lixo não reciclável'
+    t('Lixo Organico'),
+    t('Lixo Reciclavel'),
+    t('Lixo Eletronico'),
+    t('Residuos Perigosos'),
+    t('Lixo não reciclável')
   ]
 
   return (
     <Layout>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 10 }}>
-        <Section>
+      <TopNav middleContent= {t('Tela inicial')} />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Section style={{ marginTop: -30 }}>
           <SectionContent>
             <View>
               <Text style={styles.title}>
-                Escolha a categoria que deseja descartar
+                {t('Escolha a categoria que deseja descartar')}
               </Text>
             </View>
 
             {/* List Button */}
             <CustomButton
-              text="Veja os locais mais próximos à sua localização!"
+              text={t('Veja os locais mais próximos à sua localização!')}
               onPress={() => navigation.navigate('Companies')}
             />
 
@@ -76,7 +82,7 @@ export default function Home({
 
             {/* FAQ Button */}
             <CustomButton
-              text="Qualquer dúvida acesse nosso FAQ!"
+              text={t('Qualquer dúvida acesse nosso FAQ!')}
               onPress={() => navigation.navigate('Faq')}
             />
           </SectionContent>

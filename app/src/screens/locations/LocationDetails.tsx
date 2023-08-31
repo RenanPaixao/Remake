@@ -12,6 +12,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useFocusEffect } from '@react-navigation/native'
 import { DateTime, Interval } from 'luxon'
 import { ButtonToMaps } from '../../components/ButtonToMaps/ButtonToMaps'
+import { useTranslation } from 'react-i18next'
+
 interface ILocation {
   created_at: string,
   cep: string,
@@ -36,6 +38,7 @@ interface ILocationProps extends NativeStackScreenProps<MainStackParamList, 'Loc
 export default function LocationDetails(props: ILocationProps) {
   const { navigation, route } = props
   const location = (route?.params || {}) as ILocation
+  const { t, i18n } = useTranslation()
 
   function useComments(id: string) {
     return useQuery({
@@ -88,7 +91,7 @@ export default function LocationDetails(props: ILocationProps) {
   return (
     <Layout style={{ flex: 1 }} >
       <TopNav
-        middleContent='Detalhes'
+        middleContent={t('Detalhes')}
         middleTextStyle={{ fontSize: 24 }}
         leftContent={
           <Ionicons
@@ -135,7 +138,7 @@ export default function LocationDetails(props: ILocationProps) {
                 alignItems: 'center',
                 marginBottom: 12
               }}>
-                <Text style={{ padding: 30 }} fontWeight="bold" size="h3">Mais Próximos a voce!</Text>
+                <Text style={{ padding: 30 }} fontWeight="bold" size="h3">{t("Mais Próximos a voce!")}</Text>
               </SectionContent>
 
               <SectionContent
@@ -158,10 +161,10 @@ export default function LocationDetails(props: ILocationProps) {
               <SectionContent style={{ paddingVertical: 5 }}>
                 <Text>{`${location.city}/${location.state}`}</Text>
                 {(location.openning_hour && location.closing_hour)
-                    && <Text style={{ marginTop: 8 }}>{isOpen(location) ? 'Aberto' : 'Fechado'}</Text>}
+                  && <Text style={{ marginTop: 8 }}>{isOpen(location) ? t('Aberto') : t('Fechado')}</Text>}
               </SectionContent>
 
-              <ButtonToMaps latitude={location.latitude} longitude={location.longitude}/>
+              <ButtonToMaps latitude={location.latitude} longitude={location.longitude} />
 
               <SectionContent padding={0} style={{ marginVertical: 10, height: 1, backgroundColor: '#A19E9E' }} />
             </>}
