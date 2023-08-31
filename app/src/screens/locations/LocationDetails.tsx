@@ -11,6 +11,8 @@ import Loading from '../utils/Loading'
 import { useQuery } from '@tanstack/react-query'
 import { useFocusEffect } from '@react-navigation/native'
 import { DateTime, Interval } from 'luxon'
+import { ButtonToMaps } from '../../components/ButtonToMaps/ButtonToMaps'
+import { useTranslation } from 'react-i18next'
 
 interface ILocation {
   created_at: string,

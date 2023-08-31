@@ -82,6 +82,13 @@
         "Fechado":"Fechado",
 
         "Ver detalhes...":"Ver detalhes...",
-        "Ver no mapa":"Ver no mapa"
+        "Ver no mapa":"Ver no mapa",
+        
+        "Qual sua avaliação do local? Do que você gostou ou não gostou?": "Qual é a sua avaliação do local? O que você gostou ou não gostou?",
+        "Avaliação": "Avaliação",
+        "Como você classificaria esse local?": "Como você classificaria este local?",
+        "Escreva sua avaliação:": "Escreva a sua avaliação:",
+        "Avaliar": "Avaliar",
+        "Preencha todos campos da avaliação": "Preencha todos os campos da avaliação"
         }
 }

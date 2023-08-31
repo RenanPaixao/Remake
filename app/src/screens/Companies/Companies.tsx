@@ -22,6 +22,7 @@ export default function Companies({
   const { t, i18n } = useTranslation()
   const { location, updateLocation } = useContext(LocationContext)
 
+
   const { isLoading, data } = useQuery({
     queryKey: ['companies', location],
     staleTime: 1,
