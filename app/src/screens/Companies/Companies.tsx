@@ -9,18 +9,16 @@ import { useQuery } from '@tanstack/react-query'
 import Loading from '../utils/Loading'
 import { LocationContext } from '../../provider/LocationProvider'
 import haversine from 'haversine-distance'
-import { useTranslation } from 'react-i18next'
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ButtonToMaps } from '../../components/ButtonToMaps/ButtonToMaps'
-
-
 export default function Companies({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'Companies'>) {
 
-  const { t, i18n } = useTranslation()
   const { location, updateLocation } = useContext(LocationContext)
+  const [selectedCompany, setSelectedCompany] = useState(null)
+  const [selectedLocation, setSelectedLocation] = useState(null)
 
   const { isLoading, data } = useQuery({
     queryKey: ['companies', location],
@@ -50,7 +48,7 @@ export default function Companies({
     })()
   }, [updateLocation])
 
-  useEffect(() => {
+  useEffect(()=>{
     setSelectedLocation(selectedCompany?.locations[0])
   }, [selectedCompany])
 
@@ -63,7 +61,7 @@ export default function Companies({
   return (
     <Layout>
       <TopNav
-        middleContent={t("Pontos de coleta")}
+        middleContent="Pontos de coleta"
       />
       <GestureHandlerRootView
         style={{
@@ -73,7 +71,7 @@ export default function Companies({
           paddingTop: 30
         }}
       >
-        <Text fontWeight="bold" size="h2">{t('Mais Próximos a voce!')}</Text>
+        <Text fontWeight="bold" size="h2">Mais Próximos a voce!</Text>
         <View style={{ flexDirection: 'column', flex: 1, width: '90%', marginVertical: 30 }}>
           {
             isLoading ?
@@ -82,7 +80,7 @@ export default function Companies({
               <>
                 <View style={{ display: 'flex', alignItems: 'flex-end', alignSelf: 'flex-end' }}>
                   <Button
-                    text={t('Adicionar')}
+                    text={'Adicionar'}
                     size={'md'} width={100}
                     onPress={() => navigation.navigate('NewLocation')}
                   />
@@ -94,7 +92,7 @@ export default function Companies({
                   }}
                   ListEmptyComponent={() => (
                     <View>
-                      <Text>{t('Nenhum ponto de entrega encontrado')}</Text>
+                      <Text>Nenhum ponto de entrega encontrado</Text>
                     </View>
                   )}
                   renderItem={({ item: company }) => {
@@ -138,10 +136,10 @@ export default function Companies({
                 <View style={styles.buttonContainer}>
                   <Button
                     outline
-                    text={t('Ver detalhes...')}
+                    text={'Ver detalhes...'}
                     onPress={() => navigation.navigate('LocationDetails', selectedLocation)}
                   />
-                  <ButtonToMaps latitude={selectedLocation?.latitude} longitude={selectedLocation?.longitude} />
+                  <ButtonToMaps latitude={selectedLocation?.latitude} longitude={selectedLocation?.longitude}/>
                 </View>
               </View>
             </BottomSheetModal>
