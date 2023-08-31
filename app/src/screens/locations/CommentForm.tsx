@@ -7,6 +7,7 @@ import { MainStackParamList } from '../../types/navigation'
 import StarRating from 'react-native-star-rating-widget'
 import { CommentsService } from '../../services/comments/commentsService'
 import { AuthContext } from '../../provider/AuthProvider'
+import { useTranslation } from 'react-i18next'
 
 interface ICommentFormProps extends NativeStackScreenProps<MainStackParamList, 'CommentForm'> {
 }
@@ -17,17 +18,18 @@ export default function CommentForm({ navigation, route }: ICommentFormProps) {
   const locationId = route.params || ''
   const authContext = useContext(AuthContext)
   const { user } = authContext?.session || {}
-
+  const { t, i18n } = useTranslation()
+  const message = t('Qual sua avaliação do local? Do que você gostou ou não gostou?')
   const handleSubmit = async() => {
     try {
       if (!rating || !comment) {
-        Alert.alert('', 'Preencha todos campos da avaliação')
+        Alert.alert('', t('Preencha todos campos da avaliação'))
         return
       }
 
       setSubmitLoading(true)
       await CommentsService.createComment({ userId: user?.id || '', locationId, avaliation: rating, comment })
-      Alert.alert('', 'Sua avaliação foi enviada!', [
+      Alert.alert('', t('Sua avaliação foi enviada!'), [
         { text: 'OK', onPress: () => {navigation.pop()} }
       ])
     } catch (error) {
@@ -40,7 +42,7 @@ export default function CommentForm({ navigation, route }: ICommentFormProps) {
   return (
     <Layout style={{ flex: 1 }} >
       <TopNav
-        middleContent='Avaliação'
+        middleContent={t('Avaliação')}
         middleTextStyle={{ fontSize: 24 }}
         leftContent={
           <Ionicons
@@ -54,12 +56,12 @@ export default function CommentForm({ navigation, route }: ICommentFormProps) {
       <Section>
         <SectionContent>
           <View style={{ marginBottom: 10 }}>
-            <Text size='xl' fontWeight='bold'>Como você classificaria esse local?</Text>
+            <Text size='xl' fontWeight='bold'>{t('Como você classificaria esse local?')}</Text>
             <StarRating style={{ marginVertical: 5 }} starSize={36} rating={rating} onChange={setRating}/>
           </View>
 
           <View>
-            <Text size='xl' fontWeight='bold'>Escreva sua avaliação:</Text>
+            <Text size='xl' fontWeight='bold'>{t('Escreva sua avaliação:')}</Text>
             <TextInput style={{ backgroundColor: themeColor.white,
               borderColor: '#d8d8d8',
               color: themeColor.black,
@@ -85,7 +87,7 @@ export default function CommentForm({ navigation, route }: ICommentFormProps) {
               borderRadius: 8 }}
             onPress={handleSubmit}
           >
-            <Text style={{ fontSize: 18, color: 'white', fontWeight: 'bold', marginRight: 20 }}>Avaliar</Text>
+            <Text style={{ fontSize: 18, color: 'white', fontWeight: 'bold', marginRight: 20 }}>{t('Avaliar')}</Text>
             {submitLoading && <ActivityIndicator size="large" color="white" />}
           </TouchableOpacity>
         </SectionContent>
@@ -95,4 +97,3 @@ export default function CommentForm({ navigation, route }: ICommentFormProps) {
 }
 
 
-const message = 'Qual sua avaliação do local? Do que você gostou ou não gostou?'

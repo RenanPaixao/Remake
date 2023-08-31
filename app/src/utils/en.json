@@ -83,6 +83,13 @@
         "Fechado":"Closed",
 
         "Ver detalhes...":"View details",
-        "Ver no mapa":"See on map"
+        "Ver no mapa":"See on map",
+
+        "Qual sua avaliação do local? Do que você gostou ou não gostou?": "What is your rating of the location? What did you like or dislike?",
+        "Avaliação": "Review",
+        "Como você classificaria esse local?": "How would you rate this location?",
+        "Escreva sua avaliação:": "Write your review:",
+        "Avaliar": "Rate",
+        "Preencha todos campos da avaliação": "Fill in all review fields"
     }
     }
