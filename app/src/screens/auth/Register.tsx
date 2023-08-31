@@ -17,6 +17,7 @@ import {
   themeColor
 } from 'react-native-rapi-ui'
 import { UsersService } from '../../services/supabase/usersService'
+import { useTranslation } from 'react-i18next'
 
 export default function Register({
   navigation
@@ -28,6 +29,8 @@ export default function Register({
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [isRecycler, setIsRecycler] = useState<boolean>(false)
+
+  const { t, i18n } = useTranslation()
 
   async function register() {
     setLoading(true)
@@ -80,33 +83,33 @@ export default function Register({
                 padding: 30
               }}
             >
-              Cadastro
+              {t('Cadastro')}
             </Text>
 
-            <Text>Nome</Text>
+            <Text>{t('Nome')}</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Insira seu nome..."
+              placeholder={t("Insira seu nome...")}
               value={firstName}
               autoComplete="off"
               autoCorrect={false}
               onChangeText={(text) => setFirstName(text)}
             />
 
-            <Text>Sobrenome</Text>
+            <Text>{t('Sobrenome')}</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Insira seu sobrenome..."
+              placeholder={t("Insira seu sobrenome...")}
               value={lastName}
               autoComplete="off"
               autoCorrect={false}
               onChangeText={(text) => setLastName(text)}
             />
 
-            <Text>Email</Text>
+            <Text>{t('Email')}</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Insira seu email aqui..."
+              placeholder={t("Insira seu email aqui...")}
               value={email}
               autoCapitalize="none"
               autoComplete="off"
@@ -115,10 +118,10 @@ export default function Register({
               onChangeText={(text) => setEmail(text)}
             />
 
-            <Text style={{ marginTop: 15 }}>Senha</Text>
+            <Text style={{ marginTop: 15 }}>{t('Senha')}</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Insira sua senha aqui..."
+              placeholder={t("Insira sua senha aqui...")}
               value={password}
               autoCapitalize="none"
               autoComplete="off"
@@ -130,12 +133,12 @@ export default function Register({
               style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 15 }}
               onPress={() => setIsRecycler(!isRecycler)}
             >
-              <CheckBox value={isRecycler} onValueChange={() => setIsRecycler(!isRecycler) }/>
-              <Text> Sou um reciclador?</Text>
+              <CheckBox value={isRecycler} onValueChange={() => setIsRecycler(!isRecycler)} />
+              <Text> {t('Sou um reciclador?')}</Text>
             </TouchableOpacity>
 
             <Button
-              text={loading ? 'Carregando' : 'Criar uma conta'}
+              text={loading ? t('Carregando') : t('Criar uma conta')}
               onPress={async () => {
                 await register()
               }}
@@ -153,7 +156,7 @@ export default function Register({
                 justifyContent: 'center'
               }}
             >
-              <Text size="md">Já tem conta?</Text>
+              <Text size="md">{t('Já tem conta?')}</Text>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('Login')
@@ -166,7 +169,7 @@ export default function Register({
                     marginLeft: 5
                   }}
                 >
-                  Ir para o Login
+                  {t('Ir para o Login')}
                 </Text>
               </TouchableOpacity>
             </View>
