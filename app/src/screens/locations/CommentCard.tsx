@@ -12,8 +12,6 @@ interface IProfile {
   name?: string
   img_url?: string
 }
-import '../../utils/i18n'
-import { useTranslation } from 'react-i18next'
 
 interface ICommentCardProps {
   profile: IProfile;
@@ -24,7 +22,6 @@ interface ICommentCardProps {
 }
 
 export default function CommentCard(props: ICommentCardProps) {
-  const { t, i18n } = useTranslation()
   return (
     <Section style={[styles.container, styles.shadow]}
     >
@@ -42,7 +39,7 @@ export default function CommentCard(props: ICommentCardProps) {
           <SectionContent padding={0} style={styles.userDataContainer}>
             {props?.avaliation ?
               <StarRatingDisplay starSize={25} rating={props.avaliation} starStyle={{ marginHorizontal: 0 }} />
-              : <Text>{t("Sem Avaliação!")}</Text>}
+              : <Text>Sem Avaliação!</Text>}
           </SectionContent>
 
         </SectionContent>
