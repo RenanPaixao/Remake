@@ -14,7 +14,8 @@ export default function Profile({
   const { location } = useContext(LocationContext)
   const {userMetadata} = useContext(AuthContext)
 
-  const userName = userMetadata?.first_name
+  const userFirstName = userMetadata?.first_name
+  const userLastName = userMetadata?.last_name
   const userEmail = session?.user?.email
   const userPhone = session?.user?.phone
   const latitude = location?.coords.latitude
@@ -45,7 +46,7 @@ export default function Profile({
         alignItems: 'center',
         justifyContent: 'center'
       }}>
-        <Text style={{color:'#6E8963'}} size='h3'>{userName}</Text>
+        <Text style={{color:'#6E8963'}} size='h3'>{userFirstName} {userLastName}</Text>
 
       </View>
 
@@ -59,18 +60,6 @@ export default function Profile({
         <Text style={{color:'#6E8963'}}size='xl'>Email:</Text>
         <Text style={{
         }}>{userEmail}</Text>
-      </View>
-
-      <View style={{
-        alignItems: 'center',
-        flexDirection: 'row',
-        marginTop: 30,
-        marginLeft: 15,
-        gap: 10
-      }}>
-        <Text style={{color:'#6E8963'}} size='xl'>Senha:</Text>
-        <Text style={{
-        }}>testesenha</Text>
       </View>
 
       <View style={{
