@@ -54,7 +54,7 @@ export default function Profile({
             width: 100
           }}
           resizeMode="center"
-          source={require('../../assets/images/profilePlaceholder.png')}
+          source={require('../../assets/images/profilePlaceholder.webp')}
         />
       </View>
       <View style={{
