@@ -1,9 +1,7 @@
 import React from 'react'
-import { Text } from 'react-native-rapi-ui'
-import { View } from 'react-native'
-import { StyleSheet } from 'react-native'
+import { Text, themeColor } from 'react-native-rapi-ui'
+import { View, StyleSheet } from 'react-native'
 import { generateBoxShadowStyle } from '../../utils/styles'
-import { themeColor } from 'react-native-rapi-ui'
 
 interface Location {
   latitude: number,

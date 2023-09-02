@@ -1,27 +1,36 @@
-import React, { useContext, useEffect } from 'react'
-import { FlatList, View } from 'react-native'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { FlatList, StyleSheet, TouchableHighlight, View } from 'react-native'
 import { MainStackParamList } from '../../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { Layout, Text, themeColor, TopNav } from 'react-native-rapi-ui'
-import { CompaniesService } from '../../services/companies/companiesService'
-import { Ionicons } from '@expo/vector-icons'
+import { Button, Layout, Text, TopNav } from 'react-native-rapi-ui'
+import { CompaniesService } from '../../services/supabase/companiesService'
 import CompanyCard from './CompanyCard'
 import { useQuery } from '@tanstack/react-query'
 import Loading from '../utils/Loading'
 import { LocationContext } from '../../provider/LocationProvider'
 import haversine from 'haversine-distance'
+import { useTranslation } from 'react-i18next'
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { ButtonToMaps } from '../../components/ButtonToMaps/ButtonToMaps'
+
 
 export default function Companies({
   navigation
-}: NativeStackScreenProps<MainStackParamList, 'MainTabs'>) {
+}: NativeStackScreenProps<MainStackParamList, 'Companies'>) {
 
+  const { t, i18n } = useTranslation()
   const { location, updateLocation } = useContext(LocationContext)
+  const [selectedCompany, setSelectedCompany] = useState(null)
+  const [selectedLocation, setSelectedLocation] = useState(null)
 
   const { isLoading, data } = useQuery({
     queryKey: ['companies', location],
-    queryFn: async() => {
+    staleTime: 1,
+    refetchOnMount: true,
+    cacheTime: 0,
+    queryFn: async () => {
       if (!location) {
-        console.log('Location not found!')
         return await CompaniesService.getAllWithLocations()
       }
 
@@ -33,75 +42,134 @@ export default function Companies({
   })
 
   useEffect(() => {
-    (async() => {
+    (async () => {
 
       try {
         await updateLocation()
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
     })()
   }, [updateLocation])
 
+  useEffect(() => {
+    setSelectedLocation(selectedCompany?.locations[0])
+  }, [selectedCompany])
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  const snapPoints = useMemo(() => ['25%'], [])
+  const presentModal = useCallback(() => {
+    bottomSheetModalRef.current?.present()
+  }, [])
 
   return (
     <Layout>
       <TopNav
-        middleContent="Companies"
-        leftContent={
-          <Ionicons
-            name="chevron-back"
-            size={20}
-            color={themeColor.dark}
-          />
-        }
-        leftAction={() => navigation.goBack()}
+        middleContent={t("Pontos de coleta")}
       />
-      <View
+      <GestureHandlerRootView
         style={{
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          paddingTop: 50
+          paddingTop: 30
         }}
       >
-        <Text fontWeight="bold" size="h2">Mais Próximos a voce!</Text>
-        <View style={{ flexDirection: 'column', paddingVertical: 2, flex: 1, width: '90%' }}>
+        <Text fontWeight="bold" size="h2">{t('Mais Próximos a voce!')}</Text>
+        <View style={{ flexDirection: 'column', flex: 1, width: '90%', marginVertical: 30 }}>
           {
             isLoading ?
               <Loading />
               :
-              <FlatList
-                data={data}
-                style={{
-                  paddingHorizontal: 30,
-                  paddingVertical: 30
-                }}
-                ListEmptyComponent={() => (
-                  <View>
-                    <Text>Nenhum ponto de entrega encontrado</Text>
-                  </View>
-                )}
-                renderItem={({ item: company }) => {
-                  //The first company is the nearer already
-                  const nearerCompanyLocation = company.locations[0]
-                  const distance = location ? haversine(nearerCompanyLocation, {
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude
-                  }) : 0
+              <>
+                <View style={{ display: 'flex', alignItems: 'flex-end', alignSelf: 'flex-end' }}>
+                  <Button
+                    text={t('Adicionar')}
+                    size={'md'} width={100}
+                    color='#6E8963'
+                    onPress={() => navigation.navigate('NewLocation')}
+                  />
+                </View>
+                <FlatList
+                  data={data}
+                  style={{
+                    paddingHorizontal: 30
+                  }}
+                  ListEmptyComponent={() => (
+                    <View>
+                      <Text>{t('Nenhum ponto de entrega encontrado')}</Text>
+                    </View>
+                  )}
+                  renderItem={({ item: company }) => {
+                    //The first company is the nearer already
+                    const nearerCompanyLocation = company.locations[0]
+                    const distance = location ? haversine(nearerCompanyLocation, {
+                      latitude: location.coords.latitude,
+                      longitude: location.coords.longitude
+                    }) : 0
 
-                  return <View style={{ paddingVertical: 10, marginHorizontal: 5 }}>
-                    <CompanyCard id={company.id}
-                      name={company.name}
-                      location={nearerCompanyLocation}
-                      distance={distance}
-                    />
-                  </View>
-                }}
-              />
+                    return <TouchableHighlight
+                      onPress={() => {
+                        setSelectedCompany(company)
+                        presentModal()
+                      }}
+                      style={{ paddingVertical: 10, marginHorizontal: 5 }}
+                      underlayColor="transparent"
+                    >
+                      <CompanyCard
+                        id={company.id}
+                        name={company.name}
+                        location={nearerCompanyLocation}
+                        distance={distance}
+                      />
+                    </TouchableHighlight>
+                  }}
+                />
+              </>
           }
         </View>
-      </View>
-    </Layout>
+        <BottomSheetModalProvider>
+          <View style={styles.container}>
+            <BottomSheetModal
+              ref={bottomSheetModalRef}
+              snapPoints={snapPoints}
+            >
+              <View style={styles.contentContainer}>
+                <Text style={{ textAlign: 'center', fontWeight: 'bold', marginTop: 10, marginBottom: 30 }}>
+                  {selectedCompany?.name}
+                </Text>
+                <View style={styles.buttonContainer}>
+                  <Button
+                    outline
+                    color='#6E8963'
+                    text={t('Ver detalhes...')}
+                    onPress={() => navigation.navigate('LocationDetails', selectedLocation)}
+                  />
+                  <ButtonToMaps latitude={selectedLocation?.latitude} longitude={selectedLocation?.longitude} />
+                </View>
+              </View>
+            </BottomSheetModal>
+          </View>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+    </Layout >
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: '20%',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    position: 'absolute'
+  },
+  contentContainer: {
+    flex: 1
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'row'
+  }
+})

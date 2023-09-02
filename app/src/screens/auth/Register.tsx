@@ -6,7 +6,6 @@ import {
   KeyboardAvoidingView,
   Image
 } from 'react-native'
-import { supabase } from '../../initSupabase'
 import { AuthStackParamList } from '../../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import {
@@ -14,8 +13,11 @@ import {
   Text,
   TextInput,
   Button,
+  CheckBox,
   themeColor
 } from 'react-native-rapi-ui'
+import { UsersService } from '../../services/supabase/usersService'
+import { useTranslation } from 'react-i18next'
 
 export default function Register({
   navigation
@@ -24,21 +26,22 @@ export default function Register({
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
 
+  const [firstName, setFirstName] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
+  const [isRecycler, setIsRecycler] = useState<boolean>(false)
+
+  const { t, i18n } = useTranslation()
+
   async function register() {
     setLoading(true)
-    const { user, error } = await supabase.auth.signUp({
-      email: email,
-      password: password
+    await UsersService.signUp(email, password, {
+      first_name: firstName,
+      last_name: lastName,
+      is_recycler: isRecycler
     })
-    if (!error && !user) {
-      setLoading(false)
-      alert('Check your email for the login link!')
-    }
-    if (error) {
-      setLoading(false)
-      alert(error.message)
-    }
+    setLoading(false)
   }
+
   return (
     <KeyboardAvoidingView behavior="height" enabled style={{ flex: 1 }}>
       <Layout>
@@ -80,12 +83,33 @@ export default function Register({
                 padding: 30
               }}
             >
-              Register
+              {t('Cadastro')}
             </Text>
-            <Text>Email</Text>
+
+            <Text>{t('Nome')}</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Enter your email"
+              placeholder={t("Insira seu nome...")}
+              value={firstName}
+              autoComplete="off"
+              autoCorrect={false}
+              onChangeText={(text) => setFirstName(text)}
+            />
+
+            <Text>{t('Sobrenome')}</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder={t("Insira seu sobrenome...")}
+              value={lastName}
+              autoComplete="off"
+              autoCorrect={false}
+              onChangeText={(text) => setLastName(text)}
+            />
+
+            <Text>{t('Email')}</Text>
+            <TextInput
+              containerStyle={{ marginTop: 15 }}
+              placeholder={t("Insira seu email aqui...")}
               value={email}
               autoCapitalize="none"
               autoComplete="off"
@@ -94,10 +118,10 @@ export default function Register({
               onChangeText={(text) => setEmail(text)}
             />
 
-            <Text style={{ marginTop: 15 }}>Password</Text>
+            <Text style={{ marginTop: 15 }}>{t('Senha')}</Text>
             <TextInput
               containerStyle={{ marginTop: 15 }}
-              placeholder="Enter your password"
+              placeholder={t("Insira sua senha aqui...")}
               value={password}
               autoCapitalize="none"
               autoComplete="off"
@@ -105,10 +129,18 @@ export default function Register({
               secureTextEntry={true}
               onChangeText={(text) => setPassword(text)}
             />
+            <TouchableOpacity
+              style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 15 }}
+              onPress={() => setIsRecycler(!isRecycler)}
+            >
+              <CheckBox value={isRecycler} onValueChange={() => setIsRecycler(!isRecycler)} />
+              <Text> {t('Sou um reciclador?')}</Text>
+            </TouchableOpacity>
+
             <Button
-              text={loading ? 'Loading' : 'Create an account'}
-              onPress={() => {
-                register()
+              text={loading ? t('Carregando') : t('Criar uma conta')}
+              onPress={async () => {
+                await register()
               }}
               style={{
                 marginTop: 20
@@ -124,7 +156,7 @@ export default function Register({
                 justifyContent: 'center'
               }}
             >
-              <Text size="md">Already have an account?</Text>
+              <Text size="md">{t('Já tem conta?')}</Text>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('Login')
@@ -137,7 +169,7 @@ export default function Register({
                     marginLeft: 5
                   }}
                 >
-                  Login here
+                  {t('Ir para o Login')}
                 </Text>
               </TouchableOpacity>
             </View>

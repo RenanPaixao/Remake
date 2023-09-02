@@ -8,7 +8,9 @@ type ContextProps = {
   updateLocationPermission: () => Promise<void>
 };
 
-const LocationContext = createContext<ContextProps>({})
+// The type is weakly enforced because I cannot get the function that are inside the provider.
+// Let it with an empty object shows errors without the type.
+const LocationContext = createContext<ContextProps>({} as ContextProps)
 
 interface Props {
 	children: React.ReactNode;
@@ -32,14 +34,15 @@ const LocationProvider = (props: Props) => {
   }
 
   useEffect(() => {
-    (async() => {
-      await updateLocationPermission()
-    })()
-  }, [])
+    (async () => {
+      if (!hasLocationPermission) {
+        await updateLocationPermission()
+      }
 
-  useEffect(() => {
-    console.log('Location:', { latitude: location?.coords.latitude, longitude: location?.coords.longitude })
-  }, [location])
+      // This console log helps to know if the location is working.
+      console.log('Location:', { latitude: location?.coords.latitude, longitude: location?.coords.longitude })
+    })()
+  }, [hasLocationPermission, location])
 
   return (
     <LocationContext.Provider

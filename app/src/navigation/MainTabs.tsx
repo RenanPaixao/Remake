@@ -6,11 +6,15 @@ import TabBarText from '../components/utils/TabBarText'
 import { MainTabsParamList } from '../types/navigation'
 
 import Home from '../screens/Home'
-import About from '../screens/About'
 import Profile from '../screens/Profile'
+import Companies from '../screens/Companies/Companies'
+
+import '../utils/i18n'
+import { useTranslation } from 'react-i18next'
 
 const Tabs = createBottomTabNavigator<MainTabsParamList>()
 const MainTabs = () => {
+  const { t, i18n } = useTranslation()
   return (
     <Tabs.Navigator
       screenOptions={{
@@ -27,10 +31,22 @@ const MainTabs = () => {
         component={Home}
         options={{
           tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="Home" />
+            <TabBarText focused={focused} title={t("Tela inicial")} />
           ),
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} icon={'md-home'} />
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="Companies"
+        component={Companies}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <TabBarText focused={focused} title={t("Pontos de coleta")} />
+          ),
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} icon={'location'} />
           )
         }}
       />
@@ -39,22 +55,10 @@ const MainTabs = () => {
         component={Profile}
         options={{
           tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="Profile" />
+            <TabBarText focused={focused} title={t("Perfil")} />
           ),
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} icon={'person'} />
-          )
-        }}
-      />
-      <Tabs.Screen
-        name="About"
-        component={About}
-        options={{
-          tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="About" />
-          ),
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={'ios-information-circle'} />
           )
         }}
       />
