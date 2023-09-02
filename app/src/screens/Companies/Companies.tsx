@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react'
-import { FlatList, TouchableHighlight, View } from 'react-native'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { FlatList, StyleSheet, TouchableHighlight, View } from 'react-native'
 import { MainStackParamList } from '../../types/navigation'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { Button, Layout, Text, TopNav } from 'react-native-rapi-ui'
@@ -9,15 +9,26 @@ import { useQuery } from '@tanstack/react-query'
 import Loading from '../utils/Loading'
 import { LocationContext } from '../../provider/LocationProvider'
 import haversine from 'haversine-distance'
+import { useTranslation } from 'react-i18next'
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { ButtonToMaps } from '../../components/ButtonToMaps/ButtonToMaps'
+
 
 export default function Companies({
   navigation
 }: NativeStackScreenProps<MainStackParamList, 'Companies'>) {
 
+  const { t, i18n } = useTranslation()
   const { location, updateLocation } = useContext(LocationContext)
+  const [selectedCompany, setSelectedCompany] = useState(null)
+  const [selectedLocation, setSelectedLocation] = useState(null)
 
   const { isLoading, data } = useQuery({
     queryKey: ['companies', location],
+    staleTime: 1,
+    refetchOnMount: true,
+    cacheTime: 0,
     queryFn: async () => {
       if (!location) {
         return await CompaniesService.getAllWithLocations()
@@ -41,12 +52,22 @@ export default function Companies({
     })()
   }, [updateLocation])
 
+  useEffect(() => {
+    setSelectedLocation(selectedCompany?.locations[0])
+  }, [selectedCompany])
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  const snapPoints = useMemo(() => ['25%'], [])
+  const presentModal = useCallback(() => {
+    bottomSheetModalRef.current?.present()
+  }, [])
+
   return (
     <Layout>
       <TopNav
-        middleContent="Pontos de coleta"
+        middleContent={t("Pontos de coleta")}
       />
-      <View
+      <GestureHandlerRootView
         style={{
           flex: 1,
           alignItems: 'center',
@@ -54,7 +75,7 @@ export default function Companies({
           paddingTop: 30
         }}
       >
-        <Text fontWeight="bold" size="h2">Mais Próximos a voce!</Text>
+        <Text fontWeight="bold" size="h2">{t('Mais Próximos a voce!')}</Text>
         <View style={{ flexDirection: 'column', flex: 1, width: '90%', marginVertical: 30 }}>
           {
             isLoading ?
@@ -63,7 +84,7 @@ export default function Companies({
               <>
                 <View style={{ display: 'flex', alignItems: 'flex-end', alignSelf: 'flex-end' }}>
                   <Button
-                    text={'Adicionar'}
+                    text={t('Adicionar')}
                     size={'md'} width={100}
                     onPress={() => navigation.navigate('NewLocation')}
                   />
@@ -75,7 +96,7 @@ export default function Companies({
                   }}
                   ListEmptyComponent={() => (
                     <View>
-                      <Text>Nenhum ponto de entrega encontrado</Text>
+                      <Text>{t('Nenhum ponto de entrega encontrado')}</Text>
                     </View>
                   )}
                   renderItem={({ item: company }) => {
@@ -87,11 +108,15 @@ export default function Companies({
                     }) : 0
 
                     return <TouchableHighlight
-                      onPress={() => navigation.navigate('LocationDetails', company.locations[0])}
+                      onPress={() => {
+                        setSelectedCompany(company)
+                        presentModal()
+                      }}
                       style={{ paddingVertical: 10, marginHorizontal: 5 }}
                       underlayColor="transparent"
                     >
-                      <CompanyCard id={company.id}
+                      <CompanyCard
+                        id={company.id}
                         name={company.name}
                         location={nearerCompanyLocation}
                         distance={distance}
@@ -102,7 +127,47 @@ export default function Companies({
               </>
           }
         </View>
-      </View>
+        <BottomSheetModalProvider>
+          <View style={styles.container}>
+            <BottomSheetModal
+              ref={bottomSheetModalRef}
+              snapPoints={snapPoints}
+            >
+              <View style={styles.contentContainer}>
+                <Text style={{ textAlign: 'center', fontWeight: 'bold', marginTop: 10, marginBottom: 30 }}>
+                  {selectedCompany?.name}
+                </Text>
+                <View style={styles.buttonContainer}>
+                  <Button
+                    outline
+                    text={t('Ver detalhes...')}
+                    onPress={() => navigation.navigate('LocationDetails', selectedLocation)}
+                  />
+                  <ButtonToMaps latitude={selectedLocation?.latitude} longitude={selectedLocation?.longitude} />
+                </View>
+              </View>
+            </BottomSheetModal>
+          </View>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </Layout >
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: '20%',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    position: 'absolute'
+  },
+  contentContainer: {
+    flex: 1
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'row'
+  }
+})
