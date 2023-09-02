@@ -92,23 +92,24 @@ export default function Login({
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: 'white'
             }}
           >
             <Image
               resizeMode="contain"
               style={{
-                height: 300,
-                width: 300,
+                height: 230,
+                width: 230,
+                margin:0,
+                padding:0
               }}
-              source={require('../../../assets/images/remake.jpeg')}
+              source={require('../../../assets/images/remake.png')}
             />
           </View>
           <View
             style={{
               flex: 3,
-              paddingHorizontal: 20,
-              paddingBottom: 20,
+              paddingHorizontal: 25,
+              paddingBottom: 0,
               backgroundColor: themeColor.white
             }}
           >
@@ -122,15 +123,9 @@ export default function Login({
             >
               Login
             </Text>
-            {/*TODO: remove it after development*/}
-            <Button size='md' text={t('Test login')} onPress={async () => {
-              setEmail('test@test.com')
-              setPassword('12345678')
-              await login()
-            }} />
             <Text>Email</Text>
             <TextInput
-              containerStyle={{ marginTop: 15 }}
+              containerStyle={{ marginTop: 20 }}
               placeholder={t('Digite seu email')}
               value={email}
               autoCapitalize="none"
@@ -152,12 +147,13 @@ export default function Login({
               onChangeText={(text) => setPassword(text)}
             />
             <Button
+              color='#6E8963'
               text={loading ? t('Carregando') : t('Continue')}
               onPress={async () => {
                 await login()
               }}
               style={{
-                marginTop: 20
+                marginTop: 20,
               }}
               disabled={loading}
             />

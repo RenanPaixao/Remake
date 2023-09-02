@@ -147,6 +147,7 @@ export default function NewLocation({
               loading={isLoading}
             />
             <Button text={t('Adicionar')}
+            color='#6E8963'
               disabled={isLoading || !companyFormProps.isValid}
               onPress={companyFormProps.submitForm}
             />
