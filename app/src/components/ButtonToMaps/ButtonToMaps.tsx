@@ -17,6 +17,7 @@ export const ButtonToMaps: React.FC<ButtonToMapsProps> = ({ longitude, latitude,
   return (
     <Button
       text={text ?? t('Ver no mapa')}
+      color='#6E8963'
       onPress={() => openMap({
         longitude: longitude,
         latitude: latitude,

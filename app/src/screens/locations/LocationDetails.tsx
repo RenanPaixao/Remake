@@ -103,6 +103,7 @@ export default function LocationDetails(props: ILocationProps) {
         leftAction={() => navigation.goBack()}
         rightContent={
           <Button
+          color='#6E8963'
             width={60}
             rightContent={
               <FontAwesome

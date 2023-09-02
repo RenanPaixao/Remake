@@ -86,6 +86,7 @@ export default function Companies({
                   <Button
                     text={t('Adicionar')}
                     size={'md'} width={100}
+                    color='#6E8963'
                     onPress={() => navigation.navigate('NewLocation')}
                   />
                 </View>
@@ -140,6 +141,7 @@ export default function Companies({
                 <View style={styles.buttonContainer}>
                   <Button
                     outline
+                    color='#6E8963'
                     text={t('Ver detalhes...')}
                     onPress={() => navigation.navigate('LocationDetails', selectedLocation)}
                   />
