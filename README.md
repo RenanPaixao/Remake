@@ -24,12 +24,12 @@ To view the project, you need to:
 - Use the command:
 
 ```bash
-yarn install;
+yarn install
 ```
 
 - And then the command:
 
-```javascript
+```bash
 yarn start
 ```
 
